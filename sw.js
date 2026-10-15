@@ -1,30 +1,19 @@
-const CACHE_NAME = 'toan1-thucung-v1';
-const ASSETS = [
-  './',
-  './index.html',
-  './manifest.json',
-  'https://cdn.tailwindcss.com',
-  'https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap'
-];
+const CACHE_NAME = 'toan1-thucung-v3';
 
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
-  );
   self.skipWaiting();
 });
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.map(k => (k !== CACHE_NAME ? caches.delete(k) : null)))
-    )
+    caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))))
   );
   self.clients.claim();
 });
 
+// Luôn lấy bản mới nhất từ GitHub khi có mạng
 self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(cached => cached || fetch(event.request))
+    fetch(event.request).catch(() => caches.match(event.request))
   );
 });
