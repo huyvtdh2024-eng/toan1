@@ -5,20 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Toán 1 Thú Cưng" />
+  <meta name="apple-mobile-web-app-title" content="Toán Của Gấu" />
   <link rel="manifest" href="./manifest.json" />
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/616/616430.png" />
-  <title>Toán 1 - Thị Trấn Thú Cưng v3.0</title>
+  <title>Toán Lớp 1 Của Gấu - Thị Trấn Thú Cưng v4.0</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // Xóa toàn bộ cache cũ đang làm kẹt giao diện v1.0 trên iPhone
+    // Xóa cache cũ để cập nhật ngay bản v4.0 của Gấu
     if ('caches' in window) {
       caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
-    }
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(regs => {
-        regs.forEach(reg => reg.update());
-      });
     }
   </script>
   <style>
@@ -75,67 +70,127 @@
       grid-template-rows: repeat(2, minmax(0, 1fr));
       gap: 6px;
     }
+    .gau-avatar-img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
   </style>
 </head>
 <body class="flex flex-col justify-between h-full w-full max-w-5xl mx-auto gap-1.5">
 
-  <!-- MÀN HÌNH BẮT ĐẦU (MỞ KHÓA LOA TRÊN IPHONE / IPAD) -->
+  <!-- MÀN HÌNH CHÀO CÁ NHÂN HÓA DÀNH RIÊNG CHO GẤU -->
   <div id="welcome-overlay" class="fixed inset-0 z-50 bg-gradient-to-b from-pink-500 via-rose-500 to-purple-600 flex flex-col items-center justify-center p-5 text-center text-white">
-    <div class="w-24 h-24 rounded-3xl bg-white flex items-center justify-center text-6xl shadow-2xl mb-3 animate-float">
-      🐱
+    <div class="relative mb-3">
+      <div id="welcome-avatar-box" class="w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-white border-4 border-amber-300 flex items-center justify-center text-6xl shadow-2xl overflow-hidden animate-float">
+        🐻
+      </div>
+      <span class="absolute -bottom-1 -right-1 bg-amber-400 text-amber-950 text-xs font-black px-2.5 py-0.5 rounded-full border-2 border-white shadow">
+        Bé Gấu 🎀
+      </span>
     </div>
+
     <span class="bg-white/20 px-3 py-0.5 rounded-full text-xs font-black uppercase tracking-wider mb-1">
-      Phiên bản v3.0 • Đã bật Giọng đọc Tiếng Việt
+      Phiên bản v4.0 • Dành riêng cho Gấu
     </span>
-    <h1 class="text-2xl sm:text-4xl font-black mb-1">THỊ TRẤN THÚ CƯNG</h1>
+    <h1 class="text-2xl sm:text-4xl font-black mb-1">THỊ TRẤN THÚ CƯNG CỦA GẤU</h1>
     <p class="text-sm sm:text-base font-bold text-pink-100 max-w-md mb-5">
-      Toán Lớp 1 – Kết nối tri thức với cuộc sống
+      Bố Mẹ cùng Gấu học Toán Lớp 1 thật vui nhé!
     </p>
+
     <button onclick="startAppWithAudio()" class="btn-bounce bg-amber-400 text-amber-950 font-black text-xl sm:text-2xl px-8 py-3.5 rounded-2xl shadow-xl border-b-4 border-amber-600 flex items-center gap-2">
-      <span>▶️ BẤM VÀO ĐÂY ĐỂ BẮT ĐẦU</span>
+      <span>▶️ GẤU BẤM ĐỂ BẮT ĐẦU</span>
       <span>🔊</span>
+    </button>
+
+    <button onclick="openParentModal()" class="mt-5 text-xs font-extrabold bg-white/15 hover:bg-white/25 px-4 py-2 rounded-xl border border-white/30">
+      ⚙️ Góc Bố Mẹ: Đổi ảnh của Gấu & Thu âm giọng Bố Mẹ
     </button>
   </div>
 
-  <!-- 1. THANH ĐIỀU HƯỚNG SIÊU GỌN (1 HÀNG DUY NHẤT) -->
+  <!-- MODAL CÀI ĐẶT CỦA BỐ MẸ (ĐỔI ẢNH GẤU & THU ÂM TRỰC TIẾP TRÊN IPHONE/IPAD) -->
+  <div id="parent-modal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3">
+    <div class="bg-white w-full max-w-lg max-h-[90dvh] rounded-3xl border-4 border-pink-300 shadow-2xl flex flex-col overflow-hidden">
+      <div class="bg-pink-500 text-white px-4 py-3 flex items-center justify-between shrink-0">
+        <h3 class="font-black text-base sm:text-lg">⚙️ Cài Đặt Cá Nhân Hóa Cho Gấu</h3>
+        <button onclick="closeParentModal()" class="bg-white/20 px-3 py-1 rounded-lg font-black text-sm">Đóng ✕</button>
+      </div>
+
+      <div class="p-4 overflow-y-auto space-y-4 text-slate-700 text-xs sm:text-sm">
+        <!-- 1. CHỌN ẢNH CỦA GẤU -->
+        <div class="bg-pink-50 p-3 rounded-2xl border border-pink-200 flex items-center gap-3">
+          <div id="settings-avatar-preview" class="w-16 h-16 rounded-full bg-white border-2 border-pink-400 flex items-center justify-center text-3xl overflow-hidden shrink-0">
+            🐻
+          </div>
+          <div class="flex-1">
+            <div class="font-black text-pink-800 mb-1">1. Ảnh đại diện của Gấu</div>
+            <label class="btn-bounce inline-block bg-pink-500 text-white font-extrabold px-3 py-1.5 rounded-xl cursor-pointer shadow-sm">
+              📸 Chọn ảnh Gấu từ máy
+              <input type="file" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)" />
+            </label>
+            <p class="text-[11px] text-slate-500 mt-1">Hoặc đặt file <code>gau.jpg</code> lên GitHub.</p>
+          </div>
+        </div>
+
+        <!-- 2. PHÒNG THU ÂM GIỌNG BỐ MẸ -->
+        <div class="bg-sky-50 p-3 rounded-2xl border border-sky-200 space-y-2">
+          <div class="font-black text-sky-900">2. Thu âm giọng Bố & Mẹ trực tiếp trên máy</div>
+          <p class="text-[11px] text-slate-600">
+            Bấm <b>🎙️ Thu</b> để đọc (khoảng 2–4 giây), sau đó bấm <b>⏹️ Dừng</b>. Khi Gấu chơi, App sẽ ưu tiên phát giọng thật của Bố Mẹ!
+          </p>
+          <div id="voice-recorder-list" class="space-y-1.5 max-h-60 overflow-y-auto pr-1">
+            <!-- Render danh sách các câu thu âm bằng JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. THANH ĐIỀU HƯỚNG TRÊN CÙNG (CÓ ẢNH CỦA GẤU) -->
   <header class="bg-white rounded-xl shadow-sm border border-pink-200 px-2 py-1 shrink-0 flex items-center justify-between gap-1">
-    <!-- 4 Nút Chế độ học -->
-    <div class="flex items-center gap-1 overflow-x-auto">
-      <button onclick="switchMode('count')" id="tab-count" class="btn-bounce px-2.5 py-1 rounded-lg font-black text-xs sm:text-sm bg-pink-500 text-white shadow shrink-0">
+    <div class="flex items-center gap-1.5 overflow-x-auto">
+      <!-- Avatar của Gấu ở góc trái -->
+      <button onclick="openParentModal()" id="header-avatar-box" class="w-8 h-8 rounded-full bg-pink-100 border-2 border-pink-400 flex items-center justify-center text-base overflow-hidden shrink-0">
+        🐻
+      </button>
+
+      <button onclick="switchMode('count')" id="tab-count" class="btn-bounce px-2 py-1 rounded-lg font-black text-xs bg-pink-500 text-white shadow shrink-0">
         🐾 Đếm Số
       </button>
-      <button onclick="switchMode('tenframe')" id="tab-tenframe" class="btn-bounce px-2.5 py-1 rounded-lg font-black text-xs sm:text-sm text-pink-700 bg-pink-50 shrink-0">
+      <button onclick="switchMode('tenframe')" id="tab-tenframe" class="btn-bounce px-2 py-1 rounded-lg font-black text-xs text-pink-700 bg-pink-50 shrink-0">
         🍱 Khay 10
       </button>
-      <button onclick="switchMode('bond')" id="tab-bond" class="btn-bounce px-2.5 py-1 rounded-lg font-black text-xs sm:text-sm text-pink-700 bg-pink-50 shrink-0">
+      <button onclick="switchMode('bond')" id="tab-bond" class="btn-bounce px-2 py-1 rounded-lg font-black text-xs text-pink-700 bg-pink-50 shrink-0">
         🌸 Tách-Gộp
       </button>
-      <button onclick="switchMode('pets')" id="tab-pets" class="btn-bounce px-2.5 py-1 rounded-lg font-black text-xs sm:text-sm text-purple-700 bg-purple-50 shrink-0">
+      <button onclick="switchMode('pets')" id="tab-pets" class="btn-bounce px-2 py-1 rounded-lg font-black text-xs text-purple-700 bg-purple-50 shrink-0">
         🏡 Thú (<span id="pet-count-badge">1</span>/8)
       </button>
     </div>
 
-    <!-- Điểm sao & Nút Đọc Câu Hỏi -->
-    <div class="flex items-center gap-1.5 shrink-0">
+    <!-- Điểm sao của Gấu + Nút Loa + Nút Cài đặt Bố Mẹ -->
+    <div class="flex items-center gap-1 shrink-0">
       <div class="flex items-center gap-1 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded-lg">
-        <span class="text-sm">⭐</span>
-        <span id="star-score" class="text-sm font-black text-amber-700">0</span>
+        <span class="text-xs">⭐</span>
+        <span id="star-score" class="text-xs sm:text-sm font-black text-amber-700">0</span>
       </div>
-      <button onclick="speakCurrentPrompt()" class="btn-bounce bg-sky-500 text-white font-black text-xs px-2.5 py-1 rounded-lg shadow flex items-center gap-1">
-        <span>🔊</span>
-        <span class="hidden sm:inline">Đọc đề</span>
+      <button onclick="speakCurrentPrompt()" class="btn-bounce bg-sky-500 text-white font-black text-xs px-2 py-1 rounded-lg shadow">
+        🔊
+      </button>
+      <button onclick="openParentModal()" class="btn-bounce bg-slate-100 text-slate-700 font-black text-xs px-2 py-1 rounded-lg border border-slate-300">
+        ⚙️
       </button>
     </div>
   </header>
 
-  <!-- 2. THANH CÂU HỎI (BẤM VÀO LÀ ĐỌC TO) -->
+  <!-- 2. KHUNG CÂU HỎI GỌI TÊN GẤU -->
   <div onclick="speakCurrentPrompt()" class="btn-bounce cursor-pointer bg-white rounded-xl border-2 border-pink-300 px-2.5 py-1.5 shrink-0 flex items-center justify-between gap-2 shadow-sm">
     <div class="flex items-center gap-2 min-w-0">
       <span class="w-8 h-8 rounded-lg bg-sky-100 border border-sky-300 flex items-center justify-center text-lg shrink-0">🔊</span>
       <div class="min-w-0">
-        <div id="sgk-badge" class="text-[10px] font-extrabold text-pink-600 uppercase leading-none">SGK Bài 1 • Trang 8</div>
+        <div id="sgk-badge" class="text-[10px] font-extrabold text-pink-600 uppercase leading-none">SGK Bài 1 • Toán của Gấu</div>
         <h2 id="question-title" class="text-xs sm:text-base md:text-lg font-black text-slate-800 leading-tight truncate">
-          Có bao nhiêu bạn Mèo Miu trong công viên?
+          Gấu ơi, có bao nhiêu bạn Mèo Miu trên bãi cỏ?
         </h2>
       </div>
     </div>
@@ -144,28 +199,27 @@
     </button>
   </div>
 
-  <!-- 3. SÂN CHƠI HÌNH ẢNH TRỰC QUAN (CHIẾM 70% DIỆN TÍCH MÀN HÌNH) -->
+  <!-- 3. SÂN CHƠI HÌNH ẢNH TRỰC QUAN -->
   <main id="stage-container" class="flex-1 min-h-0 w-full rounded-2xl shadow-inner border-2 border-white overflow-hidden relative flex flex-col">
-    <!-- Render động các con vật, khay 10 ô, sơ đồ tách gộp -->
   </main>
 
-  <!-- 4. BÀN PHÍM SỐ GỌN Ở ĐÁY (KHÔNG BAO GIỜ CHE MẤT HÌNH ẢNH) -->
+  <!-- 4. BÀN PHÍM SỐ GỌN Ở ĐÁY -->
   <footer id="numpad-panel" class="bg-white rounded-xl shadow border border-purple-200 p-1.5 shrink-0">
     <div class="flex items-center justify-between px-1 mb-1 text-[11px] font-extrabold text-slate-600">
-      <span id="feedback-text" class="truncate">💡 Chạm vào từng bạn thú cưng để nghe đếm nhé!</span>
-      <span id="reward-progress-text" class="text-purple-700 shrink-0 ml-2">Quà: 0/5 ⭐</span>
+      <span id="feedback-text" class="truncate">💡 Gấu chạm vào từng bạn thú cưng để nghe đếm nhé!</span>
+      <span id="reward-progress-text" class="text-purple-700 shrink-0 ml-2">Quà của Gấu: 0/5 ⭐</span>
     </div>
-    <div id="numpad-grid" class="grid grid-cols-6 sm:grid-cols-11 gap-1">
-      <!-- Các nút số từ 0 đến 10 -->
-    </div>
+    <div id="numpad-grid" class="grid grid-cols-6 sm:grid-cols-11 gap-1"></div>
   </footer>
 
   <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-40"></canvas>
 
   <script>
     /********************************************************************
-     * 1. DỮ LIỆU THÚ CƯNG & TRẠNG THÁI
+     * 1. DANH MỤC THÚ CƯNG & DANH SÁCH FILE GHI ÂM CỦA BỐ MẸ
      ********************************************************************/
+    const CHILD_NAME = 'Gấu';
+
     const PET_CATALOG = [
       { id: 'cat', emoji: '🐱', name: 'Mèo Miu', food: '🐟', unlockedAt: 0 },
       { id: 'dog', emoji: '🐶', name: 'Cún Bông', food: '🦴', unlockedAt: 5 },
@@ -177,6 +231,23 @@
       { id: 'unicorn', emoji: '🦄', name: 'Kỳ Lân', food: '🧁', unlockedAt: 35 }
     ];
 
+    const VOICE_SLOTS = [
+      { key: 'welcome', label: 'Lời chào Gấu lúc mở App', file: './chao_gau.mp3', hint: 'VD: "Bố mẹ chào Gấu yêu! Mình cùng học toán nhé!"' },
+      { key: 'praise_dad', label: 'Giọng Bố khen Gấu làm đúng', file: './bo_khen.mp3', hint: 'VD: "Xuất sắc quá Gấu ơi! Bố rất tự hào về Gấu!"' },
+      { key: 'praise_mom', label: 'Giọng Mẹ khen Gấu làm đúng', file: './me_khen.mp3', hint: 'VD: "Giỏi lắm Gấu yêu của mẹ! Con được thưởng 1 sao nhé!"' },
+      { key: 'retry', label: 'Giọng Bố/Mẹ động viên khi sai', file: './dong_vien.mp3', hint: 'VD: "Chưa đúng rồi Gấu ơi, con đếm lại thật chậm nhé!"' },
+      { key: 'num_1', label: 'Đếm số 1 ("Một")', file: './1.mp3', hint: 'Đọc: "Một"' },
+      { key: 'num_2', label: 'Đếm số 2 ("Hai")', file: './2.mp3', hint: 'Đọc: "Hai"' },
+      { key: 'num_3', label: 'Đếm số 3 ("Ba")', file: './3.mp3', hint: 'Đọc: "Ba"' },
+      { key: 'num_4', label: 'Đếm số 4 ("Bốn")', file: './4.mp3', hint: 'Đọc: "Bốn"' },
+      { key: 'num_5', label: 'Đếm số 5 ("Năm")', file: './5.mp3', hint: 'Đọc: "Năm"' },
+      { key: 'num_6', label: 'Đếm số 6 ("Sáu")', file: './6.mp3', hint: 'Đọc: "Sáu"' },
+      { key: 'num_7', label: 'Đếm số 7 ("Bảy")', file: './7.mp3', hint: 'Đọc: "Bảy"' },
+      { key: 'num_8', label: 'Đếm số 8 ("Tám")', file: './8.mp3', hint: 'Đọc: "Tám"' },
+      { key: 'num_9', label: 'Đếm số 9 ("Chín")', file: './9.mp3', hint: 'Đọc: "Chín"' },
+      { key: 'num_10', label: 'Đếm số 10 ("Mười")', file: './10.mp3', hint: 'Đọc: "Mười"' }
+    ];
+
     const WORDS_VI = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín', 'mười'];
 
     const state = {
@@ -186,15 +257,182 @@
       currentQuestion: null,
       countedIndices: new Set(),
       userAddedCount: 0,
-      audioUnlocked: false
+      audioUnlocked: false,
+      customVoices: {} // Lưu các bản thu âm của Bố Mẹ trong bộ nhớ máy
     };
 
     /********************************************************************
-     * 2. ĐỘNG CƠ GIỌNG ĐỌC TIẾNG VIỆT KÉP (CHẠY TRÊN MỌI IPHONE / IPAD)
+     * 2. LƯU TRỮ ẢNH CỦA GẤU & GIỌNG THU ÂM CỦA BỐ MẸ (INDEXEDDB)
+     ********************************************************************/
+    let db = null;
+    function initDB() {
+      const req = indexedDB.open('GauMathDB', 1);
+      req.onupgradeneeded = e => {
+        const database = e.target.result;
+        if (!database.objectStoreNames.contains('voices')) {
+          database.createObjectStore('voices');
+        }
+      };
+      req.onsuccess = e => {
+        db = e.target.result;
+        loadAllCustomVoices();
+      };
+    }
+
+    function saveCustomVoice(key, dataUrl) {
+      state.customVoices[key] = dataUrl;
+      if (!db) return;
+      const tx = db.transaction('voices', 'readwrite');
+      tx.objectStore('voices').put(dataUrl, key);
+    }
+
+    function loadAllCustomVoices() {
+      if (!db) return;
+      const tx = db.transaction('voices', 'readonly');
+      const store = tx.objectStore('voices');
+      VOICE_SLOTS.forEach(slot => {
+        const getReq = store.get(slot.key);
+        getReq.onsuccess = () => {
+          if (getReq.result) state.customVoices[slot.key] = getReq.result;
+        };
+      });
+    }
+
+    // Tải ảnh của Gấu (Ưu tiên ảnh chọn từ máy -> file gau.jpg trên GitHub -> Icon Gấu 🐻)
+    function loadGauAvatar() {
+      const savedAvatar = localStorage.getItem('gau_avatar_data');
+      const boxes = ['welcome-avatar-box', 'header-avatar-box', 'settings-avatar-preview'];
+      if (savedAvatar) {
+        boxes.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.innerHTML = `<img src="${savedAvatar}" class="gau-avatar-img" alt="Gấu" />`;
+        });
+      } else {
+        // Thử kiểm tra xem trên GitHub có file gau.jpg không
+        const testImg = new Image();
+        testImg.onload = () => {
+          boxes.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = `<img src="./gau.jpg" class="gau-avatar-img" alt="Gấu" />`;
+          });
+        };
+        testImg.src = './gau.jpg';
+      }
+    }
+
+    function handleAvatarUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = new Image();
+        img.onload = () => {
+          // Cắt ảnh vuông 240x240 cho nhẹ và nét trên iPad/iPhone
+          const canvas = document.createElement('canvas');
+          canvas.width = 240;
+          canvas.height = 240;
+          const ctx = canvas.getContext('2d');
+          const minSide = Math.min(img.width, img.height);
+          const sx = (img.width - minSide) / 2;
+          const sy = (img.height - minSide) / 2;
+          ctx.drawImage(img, sx, sy, minSide, minSide, 0, 0, 240, 240);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+          localStorage.setItem('gau_avatar_data', dataUrl);
+          loadGauAvatar();
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    /********************************************************************
+     * 3. PHÒNG THU ÂM GIỌNG BỐ MẸ TRỰC TIẾP TRÊN IPHONE / IPAD
+     ********************************************************************/
+    let mediaRecorder = null;
+    let activeRecordingKey = null;
+    let recordedChunks = [];
+
+    async function toggleRecording(slotKey) {
+      if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+        return;
+      }
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        recordedChunks = [];
+        activeRecordingKey = slotKey;
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = e => {
+          if (e.data.size > 0) recordedChunks.push(e.data);
+        };
+        mediaRecorder.onstop = () => {
+          stream.getTracks().forEach(t => t.stop());
+          const blob = new Blob(recordedChunks, { type: mediaRecorder.mimeType || 'audio/mp4' });
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            saveCustomVoice(slotKey, reader.result);
+            activeRecordingKey = null;
+            renderVoiceRecorderList();
+            playVoiceSlot(slotKey, 'Đã lưu giọng của Bố Mẹ!');
+          };
+          reader.readAsDataURL(blob);
+        };
+        mediaRecorder.start();
+        renderVoiceRecorderList();
+      } catch (err) {
+        alert('Để thu âm giọng Bố Mẹ, vui lòng cho phép Safari truy cập Micro nhé!');
+      }
+    }
+
+    function renderVoiceRecorderList() {
+      const container = document.getElementById('voice-recorder-list');
+      if (!container) return;
+      container.innerHTML = '';
+      VOICE_SLOTS.forEach(slot => {
+        const isRec = activeRecordingKey === slot.key;
+        const hasVoice = Boolean(state.customVoices[slot.key]);
+        const row = document.createElement('div');
+        row.className = 'bg-white p-2 rounded-xl border border-sky-200 flex items-center justify-between gap-2';
+        row.innerHTML = `
+          <div class="min-w-0">
+            <div class="font-extrabold text-xs text-slate-800">${slot.label} ${hasVoice ? '✅' : ''}</div>
+            <div class="text-[10px] text-slate-500 truncate">${slot.hint}</div>
+          </div>
+          <div class="flex items-center gap-1 shrink-0">
+            ${
+              hasVoice
+                ? `<button onclick="playVoiceSlot('${slot.key}', '')" class="bg-emerald-100 text-emerald-800 font-black text-xs px-2 py-1 rounded-lg">▶️ Nghe</button>`
+                : ''
+            }
+            <button onclick="toggleRecording('${slot.key}')" class="${
+              isRec ? 'bg-red-600 text-white animate-pulse' : 'bg-sky-500 text-white'
+            } font-black text-xs px-2.5 py-1 rounded-lg">
+              ${isRec ? '⏹️ Dừng' : '🎙️ Thu'}
+            </button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function openParentModal() {
+      renderVoiceRecorderList();
+      document.getElementById('parent-modal').classList.remove('hidden');
+    }
+
+    function closeParentModal() {
+      if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+      }
+      document.getElementById('parent-modal').classList.add('hidden');
+    }
+
+    /********************************************************************
+     * 4. ĐỘNG CƠ ÂM THANH 3 LỚP (GIỌNG BỐ MẸ -> FILE GITHUB -> TTS GỌI TÊN GẤU)
      ********************************************************************/
     let audioCtx = null;
-    const ttsPlayer = new Audio();
-    ttsPlayer.referrerPolicy = 'no-referrer';
+    const audioPlayer = new Audio();
+    audioPlayer.referrerPolicy = 'no-referrer';
 
     function initAudio() {
       if (navigator.audioSession) {
@@ -204,19 +442,43 @@
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         audioCtx = new AudioContext();
       }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
+
+    // Phát ưu tiên: 1. Giọng Bố Mẹ thu trên máy -> 2. File mp3 trên GitHub -> 3. Giọng đọc TTS Tiếng Việt
+    function playVoiceSlot(slotKey, fallbackText) {
+      initAudio();
+      const slotInfo = VOICE_SLOTS.find(s => s.key === slotKey);
+
+      // Lớp 1: Có bản thu âm trực tiếp của Bố Mẹ trong máy
+      if (state.customVoices[slotKey]) {
+        audioPlayer.pause();
+        audioPlayer.src = state.customVoices[slotKey];
+        audioPlayer.play().catch(() => speakVietnamese(fallbackText));
+        return;
       }
+
+      // Lớp 2: Thử phát file mp3 Bố Mẹ tải lên GitHub (nếu có)
+      if (slotInfo && slotInfo.file) {
+        audioPlayer.pause();
+        audioPlayer.src = slotInfo.file;
+        audioPlayer.play().catch(() => {
+          if (fallbackText) speakVietnamese(fallbackText);
+        });
+        return;
+      }
+
+      // Lớp 3: Đọc TTS Tiếng Việt
+      if (fallbackText) speakVietnamese(fallbackText);
     }
 
     function speakVietnamese(text) {
+      if (!text) return;
       initAudio();
-      // Lớp 1: Phát giọng đọc Tiếng Việt chuẩn qua luồng Audio (hoạt động ngay cả khi iPhone chưa cài giọng Tiếng Việt)
       const url = `https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=vi&q=${encodeURIComponent(text)}`;
-      ttsPlayer.pause();
-      ttsPlayer.src = url;
-      ttsPlayer.play().catch(() => {
-        // Lớp 2 (Dự phòng khi tắt Wi-Fi): Dùng bộ đọc nội bộ của iOS
+      audioPlayer.pause();
+      audioPlayer.src = url;
+      audioPlayer.play().catch(() => {
         if ('speechSynthesis' in window) {
           window.speechSynthesis.cancel();
           const utter = new SpeechSynthesisUtterance(text);
@@ -238,7 +500,12 @@
       initAudio();
       document.getElementById('welcome-overlay').classList.add('hidden');
       playSuccessSound();
-      setTimeout(() => speakCurrentPrompt(), 300);
+      if (state.customVoices['welcome']) {
+        playVoiceSlot('welcome', '');
+        setTimeout(() => speakCurrentPrompt(), 2800);
+      } else {
+        setTimeout(() => speakCurrentPrompt(), 300);
+      }
     }
 
     const SCALE_FREQS = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25, 587.33, 659.25, 783.99];
@@ -248,12 +515,12 @@
       const gain = audioCtx.createGain();
       osc.type = 'sine';
       osc.frequency.setValueAtTime(SCALE_FREQS[index % SCALE_FREQS.length], audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.22);
+      gain.gain.setValueAtTime(0.22, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       osc.start();
-      osc.stop(audioCtx.currentTime + 0.22);
+      osc.stop(audioCtx.currentTime + 0.2);
     }
 
     function playSuccessSound() {
@@ -264,7 +531,7 @@
           const gain = audioCtx.createGain();
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-          gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+          gain.gain.setValueAtTime(0.24, audioCtx.currentTime);
           gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
           osc.connect(gain);
           gain.connect(audioCtx.destination);
@@ -290,7 +557,7 @@
     }
 
     /********************************************************************
-     * 3. BỘ SINH CÂU HỎI BÁM SÁT SGK TOÁN 1 TẬP 1
+     * 5. BỘ SINH CÂU HỎI GỌI TÊN "GẤU" THEO SGK TOÁN 1
      ********************************************************************/
     function getUnlockedPets() {
       return PET_CATALOG.filter(p => state.stars >= p.unlockedAt);
@@ -315,8 +582,8 @@
           target,
           answer: target,
           sgkRef: target <= 5 ? 'SGK Bài 1 (Trang 8–13)' : 'SGK Bài 2 (Trang 14–18)',
-          title: `Có bao nhiêu bạn ${pet.name} trên bãi cỏ?`,
-          voicePrompt: `Có bao nhiêu bạn ${pet.name} trên bãi cỏ? Bé hãy chạm vào từng bạn để đếm nhé!`
+          title: `${CHILD_NAME} ơi, có bao nhiêu bạn ${pet.name} trên bãi cỏ?`,
+          voicePrompt: `${CHILD_NAME} ơi, có bao nhiêu bạn ${pet.name} trên bãi cỏ? ${CHILD_NAME} chạm vào từng bạn để đếm nhé!`
         };
       } else if (state.mode === 'tenframe') {
         const target = Math.floor(Math.random() * 5) + 6;
@@ -329,8 +596,8 @@
           target,
           answer: needed,
           sgkRef: 'SGK Bài 2 (Trang 18 • Khay 10 ô)',
-          title: `Đã có ${initial} ${pet.emoji}. Cần thêm mấy ${pet.emoji} để đủ ${target}?`,
-          voicePrompt: `Trong khay đã có ${initial} bạn ${pet.name}. Cần cho thêm mấy bạn nữa để trong khay có đủ ${target} bạn?`
+          title: `Khay có ${initial} ${pet.emoji}. ${CHILD_NAME} cần thêm mấy ${pet.emoji} để đủ ${target}?`,
+          voicePrompt: `${CHILD_NAME} ơi, trong khay đã có ${initial} bạn ${pet.name}. ${CHILD_NAME} cần cho thêm mấy bạn nữa để đủ ${target} bạn?`
         };
       } else if (state.mode === 'bond') {
         const total = Math.floor(Math.random() * (maxRange - 2)) + 3;
@@ -347,11 +614,11 @@
           answer: askTotal ? total : right,
           sgkRef: 'SGK Bài 5: Mấy và mấy (Trang 32–36)',
           title: askTotal
-            ? `Giỏ Hồng có ${left} ${pet.emoji}, giỏ Xanh có ${right} ${pet.emoji}. Gộp lại được mấy?`
-            : `Có ${total} ${pet.emoji} gồm ${left} ở giỏ Hồng và mấy ở giỏ Xanh?`,
+            ? `Giỏ Hồng có ${left} ${pet.emoji}, giỏ Xanh có ${right} ${pet.emoji}. ${CHILD_NAME} gộp lại được mấy?`
+            : `Có ${total} ${pet.emoji} gồm ${left} ở giỏ Hồng và mấy ở giỏ Xanh hả ${CHILD_NAME}?`,
           voicePrompt: askTotal
-            ? `Giỏ hồng có ${left} bạn, giỏ xanh có ${right} bạn. Hỏi ${left} và ${right} được mấy?`
-            : `Có ${total} bạn ${pet.name}, gồm ${left} bạn ở giỏ hồng và mấy bạn ở giỏ xanh?`
+            ? `${CHILD_NAME} ơi, giỏ hồng có ${left} bạn, giỏ xanh có ${right} bạn. Hỏi ${left} và ${right} được mấy?`
+            : `${CHILD_NAME} ơi, có ${total} bạn ${pet.name}, gồm ${left} bạn ở giỏ hồng và mấy bạn ở giỏ xanh?`
         };
       }
 
@@ -362,7 +629,7 @@
     }
 
     /********************************************************************
-     * 4. HIỂN THỊ TRỰC QUAN TRÊN MỌI KÍCH THƯỚC MÀN HÌNH
+     * 6. HIỂN THỊ GIAO DIỆN CỦA GẤU
      ********************************************************************/
     function renderNumpad() {
       const grid = document.getElementById('numpad-grid');
@@ -385,7 +652,7 @@
     function renderWorkspace() {
       document.getElementById('star-score').textContent = state.stars;
       document.getElementById('pet-count-badge').textContent = getUnlockedPets().length;
-      document.getElementById('reward-progress-text').textContent = `Quà: ${state.stars % 5}/5 ⭐`;
+      document.getElementById('reward-progress-text').textContent = `Quà của Gấu: ${state.stars % 5}/5 ⭐`;
 
       const stage = document.getElementById('stage-container');
       const numpadPanel = document.getElementById('numpad-panel');
@@ -398,7 +665,7 @@
 
       numpadPanel.classList.remove('hidden');
       const q = state.currentQuestion;
-      document.getElementById('sgk-badge').textContent = `${q.sgkRef} • Chuỗi thắng: ${state.streak} 🔥`;
+      document.getElementById('sgk-badge').textContent = `${q.sgkRef} • Chuỗi thắng của Gấu: ${state.streak} 🔥`;
       document.getElementById('question-title').textContent = q.title;
 
       if (q.type === 'count') renderCountStage(stage, q);
@@ -406,7 +673,6 @@
       else if (q.type === 'bond') renderBondStage(stage, q);
     }
 
-    // MÀN HÌNH 1: ĐẾM THÚ CƯNG TRÊN BÃI CỎ
     function renderCountStage(stage, q) {
       stage.className = 'flex-1 min-h-0 w-full rounded-2xl shadow-inner border-2 border-emerald-300 overflow-hidden relative flex flex-col justify-between park-bg p-2';
 
@@ -414,7 +680,7 @@
       topDecor.className = 'flex items-center justify-between px-2 shrink-0';
       topDecor.innerHTML = `
         <span class="bg-white/90 text-sky-900 font-black text-xs px-2.5 py-0.5 rounded-full shadow-sm">
-          ☁️ Đã chạm đếm: <b class="text-pink-600 text-sm">${state.countedIndices.size}</b>
+          ☁️ Gấu đã đếm: <b class="text-pink-600 text-sm">${state.countedIndices.size}</b>
         </span>
         <span class="text-xl">☀️ 🦋</span>
       `;
@@ -429,7 +695,7 @@
           <div class="bg-white/95 rounded-2xl p-4 border-2 border-dashed border-emerald-500 text-center max-w-xs animate-pop shadow">
             <div class="text-5xl mb-1">🧺</div>
             <p class="text-sm sm:text-base font-black text-emerald-900">
-              Bãi cỏ đang trống không! Có <b>0</b> bạn ${q.pet.name}.
+              Bãi cỏ đang trống không! Có <b>0</b> bạn ${q.pet.name} Gấu nhé.
             </p>
           </div>
         `;
@@ -459,8 +725,8 @@
               state.countedIndices.add(i);
               const n = state.countedIndices.size;
               playNote(n - 1);
-              speakVietnamese(WORDS_VI[n]);
-              document.getElementById('feedback-text').textContent = `👏 Bé đếm được: ${n} bạn ${q.pet.name}!`;
+              playVoiceSlot(`num_${n}`, WORDS_VI[n]);
+              document.getElementById('feedback-text').textContent = `👏 Gấu đếm được: ${n} bạn ${q.pet.name}!`;
               renderCountStage(stage, q);
             }
           };
@@ -471,18 +737,17 @@
 
       const bottomFlowers = document.createElement('div');
       bottomFlowers.className = 'text-center text-[11px] font-black text-emerald-950 shrink-0';
-      bottomFlowers.textContent = '🌷 Chạm vào từng bạn thú cưng để đếm rồi chọn số ở thanh dưới cùng nhé! 🌷';
+      bottomFlowers.textContent = '🌷 Gấu chạm vào từng bạn thú cưng để đếm rồi chọn số ở dưới nhé! 🌷';
       stage.appendChild(bottomFlowers);
     }
 
-    // MÀN HÌNH 2: KHAY 10 Ô (TRANG 18 SGK)
     function renderTenFrameStage(stage, q) {
       stage.className = 'flex-1 min-h-0 w-full rounded-2xl shadow-inner border-2 border-amber-300 bg-amber-50 p-2 flex flex-col justify-between items-center overflow-hidden';
       const currentTotal = q.initial + state.userAddedCount;
 
       stage.innerHTML = `
         <div class="w-full flex items-center justify-between bg-white px-3 py-1 rounded-xl border border-amber-300 text-xs sm:text-sm font-black shrink-0">
-          <span>Có sẵn: <b class="text-pink-600">${q.initial}</b> + Bé thêm: <b class="text-sky-600">${state.userAddedCount}</b></span>
+          <span>Có sẵn: <b class="text-pink-600">${q.initial}</b> + Gấu thêm: <b class="text-sky-600">${state.userAddedCount}</b></span>
           <span class="px-2 py-0.5 rounded-lg ${currentTotal === q.target ? 'bg-emerald-500 text-white' : 'bg-amber-100 text-amber-900'}">
             Tổng: ${currentTotal} / ${q.target}
           </span>
@@ -527,7 +792,7 @@
             if (q.initial + state.userAddedCount < 10) {
               state.userAddedCount++;
               playNote(state.userAddedCount - 1);
-              speakVietnamese(WORDS_VI[state.userAddedCount]);
+              playVoiceSlot(`num_${state.userAddedCount}`, WORDS_VI[state.userAddedCount]);
               renderTenFrameStage(stage, q);
             }
           };
@@ -540,12 +805,11 @@
       foot.className = 'text-[11px] font-black text-amber-900 text-center shrink-0';
       foot.innerHTML =
         currentTotal === q.target
-          ? `✅ Đã đủ ${q.target}! Bé vừa thêm <b class="text-sky-700">${state.userAddedCount}</b> ô màu xanh, hãy bấm số <b class="text-rose-600">${state.userAddedCount}</b> ở dưới nhé!`
-          : `👆 Chạm vào các ô "+ Thêm" cho đến khi đủ ${q.target} bạn nhé!`;
+          ? `✅ Đã đủ ${q.target}! Gấu vừa thêm <b class="text-sky-700">${state.userAddedCount}</b> ô màu xanh, Gấu bấm số <b class="text-rose-600">${state.userAddedCount}</b> ở dưới nhé!`
+          : `👆 Gấu chạm vào các ô "+ Thêm" cho đến khi đủ ${q.target} bạn nhé!`;
       stage.appendChild(foot);
     }
 
-    // MÀN HÌNH 3: SƠ ĐỒ TÁCH - GỘP (TRANG 32-36 SGK)
     function renderBondStage(stage, q) {
       stage.className = 'flex-1 min-h-0 w-full rounded-2xl shadow-inner border-2 border-pink-300 bg-gradient-to-b from-pink-50 to-sky-50 p-2 flex flex-col justify-between items-center overflow-hidden';
 
@@ -593,10 +857,9 @@
       `;
     }
 
-    // MÀN HÌNH 4: BỘ SƯU TẬP THÚ CƯNG
     function renderPetSanctuary(stage) {
       stage.className = 'flex-1 min-h-0 w-full rounded-2xl border-2 border-purple-300 bg-white p-2 overflow-y-auto';
-      document.getElementById('question-title').textContent = 'Bộ Sưu Tập Thú Cưng (Chạm vào thú cưng để nghe chào!)';
+      document.getElementById('question-title').textContent = 'Bộ Sưu Tập Thú Cưng Của Gấu (Gấu chạm vào thú cưng nhé!)';
 
       const grid = document.createElement('div');
       grid.className = 'grid grid-cols-2 sm:grid-cols-4 gap-2';
@@ -614,7 +877,7 @@
         if (unlocked) {
           card.onclick = () => {
             playSuccessSound();
-            speakVietnamese(`Chào bé ngoan! Mình là ${pet.name} đây!`);
+            speakVietnamese(`Xin chào chị Gấu xinh đẹp! Mình là ${pet.name} đây!`);
           };
         }
         grid.appendChild(card);
@@ -623,6 +886,9 @@
       stage.appendChild(grid);
     }
 
+    /********************************************************************
+     * 7. XỬ LÝ KẾT QUẢ & PHÁT GIỌNG KHEN CỦA BỐ / MẸ
+     ********************************************************************/
     function handleAnswerSubmit(selectedNum) {
       const q = state.currentQuestion;
       if (!q) return;
@@ -634,16 +900,27 @@
         playSuccessSound();
         launchConfetti();
 
-        const msg = `Đúng rồi! Là số ${selectedNum}. Bé giỏi lắm!`;
+        const msg = `Đúng rồi! Là số ${selectedNum}. Gấu của bố mẹ giỏi quá!`;
         document.getElementById('feedback-text').textContent = `🌟 ${msg}`;
-        speakVietnamese(msg);
-        setTimeout(() => generateQuestion(), 1600);
+
+        // Luân phiên phát giọng Bố khen hoặc Mẹ khen (nếu đã thu âm)
+        const praiseKey = Math.random() < 0.5 ? 'praise_dad' : 'praise_mom';
+        const altKey = praiseKey === 'praise_dad' ? 'praise_mom' : 'praise_dad';
+        if (state.customVoices[praiseKey]) {
+          playVoiceSlot(praiseKey, msg);
+        } else if (state.customVoices[altKey]) {
+          playVoiceSlot(altKey, msg);
+        } else {
+          playVoiceSlot(praiseKey, msg);
+        }
+
+        setTimeout(() => generateQuestion(), 1800);
       } else {
         state.streak = 0;
         playGentleRetrySound();
-        const retry = `Chưa phải số ${selectedNum}, bé đếm lại các bạn trên hình nhé!`;
+        const retry = `Chưa phải số ${selectedNum} rồi Gấu ơi, Gấu đếm lại các bạn trên hình nhé!`;
         document.getElementById('feedback-text').textContent = `💡 ${retry}`;
-        speakVietnamese(retry);
+        playVoiceSlot('retry', retry);
       }
     }
 
@@ -653,8 +930,8 @@
         const btn = document.getElementById(`tab-${m}`);
         btn.className =
           m === newMode
-            ? 'btn-bounce px-2.5 py-1 rounded-lg font-black text-xs sm:text-sm bg-pink-500 text-white shadow shrink-0'
-            : 'btn-bounce px-2.5 py-1 rounded-lg font-black text-xs sm:text-sm text-pink-700 bg-pink-50 shrink-0';
+            ? 'btn-bounce px-2 py-1 rounded-lg font-black text-xs bg-pink-500 text-white shadow shrink-0'
+            : 'btn-bounce px-2 py-1 rounded-lg font-black text-xs text-pink-700 bg-pink-50 shrink-0';
       });
       if (newMode === 'pets') renderWorkspace();
       else generateQuestion();
@@ -693,6 +970,9 @@
       animate();
     }
 
+    // KHỞI ĐỘNG HỆ THỐNG CỦA GẤU
+    initDB();
+    loadGauAvatar();
     renderNumpad();
     generateQuestion();
   </script>
