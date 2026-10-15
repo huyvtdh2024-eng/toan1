@@ -1,0 +1,775 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Toán 1 Thú Cưng" />
+    <title>Toán Lớp 1 - Thị Trấn Thú Cưng (Kết Nối Tri Thức)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap');
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            overscroll-behavior: none;
+            touch-action: manipulation;
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #e0e7ff 100%);
+        }
+
+        .btn-bounce {
+            transition: transform 0.14s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.14s ease;
+        }
+
+            .btn-bounce:active {
+                transform: scale(0.91);
+            }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+
+            80% {
+                transform: scale(1.12);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes floatSlow {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        .animate-pop {
+            animation: popIn 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .animate-float {
+            animation: floatSlow 2.6s ease-in-out infinite;
+        }
+
+        .ten-frame-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            grid-template-rows: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .number-bond-circle {
+            box-shadow: inset 0 -6px 0 rgba(0,0,0,0.08), 0 8px 20px rgba(236, 72, 153, 0.18);
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen w-screen select-none">
+
+    <!-- THANH ĐIỀU HƯỚNG TRÊN CÙNG (HEADER) -->
+    <header class="flex items-center justify-between px-4 py-2.5 bg-white/90 backdrop-blur-md shadow-sm border-b-2 border-pink-200 z-20 shrink-0">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-3xl shadow-md">
+                🐱
+            </div>
+            <div>
+                <h1 class="text-lg md:text-xl font-black text-pink-600 leading-tight">THỊ TRẤN THÚ CƯNG</h1>
+                <p class="text-xs font-bold text-slate-500">Toán 1 • Kết nối tri thức với cuộc sống (Chủ đề 1)</p>
+            </div>
+        </div>
+
+        <!-- CHỌN BÀI HỌC TRONG SGK -->
+        <div class="flex items-center gap-2 bg-pink-50 p-1.5 rounded-2xl border border-pink-200">
+            <button onclick="switchMode('count')" id="tab-count" class="btn-bounce px-3.5 py-2 rounded-xl font-extrabold text-sm md:text-base transition-all bg-pink-500 text-white shadow">
+                🐾 Bài 1–2: Đếm Số
+            </button>
+            <button onclick="switchMode('tenframe')" id="tab-tenframe" class="btn-bounce px-3.5 py-2 rounded-xl font-extrabold text-sm md:text-base transition-all text-pink-700 hover:bg-pink-100">
+                🍱 Bài 2: Khay 10 Ô
+            </button>
+            <button onclick="switchMode('bond')" id="tab-bond" class="btn-bounce px-3.5 py-2 rounded-xl font-extrabold text-sm md:text-base transition-all text-pink-700 hover:bg-pink-100">
+                🌸 Bài 5: Mấy và Mấy
+            </button>
+            <button onclick="switchMode('pets')" id="tab-pets" class="btn-bounce px-3.5 py-2 rounded-xl font-extrabold text-sm md:text-base transition-all text-purple-700 hover:bg-purple-100">
+                🏡 Bộ Sưu Tập (<span id="pet-count-badge">1</span>/8)
+            </button>
+        </div>
+
+        <!-- ĐIỂM SAO & ÂM THANH -->
+        <div class="flex items-center gap-2.5">
+            <div class="flex items-center gap-1.5 bg-amber-100 border-2 border-amber-300 px-3.5 py-1.5 rounded-2xl shadow-sm">
+                <span class="text-2xl">⭐</span>
+                <span id="star-score" class="text-xl font-black text-amber-600">0</span>
+            </div>
+            <button onclick="speakCurrentPrompt()" title="Đọc lại câu hỏi" class="btn-bounce w-12 h-12 rounded-2xl bg-sky-100 border-2 border-sky-300 flex items-center justify-center text-2xl shadow-sm">
+                🔊
+            </button>
+        </div>
+    </header>
+
+    <!-- KHU VỰC CHƠI CHÍNH (MAIN WORKSPACE) -->
+    <main class="flex-1 flex flex-col md:flex-row gap-4 p-4 overflow-hidden relative">
+
+        <!-- CỘT TRÁI: BẢNG TƯƠNG TÁC TRỰC QUAN -->
+        <section class="flex-1 bg-white/95 rounded-3xl shadow-lg border-4 border-pink-200 p-4 flex flex-col justify-between relative overflow-hidden">
+
+            <!-- Thanh Câu Hỏi & Nhân vật dẫn đường -->
+            <div class="flex items-center justify-between bg-gradient-to-r from-pink-50 via-rose-50 to-purple-50 px-4 py-3 rounded-2xl border-2 border-pink-100 shrink-0">
+                <div class="flex items-center gap-3">
+                    <div id="guide-avatar" class="text-4xl animate-float">🤖</div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span id="sgk-badge" class="text-xs font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-pink-200 text-pink-800">
+                                SGK Trang 8–18 • Số ?
+                            </span>
+                            <span id="streak-badge" class="text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-700">
+                                Chuỗi thắng: 0 🔥
+                            </span>
+                        </div>
+                        <h2 id="question-title" class="text-lg md:text-2xl font-black text-slate-800 mt-0.5">
+                            Bé hãy chạm đếm xem có bao nhiêu bạn thú cưng nhé!
+                        </h2>
+                    </div>
+                </div>
+                <button onclick="nextQuestion()" class="btn-bounce px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-sm shrink-0">
+                    Đổi câu ↻
+                </button>
+            </div>
+
+            <!-- SÂN KHẤU TRỰC QUAN (THAY ĐỔI THEO TỪNG BÀI HỌC) -->
+            <div id="stage-container" class="flex-1 flex flex-col items-center justify-center my-2 relative overflow-hidden">
+                <!-- Nội dung được render động bằng JS -->
+            </div>
+
+            <!-- THANH PHẢN HỒI SƯ PHẠM DƯỚI ĐÁY SÂN KHẤU -->
+            <div id="feedback-bar" class="h-12 rounded-2xl bg-slate-50 border border-slate-200 px-4 flex items-center justify-between text-slate-600 font-bold text-sm md:text-base shrink-0">
+                <span id="feedback-text">💡 Mẹo: Chạm vào từng bạn thú cưng để đếm to cùng bố nhé!</span>
+                <span id="cpa-indicator" class="text-xs font-extrabold text-pink-600 bg-pink-100 px-3 py-1 rounded-full">
+                    Mức độ: Trực quan (CPA 1)
+                </span>
+            </div>
+        </section>
+
+        <!-- CỘT PHẢI: BÀN PHÍM SỐ LỚN CHO IPAD (0 -> 10) -->
+        <aside id="numpad-panel" class="w-full md:w-80 bg-white/95 rounded-3xl shadow-lg border-4 border-purple-200 p-4 flex flex-col justify-between shrink-0">
+            <div class="text-center">
+                <span class="inline-block bg-amber-100 text-amber-800 font-black px-4 py-1 rounded-full text-sm border border-amber-300">
+                    Chọn Số Thích Hợp (Số ?)
+                </span>
+                <p id="answer-slot-preview" class="text-3xl font-black text-pink-600 mt-2">
+                    ?
+                </p>
+            </div>
+
+            <!-- Lưới nút bấm số từ 0 đến 10 kích thước lớn cho ngón tay trẻ 6 tuổi -->
+            <div id="numpad-grid" class="grid grid-cols-3 gap-2.5 my-auto py-2">
+                <!-- Render các nút 1-9, 0, 10 bằng JS -->
+            </div>
+
+            <!-- Tiến trình mở khóa thú cưng tiếp theo -->
+            <div class="bg-purple-50 rounded-2xl p-3 border-2 border-purple-100">
+                <div class="flex justify-between text-xs font-extrabold text-purple-800 mb-1">
+                    <span>Quà thú cưng tiếp theo:</span>
+                    <span id="reward-progress-text">0 / 5 ⭐</span>
+                </div>
+                <div class="w-full h-3.5 bg-purple-200 rounded-full overflow-hidden">
+                    <div id="reward-progress-bar" class="h-full bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-500" style="width: 0%"></div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- CANVAS PHÁO GIẤY CHÚC MỪNG -->
+    <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+    <script>
+    /********************************************************************
+     * 1. CƠ SỞ DỮ LIỆU THÚ CƯNG & CẤU HÌNH BÀI HỌC (SGK TOÁN 1 TẬP 1)
+     ********************************************************************/
+    const PET_CATALOG = [
+      { id: 'cat', emoji: '🐱', name: 'Mèo Miu Hồng', food: '🐟', unlockedAt: 0, desc: 'Thích ăn cá vàng trong bể' },
+      { id: 'dog', emoji: '🐶', name: 'Cún Bông Vàng', food: '🦴', unlockedAt: 5, desc: 'Thích chạy nhảy ngoài sân' },
+      { id: 'bunny', emoji: '🐰', name: 'Thỏ Trắng Ngoan', food: '🥕', unlockedAt: 10, desc: 'Mê ăn cà rốt tươi (SGK trang 11)' },
+      { id: 'duck', emoji: '🐥', name: 'Vịt Nhỏ Xinh', food: '🌽', unlockedAt: 15, desc: 'Bơi dưới hồ nước (SGK trang 12)' },
+      { id: 'hamster', emoji: '🐹', name: 'Chuột Hamster', food: '🌻', unlockedAt: 20, desc: 'Thích hạt hướng dương' },
+      { id: 'panda', emoji: '🐼', name: 'Gấu Trúc Mũm Mĩm', food: '🎋', unlockedAt: 25, desc: 'Bạn thân của Mai và Mi' },
+      { id: 'fox', emoji: '🦊', name: 'Cáo Đỏ Thông Thái', food: '🍓', unlockedAt: 30, desc: 'Giỏi giải toán tách - gộp' },
+      { id: 'unicorn', emoji: '🦄', name: 'Kỳ Lân Cầu Vồng', food: '🧁', unlockedAt: 35, desc: 'Phần thưởng Đặc Biệt Chủ đề 1' }
+    ];
+
+    const state = {
+      mode: 'count', // 'count' | 'tenframe' | 'bond' | 'pets'
+      stars: parseInt(localStorage.getItem('toan1_stars') || '0', 10),
+      streak: 0,
+      maxRange: 5, // Bắt đầu từ Bài 1 (0-5), tự động mở lên Bài 2 (6-10) khi bé làm tốt
+      currentQuestion: null,
+      countedIndices: new Set(),
+      userAddedCount: 0,
+      bondSplitLeft: 0,
+      questionStartTime: Date.now()
+    };
+
+    /********************************************************************
+     * 2. BỘ TỔNG HỢP ÂM THANH (WEB AUDIO API) & GIỌNG ĐỌC TIẾNG VIỆT
+     ********************************************************************/
+    let audioCtx = null;
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    // Phát nốt nhạc tăng dần theo số đếm (1 -> 10) giúp bé cảm nhận độ lớn của số bằng thính giác
+    const SCALE_FREQS = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25, 587.33, 659.25, 783.99];
+    function playNote(index) {
+      initAudio();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(SCALE_FREQS[index % SCALE_FREQS.length], audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.22, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.28);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.28);
+    }
+
+    function playSuccessSound() {
+      initAudio();
+      [523.25, 659.25, 783.99, 1046.5].forEach((freq, idx) => {
+        setTimeout(() => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+          gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + 0.35);
+        }, idx * 90);
+      });
+    }
+
+    function playGentleRetrySound() {
+      initAudio();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(240, audioCtx.currentTime);
+      osc.frequency.linearRampToValueAtTime(190, audioCtx.currentTime + 0.25);
+      gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.28);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.28);
+    }
+
+    function speakVietnamese(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'vi-VN';
+      utter.rate = 0.95;
+      utter.pitch = 1.1;
+      window.speechSynthesis.speak(utter);
+    }
+
+    function speakCurrentPrompt() {
+      if (state.currentQuestion && state.currentQuestion.voicePrompt) {
+        speakVietnamese(state.currentQuestion.voicePrompt);
+      }
+    }
+
+    /********************************************************************
+     * 3. BỘ SINH CÂU HỎI THAM SỐ HÓA BÁM SÁT SGK TOÁN 1 TẬP 1
+     ********************************************************************/
+    function getUnlockedPets() {
+      return PET_CATALOG.filter(p => state.stars >= p.unlockedAt);
+    }
+
+    function pickRandomPet() {
+      const unlocked = getUnlockedPets();
+      return unlocked[Math.floor(Math.random() * unlocked.length)];
+    }
+
+    function generateQuestion() {
+      state.countedIndices.clear();
+      state.userAddedCount = 0;
+      state.questionStartTime = Date.now();
+      const pet = pickRandomPet();
+
+      // Tự động điều chỉnh phạm vi số (Bài 1: 0-5 -> Bài 2: 0-10) dựa trên chuỗi thắng
+      state.maxRange = state.stars >= 4 || state.streak >= 3 ? 10 : 5;
+      document.getElementById('cpa-indicator').textContent =
+        state.maxRange === 5 ? 'SGK Bài 1: Phạm vi 0 – 5' : 'SGK Bài 2 & 5: Phạm vi 0 – 10';
+
+      if (state.mode === 'count') {
+        // BÀI 1 & BÀI 2: ĐẾM SỐ LƯỢNG TỪ 0 ĐẾN 10 (Bao gồm cả số 0 - bể cá/rổ trống trang 8)
+        const target = Math.floor(Math.random() * (state.maxRange + 1));
+        state.currentQuestion = {
+          type: 'count',
+          pet,
+          target,
+          answer: target,
+          sgkRef: target <= 5 ? 'SGK Bài 1 (Trang 8–13) • Số ?' : 'SGK Bài 2 (Trang 14–18) • Số ?',
+          title: target === 0
+            ? `Trong sân có mấy bạn ${pet.name}? (Chú ý sân trống nhé!)`
+            : `Có bao nhiêu bạn ${pet.name} đang chơi trong sân?`,
+          voicePrompt: `Bé hãy đếm xem có bao nhiêu bạn ${pet.name} nhé!`
+        };
+      } else if (state.mode === 'tenframe') {
+        // BÀI 2 (TRANG 15 & 18): CHO THÊM VÀO KHAY 10 Ô ĐỂ ĐỦ N
+        const target = Math.floor(Math.random() * 6) + 5; // 5 đến 10
+        const initial = Math.floor(Math.random() * (target - 1)) + 1;
+        const needed = target - initial;
+        state.currentQuestion = {
+          type: 'tenframe',
+          pet,
+          initial,
+          target,
+          answer: needed,
+          sgkRef: 'SGK Bài 2 (Trang 18 - Khay 10 ô) • Thêm mấy?',
+          title: `Trong khay có ${initial} ${pet.emoji}. Cần cho thêm mấy ${pet.emoji} nữa để khay có đủ ${target}?`,
+          voicePrompt: `Trong khay đã có ${initial} bạn. Bé hãy chạm vào các ô trống để thêm cho đủ ${target}, rồi chọn số bạn vừa thêm nhé!`
+        };
+      } else if (state.mode === 'bond') {
+        // BÀI 5 (TRANG 32–37): MẤY VÀ MẤY (SƠ ĐỒ TÁCH - GỘP SỐ)
+        const total = Math.floor(Math.random() * (state.maxRange - 2)) + 3; // 3 đến 10
+        const left = Math.floor(Math.random() * (total - 1)) + 1;
+        const right = total - left;
+        // 2 biến thể: Tìm số gộp (A và B được ?) hoặc Tìm số tách (N gồm A và ?)
+        const askTotal = Math.random() < 0.45;
+        state.bondSplitLeft = left;
+        state.currentQuestion = {
+          type: 'bond',
+          pet,
+          total,
+          left,
+          right,
+          askTotal,
+          answer: askTotal ? total : right,
+          sgkRef: 'SGK Bài 5: Mấy và mấy (Trang 32–36)',
+          title: askTotal
+            ? `Đệm Hồng có ${left} ${pet.emoji}, đệm Xanh có ${right} ${pet.emoji}. Gộp lại có mấy ${pet.emoji}?`
+            : `Có ${total} ${pet.emoji} gồm ${left} ${pet.emoji} ở đệm Hồng và mấy ${pet.emoji} ở đệm Xanh?`,
+          voicePrompt: askTotal
+            ? `${left} và ${right} được mấy?`
+            : `${total} gồm ${left} và mấy?`
+        };
+      }
+
+      renderWorkspace();
+    }
+
+    /********************************************************************
+     * 4. RENDER GIAO DIỆN TƯƠNG TÁC TRÊN IPAD
+     ********************************************************************/
+    function renderNumpad() {
+      const grid = document.getElementById('numpad-grid');
+      grid.innerHTML = '';
+      const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10];
+      numbers.forEach(num => {
+        const btn = document.createElement('button');
+        const isZeroOrTen = num === 0 || num === 10;
+        btn.className = `btn-bounce h-16 rounded-2xl font-black text-3xl shadow-md border-b-4 flex items-center justify-center transition-all ${
+          num === 10
+            ? 'col-span-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white border-indigo-700'
+            : num === 0
+            ? 'bg-amber-400 text-amber-950 border-amber-600'
+            : 'bg-pink-50 hover:bg-pink-100 text-pink-700 border-pink-300'
+        }`;
+        btn.textContent = num;
+        btn.onclick = () => handleAnswerSubmit(num);
+        grid.appendChild(btn);
+      });
+    }
+
+    function renderWorkspace() {
+      document.getElementById('star-score').textContent = state.stars;
+      document.getElementById('streak-badge').textContent = `Chuỗi thắng: ${state.streak} 🔥`;
+      document.getElementById('pet-count-badge').textContent = getUnlockedPets().length;
+
+      const remainderStars = state.stars % 5;
+      document.getElementById('reward-progress-text').textContent = `${remainderStars} / 5 ⭐`;
+      document.getElementById('reward-progress-bar').style.width = `${(remainderStars / 5) * 100}%`;
+
+      const stage = document.getElementById('stage-container');
+      const numpadPanel = document.getElementById('numpad-panel');
+
+      if (state.mode === 'pets') {
+        numpadPanel.classList.add('hidden');
+        renderPetSanctuary(stage);
+        return;
+      }
+
+      numpadPanel.classList.remove('hidden');
+      const q = state.currentQuestion;
+      document.getElementById('sgk-badge').textContent = q.sgkRef;
+      document.getElementById('question-title').textContent = q.title;
+      document.getElementById('answer-slot-preview').textContent = '?';
+
+      if (q.type === 'count') {
+        renderCountStage(stage, q);
+      } else if (q.type === 'tenframe') {
+        renderTenFrameStage(stage, q);
+      } else if (q.type === 'bond') {
+        renderBondStage(stage, q);
+      }
+    }
+
+    // MÀN HÌNH 1: ĐẾM THÚ CƯNG (BÀI 1 & BÀI 2)
+    function renderCountStage(stage, q) {
+      stage.innerHTML = '';
+      const box = document.createElement('div');
+      box.className = 'w-full h-full max-w-2xl bg-gradient-to-b from-green-50 to-emerald-100 rounded-3xl border-4 border-emerald-200 p-6 flex flex-wrap items-center justify-center gap-5 relative shadow-inner';
+
+      if (q.target === 0) {
+        box.innerHTML = `
+          <div class="text-center animate-pop">
+            <div class="text-7xl mb-3 opacity-40">🧺</div>
+            <p class="text-xl font-extrabold text-emerald-800">Rổ đang trống không! Không có bạn thú cưng nào (Số 0)</p>
+          </div>
+        `;
+      } else {
+        for (let i = 0; i < q.target; i++) {
+          const item = document.createElement('button');
+          const isCounted = state.countedIndices.has(i);
+          item.className = `btn-bounce w-24 h-24 md:w-28 md:h-28 rounded-3xl flex flex-col items-center justify-center relative shadow-md border-4 transition-all ${
+            isCounted
+              ? 'bg-pink-500 border-pink-700 text-white scale-105'
+              : 'bg-white border-emerald-300 hover:border-pink-400'
+          }`;
+          item.innerHTML = `
+            <span class="text-5xl md:text-6xl">${q.pet.emoji}</span>
+            ${
+              isCounted
+                ? `<span class="absolute -top-3 -right-3 w-9 h-9 rounded-full bg-amber-400 text-amber-950 font-black text-xl flex items-center justify-center shadow border-2 border-white animate-pop">${
+                    Array.from(state.countedIndices).indexOf(i) + 1
+                  }</span>`
+                : ''
+            }
+          `;
+          item.onclick = () => {
+            if (!state.countedIndices.has(i)) {
+              state.countedIndices.add(i);
+              const currentCount = state.countedIndices.size;
+              playNote(currentCount - 1);
+              speakVietnamese(String(currentCount));
+              document.getElementById('feedback-text').textContent =
+                `👏 Bé đã chạm đếm được: ${currentCount} ${q.pet.name}!`;
+              renderCountStage(stage, q);
+            }
+          };
+          box.appendChild(item);
+        }
+      }
+      stage.appendChild(box);
+    }
+
+    // MÀN HÌNH 2: KHAY 10 Ô - TEN FRAME (BÀI 2 TRANG 18)
+    function renderTenFrameStage(stage, q) {
+      stage.innerHTML = '';
+      const wrapper = document.createElement('div');
+      wrapper.className = 'w-full max-w-2xl flex flex-col items-center gap-4';
+
+      const currentTotal = q.initial + state.userAddedCount;
+      const statusBadge = document.createElement('div');
+      statusBadge.className = 'px-5 py-2 rounded-2xl bg-amber-50 border-2 border-amber-300 font-black text-lg text-amber-900 flex items-center gap-3';
+      statusBadge.innerHTML = `
+        <span>Đã có: <b class="text-pink-600 text-2xl">${q.initial}</b></span>
+        <span>+</span>
+        <span>Bé thêm: <b class="text-sky-600 text-2xl">${state.userAddedCount}</b></span>
+        <span>=</span>
+        <span>Tổng trong khay: <b class="text-emerald-600 text-2xl">${currentTotal}</b> (Mục tiêu: ${q.target})</span>
+      `;
+      wrapper.appendChild(statusBadge);
+
+      const grid = document.createElement('div');
+      grid.className = 'ten-frame-grid w-full bg-amber-100/90 p-4 rounded-3xl border-4 border-amber-400 shadow-inner';
+
+      for (let i = 0; i < 10; i++) {
+        const cell = document.createElement('button');
+        const isInitial = i < q.initial;
+        const isUserAdded = i >= q.initial && i < q.initial + state.userAddedCount;
+
+        cell.className = `btn-bounce h-24 md:h-28 rounded-2xl border-4 flex flex-col items-center justify-center relative transition-all ${
+          isInitial
+            ? 'bg-pink-100 border-pink-400 cursor-default'
+            : isUserAdded
+            ? 'bg-sky-200 border-sky-500 shadow-md'
+            : 'bg-white/80 border-dashed border-amber-400 hover:bg-amber-50'
+        }`;
+
+        if (isInitial) {
+          cell.innerHTML = `
+            <span class="text-5xl">${q.pet.emoji}</span>
+            <span class="text-xs font-extrabold text-pink-700 mt-1">Có sẵn (${i + 1})</span>
+          `;
+        } else if (isUserAdded) {
+          const addedIdx = i - q.initial + 1;
+          cell.innerHTML = `
+            <span class="text-5xl animate-pop">${q.pet.emoji}</span>
+            <span class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-sky-600 text-white font-black text-base flex items-center justify-center border-2 border-white">+${addedIdx}</span>
+          `;
+          cell.onclick = () => {
+            state.userAddedCount--;
+            playNote(Math.max(0, state.userAddedCount));
+            renderTenFrameStage(stage, q);
+          };
+        } else {
+          cell.innerHTML = `<span class="text-2xl text-amber-400 font-black">+ Chạm thêm</span>`;
+          cell.onclick = () => {
+            if (q.initial + state.userAddedCount < 10) {
+              state.userAddedCount++;
+              playNote(state.userAddedCount);
+              renderTenFrameStage(stage, q);
+            }
+          };
+        }
+        grid.appendChild(cell);
+      }
+
+      wrapper.appendChild(grid);
+      stage.appendChild(wrapper);
+    }
+
+    // MÀN HÌNH 3: SƠ ĐỒ TÁCH - GỘP "MẤY VÀ MẤY" (BÀI 5 TRANG 32-36)
+    function renderBondStage(stage, q) {
+      stage.innerHTML = '';
+      const wrapper = document.createElement('div');
+      wrapper.className = 'w-full max-w-2xl flex flex-col items-center gap-4';
+
+      // Sơ đồ tròn Tách - Gộp chuẩn SGK Kết Nối Tri Thức Trang 34-35
+      const diagram = document.createElement('div');
+      diagram.className = 'flex items-center justify-center gap-6 md:gap-10 w-full';
+
+      // Khay Trái (Đệm Hồng)
+      const leftBasket = document.createElement('div');
+      leftBasket.className = 'flex-1 bg-pink-50 border-4 border-pink-300 rounded-3xl p-3 flex flex-col items-center min-h-[140px]';
+      leftBasket.innerHTML = `
+        <span class="text-xs font-black text-pink-700 uppercase mb-2">Đệm Hồng (${q.left})</span>
+        <div class="flex flex-wrap justify-center gap-1.5">
+          ${Array(q.left).fill(`<span class="text-4xl animate-pop">${q.pet.emoji}</span>`).join('')}
+        </div>
+      `;
+
+      // Vòng tròn Sơ đồ Tách-Gộp ở giữa (Giống hệt hình tròn trang 35 SGK)
+      const bondCircle = document.createElement('div');
+      bondCircle.className = 'w-36 h-36 md:w-44 md:h-44 rounded-full bg-amber-100 border-4 border-sky-500 number-bond-circle flex flex-col items-center justify-between p-3 relative shrink-0';
+      bondCircle.innerHTML = `
+        <div class="w-14 h-12 rounded-xl bg-white border-2 border-sky-500 flex items-center justify-center font-black text-3xl ${
+          q.askTotal ? 'text-rose-600 animate-pulse' : 'text-slate-800'
+        }">
+          ${q.askTotal ? '?' : q.total}
+        </div>
+        <div class="w-full h-0.5 bg-sky-300 my-1"></div>
+        <div class="flex items-center justify-around w-full">
+          <div class="w-12 h-11 rounded-xl bg-pink-200 border-2 border-pink-500 flex items-center justify-center font-black text-2xl text-pink-900">
+            ${q.left}
+          </div>
+          <div class="h-10 border-l-2 border-dashed border-sky-500"></div>
+          <div class="w-12 h-11 rounded-xl bg-sky-200 border-2 border-sky-500 flex items-center justify-center font-black text-2xl ${
+            !q.askTotal ? 'text-rose-600 animate-pulse' : 'text-sky-900'
+          }">
+            ${!q.askTotal ? '?' : q.right}
+          </div>
+        </div>
+      `;
+
+      // Khay Phải (Đệm Xanh)
+      const rightBasket = document.createElement('div');
+      rightBasket.className = 'flex-1 bg-sky-50 border-4 border-sky-300 rounded-3xl p-3 flex flex-col items-center min-h-[140px]';
+      rightBasket.innerHTML = `
+        <span class="text-xs font-black text-sky-700 uppercase mb-2">Đệm Xanh (${q.askTotal ? q.right : '?'})</span>
+        <div class="flex flex-wrap justify-center gap-1.5">
+          ${Array(q.right)
+            .fill(
+              `<span class="text-4xl animate-pop ${ !q.askTotal ? 'opacity-85' : '' }">${q.pet.emoji}</span>`
+            )
+            .join('')}
+        </div>
+      `;
+
+      diagram.appendChild(leftBasket);
+      diagram.appendChild(bondCircle);
+      diagram.appendChild(rightBasket);
+      wrapper.appendChild(diagram);
+
+      // Câu chốt chuẩn ngôn ngữ SGK trang 32 & 34
+      const sentenceBox = document.createElement('div');
+      sentenceBox.className = 'bg-white px-6 py-3 rounded-2xl border-2 border-pink-200 shadow-sm text-xl md:text-2xl font-black text-slate-800';
+      sentenceBox.innerHTML = q.askTotal
+        ? `<span class="text-pink-600">${q.left}</span> và <span class="text-sky-600">${q.right}</span> được <span class="px-3 py-0.5 rounded-lg bg-rose-100 text-rose-600">?</span>`
+        : `<span class="text-purple-700">${q.total}</span> gồm <span class="text-pink-600">${q.left}</span> và <span class="px-3 py-0.5 rounded-lg bg-rose-100 text-rose-600">?</span>`;
+      wrapper.appendChild(sentenceBox);
+
+      stage.appendChild(wrapper);
+    }
+
+    // MÀN HÌNH 4: BỘ SƯU TẬP THÚ CƯNG CỦA BÉ (META-GAME)
+    function renderPetSanctuary(stage) {
+      document.getElementById('sgk-badge').textContent = 'Phần Thưởng Của Bé';
+      document.getElementById('question-title').textContent = 'Ngôi Nhà Thú Cưng Mà Bé Đã Nhận Nuôi!';
+      stage.innerHTML = '';
+
+      const grid = document.createElement('div');
+      grid.className = 'grid grid-cols-2 md:grid-cols-4 gap-3.5 w-full h-full overflow-y-auto p-2';
+
+      PET_CATALOG.forEach(pet => {
+        const unlocked = state.stars >= pet.unlockedAt;
+        const card = document.createElement('button');
+        card.className = `btn-bounce rounded-3xl p-4 border-4 flex flex-col items-center justify-center text-center transition-all ${
+          unlocked
+            ? 'bg-gradient-to-b from-white to-pink-50 border-pink-300 shadow-md'
+            : 'bg-slate-100 border-slate-300 opacity-70'
+        }`;
+        card.innerHTML = `
+          <div class="text-6xl mb-2 ${unlocked ? 'animate-float' : 'grayscale'}">${unlocked ? pet.emoji : '🔒'}</div>
+          <div class="font-black text-base text-slate-800">${pet.name}</div>
+          <div class="text-xs font-bold text-slate-500 mt-1">${
+            unlocked ? `Món khoái khẩu: ${pet.food} •${pet.desc}` : `Cần đạt ${pet.unlockedAt} ⭐ để mở khóa`
+          }</div>
+        `;
+        if (unlocked) {
+          card.onclick = () => {
+            playSuccessSound();
+            speakVietnamese(`Xin chào! Mình là ${pet.name}. Cảm ơn bé đã học toán thật giỏi!`);
+          };
+        }
+        grid.appendChild(card);
+      });
+
+      stage.appendChild(grid);
+    }
+
+    /********************************************************************
+     * 5. KIỂM TRA ĐÁP ÁN & ĐIỀU KHIỂN PHẢN HỒI SƯ PHẠM
+     ********************************************************************/
+    function handleAnswerSubmit(selectedNum) {
+      const q = state.currentQuestion;
+      if (!q) return;
+
+      document.getElementById('answer-slot-preview').textContent = selectedNum;
+
+      if (selectedNum === q.answer) {
+        state.stars += 1;
+        state.streak += 1;
+        localStorage.setItem('toan1_stars', String(state.stars));
+
+        playSuccessSound();
+        launchConfetti();
+
+        const praises = [
+          'Xuất sắc quá! Bé trả lời đúng rồi!',
+          'Giỏi lắm! Các bạn thú cưng rất tự hào về bé!',
+          'Tuyệt vời! Bé được thưởng thêm một ngôi sao!'
+        ];
+        const msg = praises[Math.floor(Math.random() * praises.length)];
+        document.getElementById('feedback-text').textContent = `🌟 ${msg}`;
+        speakVietnamese(msg);
+
+        setTimeout(() => {
+          generateQuestion();
+        }, 1400);
+      } else {
+        state.streak = 0;
+        playGentleRetrySound();
+        const hintMsg =
+          q.type === 'count'
+            ? `Chưa đúng rồi! Bé chạm vào từng bạn ${q.pet.name} để đếm lại thật chậm nhé!`
+            : q.type === 'tenframe'
+            ? `Gần đúng rồi! Trong khay có ${q.initial}, bé đếm xem cần thêm mấy ô màu xanh nữa để đủ ${q.target} nhé!`
+            : `Bé nhìn vào sơ đồ tròn và đếm lại số bạn ${q.pet.name} ở mỗi đệm nhé!`;
+        document.getElementById('feedback-text').textContent = `💡 ${hintMsg}`;
+        speakVietnamese('Chưa đúng rồi, mình đếm lại một lần nữa nhé!');
+      }
+    }
+
+    function switchMode(newMode) {
+      state.mode = newMode;
+      ['count', 'tenframe', 'bond', 'pets'].forEach(m => {
+        const btn = document.getElementById(`tab-${m}`);
+        if (m === newMode) {
+          btn.className = 'btn-bounce px-3.5 py-2 rounded-xl font-extrabold text-sm md:text-base transition-all bg-pink-500 text-white shadow';
+        } else {
+          btn.className = 'btn-bounce px-3.5 py-2 rounded-xl font-extrabold text-sm md:text-base transition-all text-pink-700 hover:bg-pink-100';
+        }
+      });
+      if (newMode === 'pets') {
+        renderWorkspace();
+      } else {
+        generateQuestion();
+      }
+    }
+
+    function nextQuestion() {
+      generateQuestion();
+    }
+
+    // HIỆU ỨNG PHÁO GIẤY NHẸ MƯỢT TRÊN IPAD
+    function launchConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const pieces = Array.from({ length: 45 }, () => ({
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        vx: (Math.random() - 0.5) * 16,
+        vy: (Math.random() - 0.8) * 16,
+        size: Math.random() * 8 + 6,
+        color: ['#ec4899', '#f59e0b', '#8b5cf6', '#10b981', '#3b82f6'][Math.floor(Math.random() * 5)]
+      }));
+
+      let frame = 0;
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.45;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(p.x, p.y, p.size, p.size);
+        });
+        frame++;
+        if (frame < 45) requestAnimationFrame(animate);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      animate();
+    }
+
+    // KHỞI ĐỘNG ỨNG DỤNG
+    renderNumpad();
+    generateQuestion();
+    </script>
+</body>
+</html>
