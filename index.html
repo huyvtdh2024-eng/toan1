@@ -673,7 +673,7 @@
       else if (q.type === 'bond') renderBondStage(stage, q);
     }
 
-    function renderCountStage(stage, q) {
+   function renderCountStage(stage, q) {
       stage.className = 'flex-1 min-h-0 w-full rounded-2xl shadow-inner border-2 border-emerald-300 overflow-hidden relative flex flex-col justify-between park-bg p-2';
 
       const topDecor = document.createElement('div');
@@ -725,7 +725,14 @@
               state.countedIndices.add(i);
               const n = state.countedIndices.size;
               playNote(n - 1);
-              playVoiceSlot(`num_${n}`, WORDS_VI[n]);
+              
+              // CƠ CHẾ KÉP: Nếu chưa thu âm giọng Bố Mẹ thì tự động gọi TTS đọc to số n
+              if (state.customVoices[`num_${n}`]) {
+                playVoiceSlot(`num_${n}`, WORDS_VI[n]);
+              } else {
+                speakVietnamese(WORDS_VI[n]);
+              }
+
               document.getElementById('feedback-text').textContent = `👏 Gấu đếm được: ${n} bạn ${q.pet.name}!`;
               renderCountStage(stage, q);
             }
@@ -738,6 +745,7 @@
       const bottomFlowers = document.createElement('div');
       bottomFlowers.className = 'text-center text-[11px] font-black text-emerald-950 shrink-0';
       bottomFlowers.textContent = '🌷 Gấu chạm vào từng bạn thú cưng để đếm rồi chọn số ở dưới nhé! 🌷';
+      stage.addImage = '';
       stage.appendChild(bottomFlowers);
     }
 
