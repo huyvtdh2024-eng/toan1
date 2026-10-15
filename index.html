@@ -1,240 +1,247 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Toán 1 Thú Cưng" />
-    <title>Toán Lớp 1 - Thị Trấn Thú Cưng (Kết Nối Tri Thức)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap');
-
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            overscroll-behavior: none;
-            touch-action: manipulation;
-            font-family: 'Nunito', sans-serif;
-            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #e0e7ff 100%);
-        }
-
-        .btn-bounce {
-            transition: transform 0.14s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.14s ease;
-        }
-
-            .btn-bounce:active {
-                transform: scale(0.91);
-            }
-
-        @keyframes popIn {
-            0% {
-                transform: scale(0.3);
-                opacity: 0;
-            }
-
-            80% {
-                transform: scale(1.12);
-                opacity: 1;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        @keyframes floatSlow {
-            0%, 100% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-6px);
-            }
-        }
-
-        .animate-pop {
-            animation: popIn 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-
-        .animate-float {
-            animation: floatSlow 2.6s ease-in-out infinite;
-        }
-
-        .ten-frame-grid {
-            display: grid;
-            grid-template-columns: repeat(5, minmax(0, 1fr));
-            grid-template-rows: repeat(2, minmax(0, 1fr));
-            gap: 10px;
-        }
-
-        .number-bond-circle {
-            box-shadow: inset 0 -6px 0 rgba(0,0,0,0.08), 0 8px 20px rgba(236, 72, 153, 0.18);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Toán 1 Thú Cưng" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/616/616430.png" />
+  <title>Toán Lớp 1 - Thị Trấn Thú Cưng (v2.0)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js');
+      });
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      overscroll-behavior: none;
+      touch-action: manipulation;
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(180deg, #fdf2f8 0%, #fce7f3 100%);
+      /* Tự động tránh tai thỏ / Dynamic Island và thanh Home của iPhone/iPad */
+      padding-top: env(safe-area-inset-top, 12px);
+      padding-bottom: env(safe-area-inset-bottom, 8px);
+      padding-left: env(safe-area-inset-left, 8px);
+      padding-right: env(safe-area-inset-right, 8px);
+    }
+    .btn-bounce {
+      transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .btn-bounce:active {
+      transform: scale(0.90);
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.2); opacity: 0; }
+      80% { transform: scale(1.12); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+    @keyframes pulseRing {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+    .animate-pop {
+      animation: popIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    .animate-float {
+      animation: floatSlow 2.4s ease-in-out infinite;
+    }
+    .animate-pulse-gentle {
+      animation: pulseRing 1.8s ease-in-out infinite;
+    }
+    /* Khung cảnh sân cỏ công viên thú cưng */
+    .pet-park-scene {
+      background: linear-gradient(180deg, #e0f2fe 0%, #bae6fd 38%, #bbf7d0 38%, #86efac 100%);
+    }
+    .ten-frame-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+    }
+  </style>
 </head>
-<body class="flex flex-col h-screen w-screen select-none">
+<body class="flex flex-col justify-between h-full w-full max-w-5xl mx-auto px-2.5 py-1.5 gap-2">
 
-    <!-- THANH ĐIỀU HƯỚNG TRÊN CÙNG (HEADER) -->
-    <header class="flex items-center justify-between px-4 py-2.5 bg-white/90 backdrop-blur-md shadow-sm border-b-2 border-pink-200 z-20 shrink-0">
-        <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-3xl shadow-md">
-                🐱
-            </div>
-            <div>
-                <h1 class="text-lg md:text-xl font-black text-pink-600 leading-tight">THỊ TRẤN THÚ CƯNG</h1>
-                <p class="text-xs font-bold text-slate-500">Toán 1 • Kết nối tri thức với cuộc sống (Chủ đề 1)</p>
-            </div>
+  <!-- MÀN HÌNH CHÀO MỞ KHÓA ÂM THANH TRÊN iOS -->
+  <div id="welcome-overlay" class="fixed inset-0 z-50 bg-gradient-to-b from-pink-500/95 via-rose-500/95 to-purple-600/95 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center text-white">
+    <div class="w-28 h-28 rounded-3xl bg-white flex items-center justify-center text-7xl shadow-2xl mb-4 animate-float">
+      🐱
+    </div>
+    <h1 class="text-3xl md:text-4xl font-black tracking-tight mb-2">THỊ TRẤN THÚ CƯNG</h1>
+    <p class="text-base md:text-lg font-bold text-pink-100 max-w-md mb-6">
+      Cùng bé học Toán Lớp 1 (Sách Kết Nối Tri Thức Với Cuộc Sống) qua các trò chơi nuôi thú cưng!
+    </p>
+    <button onclick="startAppWithAudio()" class="btn-bounce bg-amber-400 hover:bg-amber-300 text-amber-950 font-black text-2xl px-8 py-4 rounded-3xl shadow-xl border-b-4 border-amber-600 flex items-center gap-3 animate-pulse-gentle">
+      <span>▶️ BẮT ĐẦU CHƠI</span>
+      <span>🔊</span>
+    </button>
+    <p class="text-xs text-pink-200 mt-4 font-bold">
+      (Chạm nút trên để bật giọng đọc Tiếng Việt trên iPhone / iPad)
+    </p>
+  </div>
+
+  <!-- 1. THANH TRÊN CÙNG GỌN GÀNG (KHÔNG BAO GIỜ TRÀN MÀN HÌNH) -->
+  <header class="bg-white/95 rounded-2xl shadow-sm border-2 border-pink-200 p-2 shrink-0 flex flex-col gap-1.5">
+    <!-- Hàng 1: Tên App + Điểm Sao + Nút Đọc Câu Hỏi -->
+    <div class="flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2 min-w-0">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-xl shadow-sm shrink-0">
+          🐱
         </div>
-
-        <!-- CHỌN BÀI HỌC TRONG SGK -->
-        <div class="flex items-center gap-2 bg-pink-50 p-1.5 rounded-2xl border border-pink-200">
-            <button onclick="switchMode('count')" id="tab-count" class="btn-bounce px-3.5 py-2 rounded-xl font-extrabold text-sm md:text-base transition-all bg-pink-500 text-white shadow">
-                🐾 Bài 1–2: Đếm Số
-            </button>
-            <button onclick="switchMode('tenframe')" id="tab-tenframe" class="btn-bounce px-3.5 py-2 rounded-xl font-extrabold text-sm md:text-base transition-all text-pink-700 hover:bg-pink-100">
-                🍱 Bài 2: Khay 10 Ô
-            </button>
-            <button onclick="switchMode('bond')" id="tab-bond" class="btn-bounce px-3.5 py-2 rounded-xl font-extrabold text-sm md:text-base transition-all text-pink-700 hover:bg-pink-100">
-                🌸 Bài 5: Mấy và Mấy
-            </button>
-            <button onclick="switchMode('pets')" id="tab-pets" class="btn-bounce px-3.5 py-2 rounded-xl font-extrabold text-sm md:text-base transition-all text-purple-700 hover:bg-purple-100">
-                🏡 Bộ Sưu Tập (<span id="pet-count-badge">1</span>/8)
-            </button>
+        <div class="truncate">
+          <h1 class="text-sm md:text-lg font-black text-pink-600 leading-tight truncate">THỊ TRẤN THÚ CƯNG</h1>
+          <p id="sgk-badge" class="text-[11px] font-extrabold text-slate-500 truncate">SGK Toán 1 • Trang 8–18</p>
         </div>
+      </div>
 
-        <!-- ĐIỂM SAO & ÂM THANH -->
-        <div class="flex items-center gap-2.5">
-            <div class="flex items-center gap-1.5 bg-amber-100 border-2 border-amber-300 px-3.5 py-1.5 rounded-2xl shadow-sm">
-                <span class="text-2xl">⭐</span>
-                <span id="star-score" class="text-xl font-black text-amber-600">0</span>
-            </div>
-            <button onclick="speakCurrentPrompt()" title="Đọc lại câu hỏi" class="btn-bounce w-12 h-12 rounded-2xl bg-sky-100 border-2 border-sky-300 flex items-center justify-center text-2xl shadow-sm">
-                🔊
-            </button>
+      <div class="flex items-center gap-1.5 shrink-0">
+        <div class="flex items-center gap-1 bg-amber-100 border-2 border-amber-300 px-2.5 py-1 rounded-xl">
+          <span class="text-base">⭐</span>
+          <span id="star-score" class="text-base font-black text-amber-700">0</span>
         </div>
-    </header>
+        <button onclick="speakCurrentPrompt()" class="btn-bounce bg-sky-500 text-white font-extrabold text-xs md:text-sm px-2.5 py-1.5 rounded-xl shadow border-b-2 border-sky-700 flex items-center gap-1">
+          <span>🔊</span>
+          <span>Đọc đề</span>
+        </button>
+      </div>
+    </div>
 
-    <!-- KHU VỰC CHƠI CHÍNH (MAIN WORKSPACE) -->
-    <main class="flex-1 flex flex-col md:flex-row gap-4 p-4 overflow-hidden relative">
+    <!-- Hàng 2: 4 Nút chuyển bài học chia đều 4 cột vừa khít màn hình iPhone -->
+    <div class="grid grid-cols-4 gap-1 bg-pink-50 p-1 rounded-xl border border-pink-200">
+      <button onclick="switchMode('count')" id="tab-count" class="btn-bounce py-1.5 px-1 rounded-lg font-black text-xs md:text-sm text-center bg-pink-500 text-white shadow">
+        🐾 Đếm Số
+      </button>
+      <button onclick="switchMode('tenframe')" id="tab-tenframe" class="btn-bounce py-1.5 px-1 rounded-lg font-black text-xs md:text-sm text-center text-pink-700">
+        🍱 Khay 10
+      </button>
+      <button onclick="switchMode('bond')" id="tab-bond" class="btn-bounce py-1.5 px-1 rounded-lg font-black text-xs md:text-sm text-center text-pink-700">
+        🌸 Tách-Gộp
+      </button>
+      <button onclick="switchMode('pets')" id="tab-pets" class="btn-bounce py-1.5 px-1 rounded-lg font-black text-xs md:text-sm text-center text-purple-700">
+        🏡 Thú (<span id="pet-count-badge">1</span>/8)
+      </button>
+    </div>
+  </header>
 
-        <!-- CỘT TRÁI: BẢNG TƯƠNG TÁC TRỰC QUAN -->
-        <section class="flex-1 bg-white/95 rounded-3xl shadow-lg border-4 border-pink-200 p-4 flex flex-col justify-between relative overflow-hidden">
+  <!-- 2. KHUNG CÂU HỎI RÕ RÀNG (CHẠM VÀO LÀ ĐỌC TO TIẾNG VIỆT) -->
+  <div onclick="speakCurrentPrompt()" class="btn-bounce cursor-pointer bg-white rounded-2xl border-2 border-pink-300 shadow-sm px-3 py-2 shrink-0 flex items-center justify-between gap-2">
+    <div class="flex items-center gap-2.5 min-w-0">
+      <div class="w-10 h-10 rounded-xl bg-sky-100 border border-sky-300 flex items-center justify-center text-2xl shrink-0">
+        🔊
+      </div>
+      <h2 id="question-title" class="text-sm md:text-xl font-black text-slate-800 leading-snug">
+        Có bao nhiêu bạn Mèo Miu đang chơi trên bãi cỏ?
+      </h2>
+    </div>
+    <button onclick="event.stopPropagation(); nextQuestion();" class="btn-bounce bg-slate-100 hover:bg-slate-200 text-slate-600 font-extrabold text-xs px-2.5 py-2 rounded-xl shrink-0">
+      Đổi ↻
+    </button>
+  </div>
 
-            <!-- Thanh Câu Hỏi & Nhân vật dẫn đường -->
-            <div class="flex items-center justify-between bg-gradient-to-r from-pink-50 via-rose-50 to-purple-50 px-4 py-3 rounded-2xl border-2 border-pink-100 shrink-0">
-                <div class="flex items-center gap-3">
-                    <div id="guide-avatar" class="text-4xl animate-float">🤖</div>
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <span id="sgk-badge" class="text-xs font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-pink-200 text-pink-800">
-                                SGK Trang 8–18 • Số ?
-                            </span>
-                            <span id="streak-badge" class="text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-700">
-                                Chuỗi thắng: 0 🔥
-                            </span>
-                        </div>
-                        <h2 id="question-title" class="text-lg md:text-2xl font-black text-slate-800 mt-0.5">
-                            Bé hãy chạm đếm xem có bao nhiêu bạn thú cưng nhé!
-                        </h2>
-                    </div>
-                </div>
-                <button onclick="nextQuestion()" class="btn-bounce px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-sm shrink-0">
-                    Đổi câu ↻
-                </button>
-            </div>
+  <!-- 3. SÂN KHẤU TRỰC QUAN CHÍNH GIỮA (CHIẾM PHẦN LỚN MÀN HÌNH) -->
+  <main id="stage-container" class="flex-1 min-h-0 w-full rounded-3xl shadow-md border-4 border-white overflow-hidden relative flex flex-col">
+    <!-- Render động các cảnh công viên thú cưng / khay 10 / sơ đồ tách gộp -->
+  </main>
 
-            <!-- SÂN KHẤU TRỰC QUAN (THAY ĐỔI THEO TỪNG BÀI HỌC) -->
-            <div id="stage-container" class="flex-1 flex flex-col items-center justify-center my-2 relative overflow-hidden">
-                <!-- Nội dung được render động bằng JS -->
-            </div>
+  <!-- 4. THANH GỢI Ý & TIẾN ĐỘ NHẬN THÚ CƯNG -->
+  <div class="bg-white/90 rounded-xl px-3 py-1.5 border border-pink-200 flex items-center justify-between gap-2 shrink-0 text-xs font-extrabold">
+    <span id="feedback-text" class="text-slate-700 truncate">
+      💡 Chạm vào từng bạn thú cưng để nghe đếm số nhé!
+    </span>
+    <span id="reward-progress-text" class="text-purple-700 bg-purple-100 px-2 py-0.5 rounded-lg shrink-0">
+      Quà: 0/5 ⭐
+    </span>
+  </div>
 
-            <!-- THANH PHẢN HỒI SƯ PHẠM DƯỚI ĐÁY SÂN KHẤU -->
-            <div id="feedback-bar" class="h-12 rounded-2xl bg-slate-50 border border-slate-200 px-4 flex items-center justify-between text-slate-600 font-bold text-sm md:text-base shrink-0">
-                <span id="feedback-text">💡 Mẹo: Chạm vào từng bạn thú cưng để đếm to cùng bố nhé!</span>
-                <span id="cpa-indicator" class="text-xs font-extrabold text-pink-600 bg-pink-100 px-3 py-1 rounded-full">
-                    Mức độ: Trực quan (CPA 1)
-                </span>
-            </div>
-        </section>
+  <!-- 5. BÀN PHÍM SỐ GỌN Ở ĐÁY MÀN HÌNH (2 HÀNG, TỐI ƯU CHO CẢ IPHONE & IPAD) -->
+  <footer id="numpad-panel" class="bg-white/95 rounded-2xl shadow-md border-2 border-purple-200 p-2 shrink-0">
+    <div id="numpad-grid" class="grid grid-cols-6 gap-1.5">
+      <!-- Render 0 -> 10 gọn trên 2 hàng -->
+    </div>
+  </footer>
 
-        <!-- CỘT PHẢI: BÀN PHÍM SỐ LỚN CHO IPAD (0 -> 10) -->
-        <aside id="numpad-panel" class="w-full md:w-80 bg-white/95 rounded-3xl shadow-lg border-4 border-purple-200 p-4 flex flex-col justify-between shrink-0">
-            <div class="text-center">
-                <span class="inline-block bg-amber-100 text-amber-800 font-black px-4 py-1 rounded-full text-sm border border-amber-300">
-                    Chọn Số Thích Hợp (Số ?)
-                </span>
-                <p id="answer-slot-preview" class="text-3xl font-black text-pink-600 mt-2">
-                    ?
-                </p>
-            </div>
+  <!-- PHÁO GIẤY CHÚC MỪNG -->
+  <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-40"></canvas>
 
-            <!-- Lưới nút bấm số từ 0 đến 10 kích thước lớn cho ngón tay trẻ 6 tuổi -->
-            <div id="numpad-grid" class="grid grid-cols-3 gap-2.5 my-auto py-2">
-                <!-- Render các nút 1-9, 0, 10 bằng JS -->
-            </div>
-
-            <!-- Tiến trình mở khóa thú cưng tiếp theo -->
-            <div class="bg-purple-50 rounded-2xl p-3 border-2 border-purple-100">
-                <div class="flex justify-between text-xs font-extrabold text-purple-800 mb-1">
-                    <span>Quà thú cưng tiếp theo:</span>
-                    <span id="reward-progress-text">0 / 5 ⭐</span>
-                </div>
-                <div class="w-full h-3.5 bg-purple-200 rounded-full overflow-hidden">
-                    <div id="reward-progress-bar" class="h-full bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-500" style="width: 0%"></div>
-                </div>
-            </div>
-        </aside>
-    </main>
-
-    <!-- CANVAS PHÁO GIẤY CHÚC MỪNG -->
-    <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
-
-    <script>
+  <script>
     /********************************************************************
-     * 1. CƠ SỞ DỮ LIỆU THÚ CƯNG & CẤU HÌNH BÀI HỌC (SGK TOÁN 1 TẬP 1)
+     * 1. DỮ LIỆU THÚ CƯNG & TRẠNG THÁI TRÒ CHƠI
      ********************************************************************/
     const PET_CATALOG = [
-      { id: 'cat', emoji: '🐱', name: 'Mèo Miu Hồng', food: '🐟', unlockedAt: 0, desc: 'Thích ăn cá vàng trong bể' },
-      { id: 'dog', emoji: '🐶', name: 'Cún Bông Vàng', food: '🦴', unlockedAt: 5, desc: 'Thích chạy nhảy ngoài sân' },
-      { id: 'bunny', emoji: '🐰', name: 'Thỏ Trắng Ngoan', food: '🥕', unlockedAt: 10, desc: 'Mê ăn cà rốt tươi (SGK trang 11)' },
-      { id: 'duck', emoji: '🐥', name: 'Vịt Nhỏ Xinh', food: '🌽', unlockedAt: 15, desc: 'Bơi dưới hồ nước (SGK trang 12)' },
-      { id: 'hamster', emoji: '🐹', name: 'Chuột Hamster', food: '🌻', unlockedAt: 20, desc: 'Thích hạt hướng dương' },
-      { id: 'panda', emoji: '🐼', name: 'Gấu Trúc Mũm Mĩm', food: '🎋', unlockedAt: 25, desc: 'Bạn thân của Mai và Mi' },
-      { id: 'fox', emoji: '🦊', name: 'Cáo Đỏ Thông Thái', food: '🍓', unlockedAt: 30, desc: 'Giỏi giải toán tách - gộp' },
-      { id: 'unicorn', emoji: '🦄', name: 'Kỳ Lân Cầu Vồng', food: '🧁', unlockedAt: 35, desc: 'Phần thưởng Đặc Biệt Chủ đề 1' }
+      { id: 'cat', emoji: '🐱', name: 'Mèo Miu', food: '🐟', unlockedAt: 0, bg: 'from-pink-100 to-rose-200' },
+      { id: 'dog', emoji: '🐶', name: 'Cún Bông', food: '🦴', unlockedAt: 5, bg: 'from-amber-100 to-orange-200' },
+      { id: 'bunny', emoji: '🐰', name: 'Thỏ Trắng', food: '🥕', unlockedAt: 10, bg: 'from-fuchsia-100 to-pink-200' },
+      { id: 'duck', emoji: '🐥', name: 'Vịt Nhỏ', food: '🌽', unlockedAt: 15, bg: 'from-yellow-100 to-amber-200' },
+      { id: 'hamster', emoji: '🐹', name: 'Hamster', food: '🌻', unlockedAt: 20, bg: 'from-orange-100 to-amber-200' },
+      { id: 'panda', emoji: '🐼', name: 'Gấu Trúc', food: '🎋', unlockedAt: 25, bg: 'from-emerald-100 to-teal-200' },
+      { id: 'fox', emoji: '🦊', name: 'Cáo Đỏ', food: '🍓', unlockedAt: 30, bg: 'from-rose-100 to-red-200' },
+      { id: 'unicorn', emoji: '🦄', name: 'Kỳ Lân', food: '🧁', unlockedAt: 35, bg: 'from-purple-100 to-indigo-200' }
+    ];
+
+    const VIETNAMESE_NUMBER_WORDS = [
+      'không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín', 'mười'
     ];
 
     const state = {
-      mode: 'count', // 'count' | 'tenframe' | 'bond' | 'pets'
+      mode: 'count',
       stars: parseInt(localStorage.getItem('toan1_stars') || '0', 10),
       streak: 0,
-      maxRange: 5, // Bắt đầu từ Bài 1 (0-5), tự động mở lên Bài 2 (6-10) khi bé làm tốt
       currentQuestion: null,
       countedIndices: new Set(),
       userAddedCount: 0,
-      bondSplitLeft: 0,
-      questionStartTime: Date.now()
+      bondLeftCurrent: 0,
+      audioUnlocked: false
     };
 
     /********************************************************************
-     * 2. BỘ TỔNG HỢP ÂM THANH (WEB AUDIO API) & GIỌNG ĐỌC TIẾNG VIỆT
+     * 2. HỆ THỐNG ÂM THANH & GIỌNG ĐỌC TIẾNG VIỆT CHUẨN iOS / iPadOS
      ********************************************************************/
     let audioCtx = null;
+    let viVoice = null;
+
+    function loadVietnameseVoice() {
+      if (!('speechSynthesis' in window)) return;
+      const voices = window.speechSynthesis.getVoices();
+      viVoice =
+        voices.find(v => v.lang.toLowerCase().includes('vi')) ||
+        voices.find(v => v.name.toLowerCase().includes('linh') || v.name.toLowerCase().includes('viet')) ||
+        null;
+    }
+
+    if ('speechSynthesis' in window) {
+      loadVietnameseVoice();
+      window.speechSynthesis.onvoiceschanged = loadVietnameseVoice;
+    }
+
     function initAudio() {
+      // Bật chế độ phát âm thanh vượt qua công tắc Im lặng (Silent Switch) trên iOS 17+
+      if (navigator.audioSession) {
+        try {
+          navigator.audioSession.type = 'playback';
+        } catch (e) {}
+      }
       if (!audioCtx) {
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         audioCtx = new AudioContext();
@@ -244,7 +251,39 @@
       }
     }
 
-    // Phát nốt nhạc tăng dần theo số đếm (1 -> 10) giúp bé cảm nhận độ lớn của số bằng thính giác
+    function startAppWithAudio() {
+      state.audioUnlocked = true;
+      initAudio();
+      loadVietnameseVoice();
+      document.getElementById('welcome-overlay').classList.add('hidden');
+      playSuccessSound();
+      setTimeout(() => {
+        speakCurrentPrompt();
+      }, 350);
+    }
+
+    function speakVietnamese(text) {
+      initAudio();
+      if (!('speechSynthesis' in window)) return;
+      try {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'vi-VN';
+        if (viVoice) utter.voice = viVoice;
+        utter.rate = 0.92;
+        utter.pitch = 1.1;
+        window.speechSynthesis.speak(utter);
+      } catch (e) {
+        console.warn('TTS error:', e);
+      }
+    }
+
+    function speakCurrentPrompt() {
+      if (state.currentQuestion && state.currentQuestion.voicePrompt) {
+        speakVietnamese(state.currentQuestion.voicePrompt);
+      }
+    }
+
     const SCALE_FREQS = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25, 587.33, 659.25, 783.99];
     function playNote(index) {
       initAudio();
@@ -252,12 +291,12 @@
       const gain = audioCtx.createGain();
       osc.type = 'sine';
       osc.frequency.setValueAtTime(SCALE_FREQS[index % SCALE_FREQS.length], audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.22, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.28);
+      gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       osc.start();
-      osc.stop(audioCtx.currentTime + 0.28);
+      osc.stop(audioCtx.currentTime + 0.25);
     }
 
     function playSuccessSound() {
@@ -268,13 +307,13 @@
           const gain = audioCtx.createGain();
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-          gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+          gain.gain.setValueAtTime(0.28, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.32);
           osc.connect(gain);
           gain.connect(audioCtx.destination);
           osc.start();
-          osc.stop(audioCtx.currentTime + 0.35);
-        }, idx * 90);
+          osc.stop(audioCtx.currentTime + 0.32);
+        }, idx * 85);
       });
     }
 
@@ -283,9 +322,9 @@
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(240, audioCtx.currentTime);
+      osc.frequency.setValueAtTime(250, audioCtx.currentTime);
       osc.frequency.linearRampToValueAtTime(190, audioCtx.currentTime + 0.25);
-      gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.28);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
@@ -293,24 +332,8 @@
       osc.stop(audioCtx.currentTime + 0.28);
     }
 
-    function speakVietnamese(text) {
-      if (!('speechSynthesis' in window)) return;
-      window.speechSynthesis.cancel();
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = 'vi-VN';
-      utter.rate = 0.95;
-      utter.pitch = 1.1;
-      window.speechSynthesis.speak(utter);
-    }
-
-    function speakCurrentPrompt() {
-      if (state.currentQuestion && state.currentQuestion.voicePrompt) {
-        speakVietnamese(state.currentQuestion.voicePrompt);
-      }
-    }
-
     /********************************************************************
-     * 3. BỘ SINH CÂU HỎI THAM SỐ HÓA BÁM SÁT SGK TOÁN 1 TẬP 1
+     * 3. BỘ SINH CÂU HỎI CHUẨN SGK TOÁN 1 (TẬP 1)
      ********************************************************************/
     function getUnlockedPets() {
       return PET_CATALOG.filter(p => state.stars >= p.unlockedAt);
@@ -324,32 +347,23 @@
     function generateQuestion() {
       state.countedIndices.clear();
       state.userAddedCount = 0;
-      state.questionStartTime = Date.now();
       const pet = pickRandomPet();
-
-      // Tự động điều chỉnh phạm vi số (Bài 1: 0-5 -> Bài 2: 0-10) dựa trên chuỗi thắng
-      state.maxRange = state.stars >= 4 || state.streak >= 3 ? 10 : 5;
-      document.getElementById('cpa-indicator').textContent =
-        state.maxRange === 5 ? 'SGK Bài 1: Phạm vi 0 – 5' : 'SGK Bài 2 & 5: Phạm vi 0 – 10';
+      const maxRange = state.stars >= 4 || state.streak >= 3 ? 10 : 5;
 
       if (state.mode === 'count') {
-        // BÀI 1 & BÀI 2: ĐẾM SỐ LƯỢNG TỪ 0 ĐẾN 10 (Bao gồm cả số 0 - bể cá/rổ trống trang 8)
-        const target = Math.floor(Math.random() * (state.maxRange + 1));
+        const target = Math.floor(Math.random() * (maxRange + 1));
         state.currentQuestion = {
           type: 'count',
           pet,
           target,
           answer: target,
-          sgkRef: target <= 5 ? 'SGK Bài 1 (Trang 8–13) • Số ?' : 'SGK Bài 2 (Trang 14–18) • Số ?',
-          title: target === 0
-            ? `Trong sân có mấy bạn ${pet.name}? (Chú ý sân trống nhé!)`
-            : `Có bao nhiêu bạn ${pet.name} đang chơi trong sân?`,
-          voicePrompt: `Bé hãy đếm xem có bao nhiêu bạn ${pet.name} nhé!`
+          sgkRef: target <= 5 ? 'SGK Bài 1 (Trang 8–13)' : 'SGK Bài 2 (Trang 14–18)',
+          title: `Trong công viên có mấy bạn ${pet.name}?`,
+          voicePrompt: `Trong công viên có mấy bạn ${pet.name}? Bé hãy chạm vào từng bạn để đếm nhé!`
         };
       } else if (state.mode === 'tenframe') {
-        // BÀI 2 (TRANG 15 & 18): CHO THÊM VÀO KHAY 10 Ô ĐỂ ĐỦ N
-        const target = Math.floor(Math.random() * 6) + 5; // 5 đến 10
-        const initial = Math.floor(Math.random() * (target - 1)) + 1;
+        const target = Math.floor(Math.random() * 5) + 6; // 6 đến 10
+        const initial = Math.floor(Math.random() * (target - 2)) + 2;
         const needed = target - initial;
         state.currentQuestion = {
           type: 'tenframe',
@@ -357,18 +371,16 @@
           initial,
           target,
           answer: needed,
-          sgkRef: 'SGK Bài 2 (Trang 18 - Khay 10 ô) • Thêm mấy?',
-          title: `Trong khay có ${initial} ${pet.emoji}. Cần cho thêm mấy ${pet.emoji} nữa để khay có đủ ${target}?`,
-          voicePrompt: `Trong khay đã có ${initial} bạn. Bé hãy chạm vào các ô trống để thêm cho đủ ${target}, rồi chọn số bạn vừa thêm nhé!`
+          sgkRef: 'SGK Bài 2 (Trang 18 • Khay 10 ô)',
+          title: `Khay đã có ${initial} ${pet.emoji}. Cần thêm mấy ${pet.emoji} để đủ ${target}?`,
+          voicePrompt: `Trong khay đã có ${initial} bạn ${pet.name}. Bé hãy chạm thêm vào các ô trống cho đủ ${target}, rồi chọn số bạn vừa thêm nhé!`
         };
       } else if (state.mode === 'bond') {
-        // BÀI 5 (TRANG 32–37): MẤY VÀ MẤY (SƠ ĐỒ TÁCH - GỘP SỐ)
-        const total = Math.floor(Math.random() * (state.maxRange - 2)) + 3; // 3 đến 10
+        const total = Math.floor(Math.random() * (maxRange - 2)) + 3; // 3 đến 10
         const left = Math.floor(Math.random() * (total - 1)) + 1;
         const right = total - left;
-        // 2 biến thể: Tìm số gộp (A và B được ?) hoặc Tìm số tách (N gồm A và ?)
         const askTotal = Math.random() < 0.45;
-        state.bondSplitLeft = left;
+        state.bondLeftCurrent = left;
         state.currentQuestion = {
           type: 'bond',
           pet,
@@ -379,33 +391,36 @@
           answer: askTotal ? total : right,
           sgkRef: 'SGK Bài 5: Mấy và mấy (Trang 32–36)',
           title: askTotal
-            ? `Đệm Hồng có ${left} ${pet.emoji}, đệm Xanh có ${right} ${pet.emoji}. Gộp lại có mấy ${pet.emoji}?`
-            : `Có ${total} ${pet.emoji} gồm ${left} ${pet.emoji} ở đệm Hồng và mấy ${pet.emoji} ở đệm Xanh?`,
+            ? `Giỏ Hồng có ${left} ${pet.emoji}, giỏ Xanh có ${right} ${pet.emoji}. Gộp lại được mấy?`
+            : `Có ${total} ${pet.emoji} gồm ${left} ${pet.emoji} ở giỏ Hồng và mấy ${pet.emoji} ở giỏ Xanh?`,
           voicePrompt: askTotal
-            ? `${left} và ${right} được mấy?`
-            : `${total} gồm ${left} và mấy?`
+            ? `Giỏ hồng có ${left}, giỏ xanh có ${right}. Hỏi ${left} và ${right} được mấy?`
+            : `Có tất cả ${total} bạn ${pet.name}, gồm ${left} bạn ở giỏ hồng và mấy bạn ở giỏ xanh?`
         };
       }
 
       renderWorkspace();
+      if (state.audioUnlocked && state.mode !== 'pets') {
+        setTimeout(() => speakCurrentPrompt(), 200);
+      }
     }
 
     /********************************************************************
-     * 4. RENDER GIAO DIỆN TƯƠNG TÁC TRÊN IPAD
+     * 4. RENDER GIAO DIỆN TRỰC QUAN SINH ĐỘNG TRÊN IPHONE & IPAD
      ********************************************************************/
     function renderNumpad() {
       const grid = document.getElementById('numpad-grid');
       grid.innerHTML = '';
-      const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10];
+      // Sắp xếp 0 -> 10 trên 2 hàng (6 cột) cực gọn cho màn hình dọc iPhone
+      const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
       numbers.forEach(num => {
         const btn = document.createElement('button');
-        const isZeroOrTen = num === 0 || num === 10;
-        btn.className = `btn-bounce h-16 rounded-2xl font-black text-3xl shadow-md border-b-4 flex items-center justify-center transition-all ${
+        btn.className = `btn-bounce h-12 md:h-14 rounded-xl font-black text-2xl md:text-3xl shadow-sm border-b-4 flex items-center justify-center ${
           num === 10
             ? 'col-span-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white border-indigo-700'
             : num === 0
             ? 'bg-amber-400 text-amber-950 border-amber-600'
-            : 'bg-pink-50 hover:bg-pink-100 text-pink-700 border-pink-300'
+            : 'bg-pink-50 active:bg-pink-200 text-pink-700 border-pink-300'
         }`;
         btn.textContent = num;
         btn.onclick = () => handleAnswerSubmit(num);
@@ -415,12 +430,8 @@
 
     function renderWorkspace() {
       document.getElementById('star-score').textContent = state.stars;
-      document.getElementById('streak-badge').textContent = `Chuỗi thắng: ${state.streak} 🔥`;
       document.getElementById('pet-count-badge').textContent = getUnlockedPets().length;
-
-      const remainderStars = state.stars % 5;
-      document.getElementById('reward-progress-text').textContent = `${remainderStars} / 5 ⭐`;
-      document.getElementById('reward-progress-bar').style.width = `${(remainderStars / 5) * 100}%`;
+      document.getElementById('reward-progress-text').textContent = `Quà: ${state.stars % 5}/5 ⭐`;
 
       const stage = document.getElementById('stage-container');
       const numpadPanel = document.getElementById('numpad-panel');
@@ -433,9 +444,8 @@
 
       numpadPanel.classList.remove('hidden');
       const q = state.currentQuestion;
-      document.getElementById('sgk-badge').textContent = q.sgkRef;
+      document.getElementById('sgk-badge').textContent = `${q.sgkRef} • Chuỗi thắng: ${state.streak} 🔥`;
       document.getElementById('question-title').textContent = q.title;
-      document.getElementById('answer-slot-preview').textContent = '?';
 
       if (q.type === 'count') {
         renderCountStage(stage, q);
@@ -446,99 +456,130 @@
       }
     }
 
-    // MÀN HÌNH 1: ĐẾM THÚ CƯNG (BÀI 1 & BÀI 2)
+    // CẢNH 1: CÔNG VIÊN THÚ CƯNG SINH ĐỘNG (BÀI 1 & 2)
     function renderCountStage(stage, q) {
-      stage.innerHTML = '';
-      const box = document.createElement('div');
-      box.className = 'w-full h-full max-w-2xl bg-gradient-to-b from-green-50 to-emerald-100 rounded-3xl border-4 border-emerald-200 p-6 flex flex-wrap items-center justify-center gap-5 relative shadow-inner';
+      stage.className = 'flex-1 min-h-0 w-full rounded-3xl shadow-md border-4 border-white overflow-hidden relative flex flex-col pet-park-scene';
+      stage.innerHTML = `
+        <!-- Trang trí bầu trời, đám mây, mặt trời và hàng rào -->
+        <div class="flex items-center justify-between px-4 pt-2 pointer-events-none select-none opacity-90 shrink-0">
+          <div class="flex items-center gap-3 text-2xl md:text-3xl">
+            <span>☁️</span>
+            <span class="text-sm font-black bg-white/80 text-sky-800 px-3 py-1 rounded-full shadow-sm">
+              Đã đếm: <b class="text-pink-600 text-base">${state.countedIndices.size}</b>
+            </span>
+          </div>
+          <div class="text-3xl md:text-4xl animate-pulse-gentle">☀️</div>
+        </div>
+      `;
+
+      const parkArea = document.createElement('div');
+      parkArea.className = 'flex-1 flex flex-wrap items-center justify-center content-center gap-3 md:gap-5 p-3 overflow-y-auto';
 
       if (q.target === 0) {
-        box.innerHTML = `
-          <div class="text-center animate-pop">
-            <div class="text-7xl mb-3 opacity-40">🧺</div>
-            <p class="text-xl font-extrabold text-emerald-800">Rổ đang trống không! Không có bạn thú cưng nào (Số 0)</p>
+        parkArea.innerHTML = `
+          <div class="bg-white/90 rounded-3xl p-5 border-4 border-dashed border-emerald-400 text-center max-w-xs animate-pop shadow-md">
+            <div class="text-6xl mb-2">🧺</div>
+            <p class="text-base md:text-lg font-black text-emerald-900">
+              Sân cỏ đang trống không! Không có bạn ${q.pet.name} nào cả (Số 0).
+            </p>
           </div>
         `;
       } else {
         for (let i = 0; i < q.target; i++) {
-          const item = document.createElement('button');
           const isCounted = state.countedIndices.has(i);
-          item.className = `btn-bounce w-24 h-24 md:w-28 md:h-28 rounded-3xl flex flex-col items-center justify-center relative shadow-md border-4 transition-all ${
+          const countOrder = Array.from(state.countedIndices).indexOf(i) + 1;
+
+          const card = document.createElement('button');
+          card.className = `btn-bounce w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-3xl flex flex-col items-center justify-center relative shadow-lg border-4 transition-all ${
             isCounted
-              ? 'bg-pink-500 border-pink-700 text-white scale-105'
-              : 'bg-white border-emerald-300 hover:border-pink-400'
+              ? 'bg-pink-500 border-white text-white scale-105'
+              : 'bg-white/95 border-emerald-300'
           }`;
-          item.innerHTML = `
-            <span class="text-5xl md:text-6xl">${q.pet.emoji}</span>
+          card.innerHTML = `
+            <span class="text-4xl sm:text-5xl md:text-6xl ${isCounted ? '' : 'animate-float'}">${q.pet.emoji}</span>
+            <span class="text-[11px] font-black mt-0.5 ${isCounted ? 'text-pink-100' : 'text-slate-500'}">
+              ${isCounted ? `Số ${countOrder}` : 'Chạm đếm'}
+            </span>
             ${
               isCounted
-                ? `<span class="absolute -top-3 -right-3 w-9 h-9 rounded-full bg-amber-400 text-amber-950 font-black text-xl flex items-center justify-center shadow border-2 border-white animate-pop">${
-                    Array.from(state.countedIndices).indexOf(i) + 1
-                  }</span>`
+                ? `<span class="absolute -top-2.5 -right-2.5 w-8 h-8 rounded-full bg-amber-400 text-amber-950 font-black text-lg flex items-center justify-center shadow-md border-2 border-white animate-pop">${countOrder}</span>`
                 : ''
             }
           `;
-          item.onclick = () => {
+          card.onclick = () => {
             if (!state.countedIndices.has(i)) {
               state.countedIndices.add(i);
-              const currentCount = state.countedIndices.size;
-              playNote(currentCount - 1);
-              speakVietnamese(String(currentCount));
+              const n = state.countedIndices.size;
+              playNote(n - 1);
+              speakVietnamese(VIETNAMESE_NUMBER_WORDS[n] || String(n));
               document.getElementById('feedback-text').textContent =
-                `👏 Bé đã chạm đếm được: ${currentCount} ${q.pet.name}!`;
+                `👏 Bé đếm được: ${n} bạn ${q.pet.name}!`;
               renderCountStage(stage, q);
             }
           };
-          box.appendChild(item);
+          parkArea.appendChild(card);
         }
       }
-      stage.appendChild(box);
+
+      stage.appendChild(parkArea);
+
+      // Thảm hoa chân sân cỏ
+      const footerGrass = document.createElement('div');
+      footerGrass.className = 'px-4 pb-1.5 text-center text-xs font-extrabold text-emerald-900/80 pointer-events-none shrink-0';
+      footerGrass.textContent = '🌷 🌼 Chạm vào từng bạn thú cưng trên bãi cỏ để đếm rồi bấm số ở dưới nhé! 🌼 🌷';
+      stage.appendChild(footerGrass);
     }
 
-    // MÀN HÌNH 2: KHAY 10 Ô - TEN FRAME (BÀI 2 TRANG 18)
+    // CẢNH 2: KHAY 10 NGĂN TRỰC QUAN (BÀI 2 TRANG 18)
     function renderTenFrameStage(stage, q) {
-      stage.innerHTML = '';
-      const wrapper = document.createElement('div');
-      wrapper.className = 'w-full max-w-2xl flex flex-col items-center gap-4';
-
+      stage.className = 'flex-1 min-h-0 w-full rounded-3xl shadow-md border-4 border-amber-300 bg-gradient-to-b from-amber-50 to-orange-100 p-3 flex flex-col justify-between items-center overflow-hidden';
       const currentTotal = q.initial + state.userAddedCount;
-      const statusBadge = document.createElement('div');
-      statusBadge.className = 'px-5 py-2 rounded-2xl bg-amber-50 border-2 border-amber-300 font-black text-lg text-amber-900 flex items-center gap-3';
-      statusBadge.innerHTML = `
-        <span>Đã có: <b class="text-pink-600 text-2xl">${q.initial}</b></span>
-        <span>+</span>
-        <span>Bé thêm: <b class="text-sky-600 text-2xl">${state.userAddedCount}</b></span>
-        <span>=</span>
-        <span>Tổng trong khay: <b class="text-emerald-600 text-2xl">${currentTotal}</b> (Mục tiêu: ${q.target})</span>
+
+      stage.innerHTML = `
+        <div class="w-full flex flex-wrap items-center justify-between gap-2 bg-white px-3 py-1.5 rounded-2xl border-2 border-amber-300 shadow-sm shrink-0">
+          <div class="text-xs md:text-base font-black text-slate-700">
+            Có sẵn: <span class="text-pink-600 text-base md:text-xl">${q.initial}</span> ${q.pet.emoji}
+            + Bé thêm: <span class="text-sky-600 text-base md:text-xl">${state.userAddedCount}</span> ${q.pet.emoji}
+          </div>
+          <div class="px-2.5 py-0.5 rounded-xl font-black text-xs md:text-base ${
+            currentTotal === q.target
+              ? 'bg-emerald-500 text-white'
+              : 'bg-amber-100 text-amber-900'
+          }">
+            Tổng khay: ${currentTotal} / Mục tiêu: ${q.target}
+          </div>
+        </div>
       `;
-      wrapper.appendChild(statusBadge);
 
       const grid = document.createElement('div');
-      grid.className = 'ten-frame-grid w-full bg-amber-100/90 p-4 rounded-3xl border-4 border-amber-400 shadow-inner';
+      grid.className = 'ten-frame-grid w-full max-w-xl flex-1 my-2 bg-amber-200/80 p-2.5 rounded-2xl border-4 border-amber-500 shadow-inner';
 
       for (let i = 0; i < 10; i++) {
         const cell = document.createElement('button');
         const isInitial = i < q.initial;
         const isUserAdded = i >= q.initial && i < q.initial + state.userAddedCount;
+        const isTargetSlot = i < q.target;
 
-        cell.className = `btn-bounce h-24 md:h-28 rounded-2xl border-4 flex flex-col items-center justify-center relative transition-all ${
+        cell.className = `btn-bounce rounded-xl border-2 flex flex-col items-center justify-center relative transition-all ${
           isInitial
-            ? 'bg-pink-100 border-pink-400 cursor-default'
+            ? 'bg-pink-100 border-pink-400'
             : isUserAdded
-            ? 'bg-sky-200 border-sky-500 shadow-md'
-            : 'bg-white/80 border-dashed border-amber-400 hover:bg-amber-50'
+            ? 'bg-sky-200 border-sky-600 shadow'
+            : isTargetSlot
+            ? 'bg-white border-dashed border-rose-400'
+            : 'bg-amber-100/50 border-amber-300/60 opacity-60'
         }`;
 
         if (isInitial) {
           cell.innerHTML = `
-            <span class="text-5xl">${q.pet.emoji}</span>
-            <span class="text-xs font-extrabold text-pink-700 mt-1">Có sẵn (${i + 1})</span>
+            <span class="text-3xl sm:text-4xl md:text-5xl">${q.pet.emoji}</span>
+            <span class="text-[10px] font-black text-pink-700">${i + 1}</span>
           `;
         } else if (isUserAdded) {
-          const addedIdx = i - q.initial + 1;
+          const addedNum = i - q.initial + 1;
           cell.innerHTML = `
-            <span class="text-5xl animate-pop">${q.pet.emoji}</span>
-            <span class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-sky-600 text-white font-black text-base flex items-center justify-center border-2 border-white">+${addedIdx}</span>
+            <span class="text-3xl sm:text-4xl md:text-5xl animate-pop">${q.pet.emoji}</span>
+            <span class="absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full bg-sky-600 text-white font-black text-xs flex items-center justify-center border border-white">+${addedNum}</span>
           `;
           cell.onclick = () => {
             state.userAddedCount--;
@@ -546,11 +587,16 @@
             renderTenFrameStage(stage, q);
           };
         } else {
-          cell.innerHTML = `<span class="text-2xl text-amber-400 font-black">+ Chạm thêm</span>`;
+          cell.innerHTML = `
+            <span class="text-xs font-black ${isTargetSlot ? 'text-rose-500' : 'text-amber-500'}">
+              ${isTargetSlot ? '+ Chạm' : `Ô ${i + 1}`}
+            </span>
+          `;
           cell.onclick = () => {
             if (q.initial + state.userAddedCount < 10) {
               state.userAddedCount++;
-              playNote(state.userAddedCount);
+              playNote(state.userAddedCount - 1);
+              speakVietnamese(VIETNAMESE_NUMBER_WORDS[state.userAddedCount]);
               renderTenFrameStage(stage, q);
             }
           };
@@ -558,127 +604,131 @@
         grid.appendChild(cell);
       }
 
-      wrapper.appendChild(grid);
-      stage.appendChild(wrapper);
+      stage.appendChild(grid);
+
+      const hint = document.createElement('div');
+      hint.className = 'text-xs font-extrabold text-amber-900 text-center shrink-0';
+      hint.innerHTML =
+        currentTotal === q.target
+          ? `✅ Đã đủ ${q.target} bạn trong khay! Bé vừa thêm <b class="text-sky-700 text-sm">${state.userAddedCount}</b> ô màu xanh, hãy bấm số <b class="text-rose-600 text-sm">${state.userAddedCount}</b> ở dưới nhé!`
+          : `👆 Bé hãy chạm vào các ô nét đứt cho đến khi đủ ${q.target} bạn nhé!`;
+      stage.appendChild(hint);
     }
 
-    // MÀN HÌNH 3: SƠ ĐỒ TÁCH - GỘP "MẤY VÀ MẤY" (BÀI 5 TRANG 32-36)
+    // CẢNH 3: SƠ ĐỒ TÁCH - GỘP "MẤY VÀ MẤY" (BÀI 5 TRANG 32-36)
     function renderBondStage(stage, q) {
-      stage.innerHTML = '';
-      const wrapper = document.createElement('div');
-      wrapper.className = 'w-full max-w-2xl flex flex-col items-center gap-4';
+      stage.className = 'flex-1 min-h-0 w-full rounded-3xl shadow-md border-4 border-pink-300 bg-gradient-to-b from-pink-50 via-white to-sky-50 p-3 flex flex-col justify-between items-center overflow-hidden';
 
-      // Sơ đồ tròn Tách - Gộp chuẩn SGK Kết Nối Tri Thức Trang 34-35
-      const diagram = document.createElement('div');
-      diagram.className = 'flex items-center justify-center gap-6 md:gap-10 w-full';
-
-      // Khay Trái (Đệm Hồng)
-      const leftBasket = document.createElement('div');
-      leftBasket.className = 'flex-1 bg-pink-50 border-4 border-pink-300 rounded-3xl p-3 flex flex-col items-center min-h-[140px]';
-      leftBasket.innerHTML = `
-        <span class="text-xs font-black text-pink-700 uppercase mb-2">Đệm Hồng (${q.left})</span>
-        <div class="flex flex-wrap justify-center gap-1.5">
-          ${Array(q.left).fill(`<span class="text-4xl animate-pop">${q.pet.emoji}</span>`).join('')}
+      stage.innerHTML = `
+        <!-- Thanh công thức chuẩn SGK Kết Nối Tri Thức Trang 32 & 34 -->
+        <div class="bg-amber-50 border-2 border-amber-300 px-4 py-1.5 rounded-2xl shadow-sm text-base md:text-2xl font-black text-slate-800 shrink-0">
+          ${
+            q.askTotal
+              ? `<span class="text-pink-600">${q.left}</span> và <span class="text-sky-600">${q.right}</span> được <span class="px-2.5 py-0.5 rounded-lg bg-rose-500 text-white animate-pulse">?</span>`
+              : `<span class="text-purple-700">${q.total}</span> gồm <span class="text-pink-600">${q.left}</span> và <span class="px-2.5 py-0.5 rounded-lg bg-rose-500 text-white animate-pulse">?</span>`
+          }
         </div>
-      `;
 
-      // Vòng tròn Sơ đồ Tách-Gộp ở giữa (Giống hệt hình tròn trang 35 SGK)
-      const bondCircle = document.createElement('div');
-      bondCircle.className = 'w-36 h-36 md:w-44 md:h-44 rounded-full bg-amber-100 border-4 border-sky-500 number-bond-circle flex flex-col items-center justify-between p-3 relative shrink-0';
-      bondCircle.innerHTML = `
-        <div class="w-14 h-12 rounded-xl bg-white border-2 border-sky-500 flex items-center justify-center font-black text-3xl ${
-          q.askTotal ? 'text-rose-600 animate-pulse' : 'text-slate-800'
-        }">
-          ${q.askTotal ? '?' : q.total}
-        </div>
-        <div class="w-full h-0.5 bg-sky-300 my-1"></div>
-        <div class="flex items-center justify-around w-full">
-          <div class="w-12 h-11 rounded-xl bg-pink-200 border-2 border-pink-500 flex items-center justify-center font-black text-2xl text-pink-900">
-            ${q.left}
+        <!-- 2 Giỏ Thú Cưng + Sơ Đồ Tròn ở giữa -->
+        <div class="flex-1 w-full grid grid-cols-12 gap-2 items-center my-1 min-h-0">
+          <!-- Giỏ Hồng bên trái -->
+          <div class="col-span-4 h-full max-h-44 bg-pink-100/90 border-4 border-pink-400 rounded-2xl p-2 flex flex-col items-center justify-between">
+            <span class="text-xs font-black text-pink-800 bg-white/80 px-2 py-0.5 rounded-full">
+              Giỏ Hồng: ${q.left}
+            </span>
+            <div class="flex flex-wrap items-center justify-center gap-1 my-auto overflow-y-auto">
+              ${Array(q.left)
+                .fill(`<span class="text-2xl sm:text-3xl md:text-4xl animate-pop">${q.pet.emoji}</span>`)
+                .join('')}
+            </div>
+            <span class="text-[10px] font-bold text-pink-700">Nhóm 1</span>
           </div>
-          <div class="h-10 border-l-2 border-dashed border-sky-500"></div>
-          <div class="w-12 h-11 rounded-xl bg-sky-200 border-2 border-sky-500 flex items-center justify-center font-black text-2xl ${
-            !q.askTotal ? 'text-rose-600 animate-pulse' : 'text-sky-900'
-          }">
-            ${!q.askTotal ? '?' : q.right}
+
+          <!-- Sơ đồ Tròn Tách-Gộp chuẩn SGK Trang 35 -->
+          <div class="col-span-4 flex flex-col items-center justify-center">
+            <div class="w-24 h-24 sm:w-28 sm:h-28 md:w-36 md:h-36 rounded-full bg-amber-100 border-4 border-sky-500 shadow-md flex flex-col items-center justify-between p-2">
+              <div class="w-10 h-8 md:w-12 md:h-10 rounded-lg bg-white border-2 border-sky-600 flex items-center justify-center font-black text-lg md:text-2xl ${
+                q.askTotal ? 'text-rose-600 bg-rose-50' : 'text-purple-800'
+              }">
+                ${q.askTotal ? '?' : q.total}
+              </div>
+              <div class="w-full border-t-2 border-sky-400"></div>
+              <div class="flex items-center justify-around w-full">
+                <div class="w-8 h-8 md:w-10 md:h-9 rounded-lg bg-pink-200 border-2 border-pink-500 flex items-center justify-center font-black text-base md:text-xl text-pink-900">
+                  ${q.left}
+                </div>
+                <div class="h-6 border-l-2 border-dashed border-sky-500"></div>
+                <div class="w-8 h-8 md:w-10 md:h-9 rounded-lg bg-sky-200 border-2 border-sky-500 flex items-center justify-center font-black text-base md:text-xl ${
+                  !q.askTotal ? 'text-rose-600 bg-rose-50' : 'text-sky-900'
+                }">
+                  ${!q.askTotal ? '?' : q.right}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Giỏ Xanh bên phải -->
+          <div class="col-span-4 h-full max-h-44 bg-sky-100/90 border-4 border-sky-400 rounded-2xl p-2 flex flex-col items-center justify-between">
+            <span class="text-xs font-black text-sky-800 bg-white/80 px-2 py-0.5 rounded-full">
+              Giỏ Xanh: ${q.askTotal ? q.right : '?'}
+            </span>
+            <div class="flex flex-wrap items-center justify-center gap-1 my-auto overflow-y-auto">
+              ${Array(q.right)
+                .fill(`<span class="text-2xl sm:text-3xl md:text-4xl animate-pop">${q.pet.emoji}</span>`)
+                .join('')}
+            </div>
+            <span class="text-[10px] font-bold text-sky-700">Nhóm 2</span>
           </div>
         </div>
-      `;
 
-      // Khay Phải (Đệm Xanh)
-      const rightBasket = document.createElement('div');
-      rightBasket.className = 'flex-1 bg-sky-50 border-4 border-sky-300 rounded-3xl p-3 flex flex-col items-center min-h-[140px]';
-      rightBasket.innerHTML = `
-        <span class="text-xs font-black text-sky-700 uppercase mb-2">Đệm Xanh (${q.askTotal ? q.right : '?'})</span>
-        <div class="flex flex-wrap justify-center gap-1.5">
-          ${Array(q.right)
-            .fill(
-              `<span class="text-4xl animate-pop ${ !q.askTotal ? 'opacity-85' : '' }">${q.pet.emoji}</span>`
-            )
-            .join('')}
+        <div class="text-xs font-extrabold text-slate-600 text-center shrink-0">
+          👆 Bé đếm số bạn ${q.pet.name} trong 2 giỏ rồi chọn số đúng cho ô dấu <b class="text-rose-600">?</b> nhé!
         </div>
       `;
-
-      diagram.appendChild(leftBasket);
-      diagram.appendChild(bondCircle);
-      diagram.appendChild(rightBasket);
-      wrapper.appendChild(diagram);
-
-      // Câu chốt chuẩn ngôn ngữ SGK trang 32 & 34
-      const sentenceBox = document.createElement('div');
-      sentenceBox.className = 'bg-white px-6 py-3 rounded-2xl border-2 border-pink-200 shadow-sm text-xl md:text-2xl font-black text-slate-800';
-      sentenceBox.innerHTML = q.askTotal
-        ? `<span class="text-pink-600">${q.left}</span> và <span class="text-sky-600">${q.right}</span> được <span class="px-3 py-0.5 rounded-lg bg-rose-100 text-rose-600">?</span>`
-        : `<span class="text-purple-700">${q.total}</span> gồm <span class="text-pink-600">${q.left}</span> và <span class="px-3 py-0.5 rounded-lg bg-rose-100 text-rose-600">?</span>`;
-      wrapper.appendChild(sentenceBox);
-
-      stage.appendChild(wrapper);
     }
 
-    // MÀN HÌNH 4: BỘ SƯU TẬP THÚ CƯNG CỦA BÉ (META-GAME)
+    // CẢNH 4: BỘ SƯU TẬP THÚ CƯNG
     function renderPetSanctuary(stage) {
-      document.getElementById('sgk-badge').textContent = 'Phần Thưởng Của Bé';
-      document.getElementById('question-title').textContent = 'Ngôi Nhà Thú Cưng Mà Bé Đã Nhận Nuôi!';
-      stage.innerHTML = '';
+      stage.className = 'flex-1 min-h-0 w-full rounded-3xl shadow-md border-4 border-purple-300 bg-white p-3 overflow-y-auto';
+      document.getElementById('question-title').textContent = 'Bộ sưu tập Thú Cưng của Bé (Chạm vào thú cưng để nghe chào!)';
 
       const grid = document.createElement('div');
-      grid.className = 'grid grid-cols-2 md:grid-cols-4 gap-3.5 w-full h-full overflow-y-auto p-2';
+      grid.className = 'grid grid-cols-2 sm:grid-cols-4 gap-2.5';
 
       PET_CATALOG.forEach(pet => {
         const unlocked = state.stars >= pet.unlockedAt;
         const card = document.createElement('button');
-        card.className = `btn-bounce rounded-3xl p-4 border-4 flex flex-col items-center justify-center text-center transition-all ${
+        card.className = `btn-bounce rounded-2xl p-3 border-2 flex flex-col items-center text-center ${
           unlocked
-            ? 'bg-gradient-to-b from-white to-pink-50 border-pink-300 shadow-md'
-            : 'bg-slate-100 border-slate-300 opacity-70'
+            ? `bg-gradient-to-b ${pet.bg} border-pink-400 shadow-sm`
+            : 'bg-slate-100 border-slate-300 opacity-60'
         }`;
         card.innerHTML = `
-          <div class="text-6xl mb-2 ${unlocked ? 'animate-float' : 'grayscale'}">${unlocked ? pet.emoji : '🔒'}</div>
-          <div class="font-black text-base text-slate-800">${pet.name}</div>
-          <div class="text-xs font-bold text-slate-500 mt-1">${
-            unlocked ? `Món khoái khẩu: ${pet.food} •${pet.desc}` : `Cần đạt ${pet.unlockedAt} ⭐ để mở khóa`
-          }</div>
+          <div class="text-4xl md:text-5xl mb-1">${unlocked ? pet.emoji : '🔒'}</div>
+          <div class="font-black text-xs md:text-sm text-slate-800">${pet.name}</div>
+          <div class="text-[11px] font-bold text-slate-600 mt-0.5">
+            ${unlocked ? `Thích ăn: ${pet.food}` : `Mở ở ${pet.unlockedAt} ⭐`}
+          </div>
         `;
         if (unlocked) {
           card.onclick = () => {
             playSuccessSound();
-            speakVietnamese(`Xin chào! Mình là ${pet.name}. Cảm ơn bé đã học toán thật giỏi!`);
+            speakVietnamese(`Chào bé ngoan! Mình là ${pet.name} đây!`);
           };
         }
         grid.appendChild(card);
       });
 
+      stage.innerHTML = '';
       stage.appendChild(grid);
     }
 
     /********************************************************************
-     * 5. KIỂM TRA ĐÁP ÁN & ĐIỀU KHIỂN PHẢN HỒI SƯ PHẠM
+     * 5. XỬ LÝ TRẢ LỜI & CHUYỂN CHẾ ĐỘ
      ********************************************************************/
     function handleAnswerSubmit(selectedNum) {
       const q = state.currentQuestion;
       if (!q) return;
-
-      document.getElementById('answer-slot-preview').textContent = selectedNum;
 
       if (selectedNum === q.answer) {
         state.stars += 1;
@@ -688,29 +738,19 @@
         playSuccessSound();
         launchConfetti();
 
-        const praises = [
-          'Xuất sắc quá! Bé trả lời đúng rồi!',
-          'Giỏi lắm! Các bạn thú cưng rất tự hào về bé!',
-          'Tuyệt vời! Bé được thưởng thêm một ngôi sao!'
-        ];
-        const msg = praises[Math.floor(Math.random() * praises.length)];
-        document.getElementById('feedback-text').textContent = `🌟 ${msg}`;
-        speakVietnamese(msg);
+        const praise = `Đúng rồi! Số ${selectedNum}. Bé giỏi quá!`;
+        document.getElementById('feedback-text').textContent = `🌟 ${praise}`;
+        speakVietnamese(praise);
 
         setTimeout(() => {
           generateQuestion();
-        }, 1400);
+        }, 1500);
       } else {
         state.streak = 0;
         playGentleRetrySound();
-        const hintMsg =
-          q.type === 'count'
-            ? `Chưa đúng rồi! Bé chạm vào từng bạn ${q.pet.name} để đếm lại thật chậm nhé!`
-            : q.type === 'tenframe'
-            ? `Gần đúng rồi! Trong khay có ${q.initial}, bé đếm xem cần thêm mấy ô màu xanh nữa để đủ ${q.target} nhé!`
-            : `Bé nhìn vào sơ đồ tròn và đếm lại số bạn ${q.pet.name} ở mỗi đệm nhé!`;
-        document.getElementById('feedback-text').textContent = `💡 ${hintMsg}`;
-        speakVietnamese('Chưa đúng rồi, mình đếm lại một lần nữa nhé!');
+        const retryMsg = `Chưa đúng số ${selectedNum} rồi, bé đếm lại từng bạn trên hình nhé!`;
+        document.getElementById('feedback-text').textContent = `💡 ${retryMsg}`;
+        speakVietnamese(retryMsg);
       }
     }
 
@@ -719,9 +759,9 @@
       ['count', 'tenframe', 'bond', 'pets'].forEach(m => {
         const btn = document.getElementById(`tab-${m}`);
         if (m === newMode) {
-          btn.className = 'btn-bounce px-3.5 py-2 rounded-xl font-extrabold text-sm md:text-base transition-all bg-pink-500 text-white shadow';
+          btn.className = 'btn-bounce py-1.5 px-1 rounded-lg font-black text-xs md:text-sm text-center bg-pink-500 text-white shadow';
         } else {
-          btn.className = 'btn-bounce px-3.5 py-2 rounded-xl font-extrabold text-sm md:text-base transition-all text-pink-700 hover:bg-pink-100';
+          btn.className = 'btn-bounce py-1.5 px-1 rounded-lg font-black text-xs md:text-sm text-center text-pink-700';
         }
       });
       if (newMode === 'pets') {
@@ -735,18 +775,17 @@
       generateQuestion();
     }
 
-    // HIỆU ỨNG PHÁO GIẤY NHẸ MƯỢT TRÊN IPAD
     function launchConfetti() {
       const canvas = document.getElementById('confetti-canvas');
       const ctx = canvas.getContext('2d');
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      const pieces = Array.from({ length: 45 }, () => ({
+      const pieces = Array.from({ length: 40 }, () => ({
         x: canvas.width / 2,
         y: canvas.height / 2,
-        vx: (Math.random() - 0.5) * 16,
-        vy: (Math.random() - 0.8) * 16,
-        size: Math.random() * 8 + 6,
+        vx: (Math.random() - 0.5) * 14,
+        vy: (Math.random() - 0.8) * 14,
+        size: Math.random() * 7 + 5,
         color: ['#ec4899', '#f59e0b', '#8b5cf6', '#10b981', '#3b82f6'][Math.floor(Math.random() * 5)]
       }));
 
@@ -761,15 +800,15 @@
           ctx.fillRect(p.x, p.y, p.size, p.size);
         });
         frame++;
-        if (frame < 45) requestAnimationFrame(animate);
+        if (frame < 40) requestAnimationFrame(animate);
         else ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
       animate();
     }
 
-    // KHỞI ĐỘNG ỨNG DỤNG
+    // KHỞI CHẠY
     renderNumpad();
     generateQuestion();
-    </script>
+  </script>
 </body>
 </html>
