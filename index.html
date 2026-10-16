@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Toán Của Gấu" />
   <link rel="manifest" href="./manifest.json" />
-  <title>Toán Lớp 1 Của Gấu Minh Anh</title>
+  <title>Toán Lớp 1 Kết nối tri thức tập 1</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>if ('caches' in window) caches.keys().then(keys => keys.forEach(k => caches.delete(k)));</script>
   <style>
@@ -31,32 +31,15 @@
     .gau-avatar-img { object-fit: cover; width: 100%; height: 100%; }
     .strikethrough-pet { position: relative; opacity: 0.4; }
     .strikethrough-pet::after { content: "✕"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #e11d48; font-size: 2rem; font-weight: 900; }
-    
-    /* CSS Không Gian 3D */
     .scene-3d { perspective: 600px; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; margin: 0 auto; }
     .obj-3d { position: relative; transform-style: preserve-3d; animation: spin3d 6s infinite linear; }
     .face { position: absolute; border: 3px solid rgba(255,255,255,0.7); display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 2rem; }
-    
-    /* Khối lập phương (Cube 80x80) */
     .cube { width: 80px; height: 80px; }
     .cube .face { width: 80px; height: 80px; background: rgba(56, 189, 248, 0.9); }
-    .cube .front  { transform: translateZ(40px); }
-    .cube .back   { transform: rotateY(180deg) translateZ(40px); }
-    .cube .right  { transform: rotateY(90deg) translateZ(40px); }
-    .cube .left   { transform: rotateY(-90deg) translateZ(40px); }
-    .cube .top    { transform: rotateX(90deg) translateZ(40px); }
-    .cube .bottom { transform: rotateX(-90deg) translateZ(40px); }
-
-    /* Khối hộp chữ nhật (Cuboid 80x120x60) */
+    .cube .front  { transform: translateZ(40px); } .cube .back   { transform: rotateY(180deg) translateZ(40px); } .cube .right  { transform: rotateY(90deg) translateZ(40px); } .cube .left   { transform: rotateY(-90deg) translateZ(40px); } .cube .top    { transform: rotateX(90deg) translateZ(40px); } .cube .bottom { transform: rotateX(-90deg) translateZ(40px); }
     .cuboid { width: 80px; height: 120px; }
     .cuboid .face { background: rgba(250, 204, 21, 0.9); }
-    .cuboid .front  { width: 80px; height: 120px; transform: translateZ(30px); }
-    .cuboid .back   { width: 80px; height: 120px; transform: rotateY(180deg) translateZ(30px); }
-    .cuboid .right  { width: 60px; height: 120px; transform: rotateY(90deg) translateZ(50px); }
-    .cuboid .left   { width: 60px; height: 120px; transform: rotateY(-90deg) translateZ(30px); }
-    .cuboid .top    { width: 80px; height: 60px; transform: rotateX(90deg) translateZ(30px); }
-    .cuboid .bottom { width: 80px; height: 60px; transform: rotateX(-90deg) translateZ(90px); }
-
+    .cuboid .front  { width: 80px; height: 120px; transform: translateZ(30px); } .cuboid .back   { width: 80px; height: 120px; transform: rotateY(180deg) translateZ(30px); } .cuboid .right  { width: 60px; height: 120px; transform: rotateY(90deg) translateZ(50px); } .cuboid .left   { width: 60px; height: 120px; transform: rotateY(-90deg) translateZ(30px); } .cuboid .top    { width: 80px; height: 60px; transform: rotateX(90deg) translateZ(30px); } .cuboid .bottom { width: 80px; height: 60px; transform: rotateX(-90deg) translateZ(90px); }
     @keyframes spin3d { from { transform: rotateX(0deg) rotateY(0deg); } to { transform: rotateX(360deg) rotateY(360deg); } }
   </style>
 </head>
@@ -64,13 +47,13 @@
 
   <div id="app-root" class="w-full h-full max-w-5xl mx-auto flex flex-col relative bg-gradient-to-b from-sky-50 to-pink-50">
 
-    <!-- 1. MÀN HÌNH CHÀO -->
+    <!-- MÀN HÌNH CHÀO -->
     <div id="welcome-view" class="flex flex-col items-center justify-center h-full p-4 text-center animate-pop z-10 bg-gradient-to-b from-sky-400 to-indigo-600 rounded-3xl text-white shadow-2xl">
       <div class="relative mb-4">
         <div id="welcome-avatar-box" class="w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-white border-4 border-amber-300 flex items-center justify-center text-6xl shadow-2xl overflow-hidden animate-float">🐻</div>
         <span class="absolute -bottom-1 -right-1 bg-amber-400 text-amber-950 text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-full border-2 border-white">Bé Gấu 🎀</span>
       </div>
-      <span class="bg-white/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider mb-2">Toán lớp 1 Kết nối tri thức tập 1</span>
+      <span class="bg-white/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider mb-2">Toán lớp 1 kết nối tri thức tập 1</span>
       <h1 class="text-3xl sm:text-4xl md:text-5xl font-black mb-2 drop-shadow-md">THỊ TRẤN THÚ CƯNG</h1>
       <p class="text-sm sm:text-base font-bold text-sky-100 mb-8">
       <button onclick="startAppWithAudio()" class="btn-3d bg-amber-400 border-b-[6px] border-amber-600 text-amber-950 font-black text-xl sm:text-2xl px-8 py-4 rounded-2xl shadow-xl flex items-center gap-2">
@@ -79,12 +62,13 @@
       <button onclick="document.getElementById('parent-modal').classList.remove('hidden')" class="mt-6 text-xs font-extrabold bg-white/15 px-4 py-2 rounded-xl">⚙️ Đổi ảnh đại diện</button>
     </div>
 
-    <!-- 2. DASHBOARD VIEW -->
+    <!-- DASHBOARD -->
     <div id="dashboard-view" class="hidden flex-col w-full h-full animate-pop relative px-2 py-4">
       <div class="absolute top-2 left-1/2 -translate-x-1/2 z-20 w-11/12 max-w-sm"><div class="wood-sign px-4 py-2 text-center"><h1 class="text-lg sm:text-2xl font-black text-amber-100 uppercase drop-shadow-md">Thành Tích Của Gấu</h1></div></div>
       <div class="flex-1 board-3d mt-10 p-3 sm:p-5 flex flex-col sm:flex-row gap-3 overflow-hidden">
-        <div class="w-full sm:w-1/3 bg-gradient-to-b from-sky-100 to-indigo-50 rounded-[1.5rem] border-4 border-white flex flex-col items-center justify-center p-4 shadow-inner shrink-0">
-          <div id="dash-avatar-box" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white border-4 border-pink-300 overflow-hidden text-5xl flex items-center justify-center mb-3 animate-float">🐻</div>
+        <div class="w-full sm:w-1/3 bg-gradient-to-b from-sky-100 to-indigo-50 rounded-[1.5rem] border-4 border-white flex flex-col items-center justify-center p-4 shadow-inner shrink-0 relative">
+          <div class="absolute top-3 left-3 bg-emerald-100 text-emerald-800 px-3 py-1 rounded-xl text-xs font-black shadow-sm">Cấp độ: <span id="dash-level" class="text-emerald-600 text-lg">1</span></div>
+          <div id="dash-avatar-box" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white border-4 border-pink-300 overflow-hidden text-5xl flex items-center justify-center mb-3 mt-6 animate-float">🐻</div>
           <h2 class="text-xl sm:text-2xl font-black text-slate-800">Gấu Chăm Chỉ</h2>
           <button onclick="switchView('map-view')" class="mt-4 btn-3d w-full bg-emerald-500 border-b-[6px] border-emerald-700 text-white text-lg sm:text-xl font-black py-3 rounded-2xl shadow flex justify-center items-center gap-2">🗺️ Mở Bản Đồ</button>
         </div>
@@ -96,21 +80,21 @@
           <div class="bg-pink-50 rounded-2xl p-3 border-2 border-pink-200 flex-1 flex flex-col min-h-[120px]">
             <div class="font-black text-pink-800 text-sm mb-2">🎁 Huy hiệu các trạm</div>
             <div class="flex gap-2 overflow-x-auto pb-2 flex-1 items-center">
-              <div class="flex flex-col items-center shrink-0"><div class="w-12 h-12 bg-white rounded-xl border-2 border-emerald-300 flex items-center justify-center text-xl shadow">🐾</div><span class="text-[10px] font-bold mt-1">Đếm</span></div>
-              <div class="flex flex-col items-center shrink-0"><div class="w-12 h-12 bg-white rounded-xl border-2 border-amber-300 flex items-center justify-center text-xl shadow">🍱</div><span class="text-[10px] font-bold mt-1">Tách</span></div>
-              <div class="flex flex-col items-center shrink-0"><div class="w-12 h-12 bg-white rounded-xl border-2 border-sky-300 flex items-center justify-center text-xl shadow">🐰</div><span class="text-[10px] font-bold mt-1">Ghép</span></div>
-              <div class="flex flex-col items-center shrink-0"><div class="w-12 h-12 bg-white rounded-xl border-2 border-amber-400 flex items-center justify-center text-xl shadow">⚖️</div><span class="text-[10px] font-bold mt-1">So Sánh</span></div>
-              <div class="flex flex-col items-center shrink-0"><div class="w-12 h-12 bg-white rounded-xl border-2 border-pink-400 flex items-center justify-center text-xl shadow">➕</div><span class="text-[10px] font-bold mt-1">Cộng</span></div>
-              <div class="flex flex-col items-center shrink-0"><div class="w-12 h-12 bg-white rounded-xl border-2 border-rose-400 flex items-center justify-center text-xl shadow">➖</div><span class="text-[10px] font-bold mt-1">Trừ</span></div>
-              <div class="flex flex-col items-center shrink-0"><div class="w-12 h-12 bg-white rounded-xl border-2 border-indigo-400 flex items-center justify-center text-xl shadow">🔺</div><span class="text-[10px] font-bold mt-1">Hình</span></div>
-              <div class="flex flex-col items-center shrink-0"><div class="w-12 h-12 bg-white rounded-xl border-2 border-purple-400 flex items-center justify-center text-xl shadow">🧊</div><span class="text-[10px] font-bold mt-1">Không Gian</span></div>
+              <div class="flex flex-col items-center shrink-0"><div class="w-12 h-12 bg-white rounded-xl border-2 border-emerald-300 flex items-center justify-center text-xl shadow">🐾</div></div>
+              <div class="flex flex-col items-center shrink-0"><div class="w-12 h-12 bg-white rounded-xl border-2 border-amber-300 flex items-center justify-center text-xl shadow">🍱</div></div>
+              <div class="flex flex-col items-center shrink-0"><div class="w-12 h-12 bg-white rounded-xl border-2 border-sky-300 flex items-center justify-center text-xl shadow">🐰</div></div>
+              <div class="flex flex-col items-center shrink-0"><div class="w-12 h-12 bg-white rounded-xl border-2 border-blue-300 flex items-center justify-center text-xl shadow">⚖️</div></div>
+              <div class="flex flex-col items-center shrink-0"><div class="w-12 h-12 bg-white rounded-xl border-2 border-purple-300 flex items-center justify-center text-xl shadow">➕</div></div>
+              <div class="flex flex-col items-center shrink-0"><div class="w-12 h-12 bg-white rounded-xl border-2 border-rose-300 flex items-center justify-center text-xl shadow">➖</div></div>
+              <div class="flex flex-col items-center shrink-0"><div class="w-12 h-12 bg-white rounded-xl border-2 border-indigo-300 flex items-center justify-center text-xl shadow">🔺</div></div>
+              <div class="flex flex-col items-center shrink-0"><div class="w-12 h-12 bg-white rounded-xl border-2 border-slate-300 flex items-center justify-center text-xl shadow">🧊</div></div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 3. MAP VIEW (BẢN ĐỒ CÁC TRẠM) -->
+    <!-- MAP VIEW -->
     <div id="map-view" class="hidden flex-col w-full h-full animate-pop relative px-1 py-2 sm:p-2">
       <header class="bg-white rounded-2xl shadow border-2 border-emerald-200 px-2 py-2 shrink-0 flex justify-between items-center z-10 mb-2">
         <button onclick="switchView('dashboard-view')" class="btn-3d bg-slate-100 font-black text-slate-600 px-3 py-1.5 rounded-xl border-b-4 border-slate-300 text-xs sm:text-sm">⬅️ Trở về</button>
@@ -118,65 +102,55 @@
       </header>
       <div class="flex-1 board-3d map-bg p-3 flex flex-col items-center overflow-y-auto relative">
         <div class="w-full max-w-sm flex flex-col gap-3 py-2">
-          
           <button onclick="openStationModal('all', 'Lâu Đài Tổng Ôn')" class="btn-3d w-full bg-gradient-to-r from-purple-500 to-indigo-500 border-b-[6px] border-indigo-700 rounded-2xl p-3 shadow-xl flex items-center gap-3">
             <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-white/20 flex items-center justify-center text-3xl sm:text-4xl shrink-0">🏰</div>
-            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-purple-200 uppercase truncate">Trạm Cuối • Điểm 10</div><div class="text-base sm:text-xl font-black text-white truncate">Lâu Đài Tổng Ôn</div></div>
+            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-purple-200 uppercase truncate">Trạm Cuối</div><div class="text-base sm:text-xl font-black text-white truncate">Lâu Đài Tổng Ôn</div></div>
           </button>
           <div class="w-1.5 h-3 bg-emerald-400 mx-auto border-l-2 border-dashed border-white opacity-60"></div>
-          
-          <!-- Trạm 8 Mới: Không gian 3D -->
-          <button onclick="openStationModal('space3d', 'Vũ Trụ Không Gian')" class="btn-3d w-full bg-white border-4 border-purple-400 rounded-2xl p-3 shadow-md flex items-center gap-3">
-            <div class="w-12 h-12 rounded-xl bg-purple-100 border-2 border-purple-400 flex items-center justify-center text-2xl shrink-0">🧊</div>
-            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-purple-500 truncate">Trạm 8 • SGK Tr92, 96</div><div class="text-sm sm:text-lg font-black text-slate-800 truncate">Vũ Trụ Không Gian</div></div>
+          <button onclick="openStationModal('space3d', 'Vũ Trụ Không Gian')" class="btn-3d w-full bg-white border-4 border-slate-400 rounded-2xl p-3 shadow-md flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl bg-slate-100 border-2 border-slate-400 flex items-center justify-center text-2xl shrink-0">🧊</div>
+            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-slate-500 truncate">Trạm 8</div><div class="text-sm sm:text-lg font-black text-slate-800 truncate">Vũ Trụ Không Gian</div></div>
           </button>
           <div class="w-1.5 h-3 bg-emerald-400 mx-auto border-l-2 border-dashed border-white opacity-60"></div>
-
           <button onclick="openStationModal('shape', 'Thung Lũng Hình Học')" class="btn-3d w-full bg-white border-4 border-indigo-400 rounded-2xl p-3 shadow-md flex items-center gap-3">
             <div class="w-12 h-12 rounded-xl bg-indigo-100 border-2 border-indigo-400 flex items-center justify-center text-2xl shrink-0">🔺</div>
-            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-indigo-500 truncate">Trạm 7 • SGK Tr46</div><div class="text-sm sm:text-lg font-black text-slate-800 truncate">Thung Lũng Hình Học</div></div>
+            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-indigo-500 truncate">Trạm 7</div><div class="text-sm sm:text-lg font-black text-slate-800 truncate">Thung Lũng Hình Học</div></div>
           </button>
           <div class="w-1.5 h-3 bg-emerald-400 mx-auto border-l-2 border-dashed border-white opacity-60"></div>
-
           <button onclick="openStationModal('subtraction', 'Thác Phép Trừ')" class="btn-3d w-full bg-white border-4 border-rose-400 rounded-2xl p-3 shadow-md flex items-center gap-3">
             <div class="w-12 h-12 rounded-xl bg-rose-100 border-2 border-rose-400 flex items-center justify-center text-2xl shrink-0 text-rose-600 font-black">➖</div>
-            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-rose-500 truncate">Trạm 6 • SGK Tr68</div><div class="text-sm sm:text-lg font-black text-slate-800 truncate">Thác Phép Trừ</div></div>
+            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-rose-500 truncate">Trạm 6</div><div class="text-sm sm:text-lg font-black text-slate-800 truncate">Thác Phép Trừ</div></div>
           </button>
           <div class="w-1.5 h-3 bg-emerald-400 mx-auto border-l-2 border-dashed border-white opacity-60"></div>
-
           <button onclick="openStationModal('addition', 'Đồi Phép Cộng')" class="btn-3d w-full bg-white border-4 border-pink-400 rounded-2xl p-3 shadow-md flex items-center gap-3">
             <div class="w-12 h-12 rounded-xl bg-pink-100 border-2 border-pink-400 flex items-center justify-center text-2xl shrink-0">➕</div>
-            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-pink-500 truncate">Trạm 5 • SGK Tr56</div><div class="text-sm sm:text-lg font-black text-slate-800 truncate">Đồi Phép Cộng</div></div>
+            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-pink-500 truncate">Trạm 5</div><div class="text-sm sm:text-lg font-black text-slate-800 truncate">Đồi Phép Cộng</div></div>
           </button>
           <div class="w-1.5 h-3 bg-emerald-400 mx-auto border-l-2 border-dashed border-white opacity-60"></div>
-          
           <button onclick="openStationModal('compare', 'Đỉnh Núi So Sánh')" class="btn-3d w-full bg-white border-4 border-amber-400 rounded-2xl p-3 shadow-md flex items-center gap-3">
             <div class="w-12 h-12 rounded-xl bg-amber-100 border-2 border-amber-400 flex items-center justify-center text-2xl shrink-0">⚖️</div>
-            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-amber-500 truncate">Trạm 4 • Dấu >, <, =</div><div class="text-sm sm:text-lg font-black text-slate-800 truncate">Đỉnh Núi So Sánh</div></div>
+            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-amber-500 truncate">Trạm 4</div><div class="text-sm sm:text-lg font-black text-slate-800 truncate">Đỉnh Núi So Sánh</div></div>
           </button>
           <div class="w-1.5 h-3 bg-emerald-400 mx-auto border-l-2 border-dashed border-white opacity-60"></div>
-          
           <button onclick="openStationModal('match', 'Suối Ghép Đôi')" class="btn-3d w-full bg-white border-4 border-sky-400 rounded-2xl p-3 shadow-md flex items-center gap-3">
             <div class="w-12 h-12 rounded-xl bg-sky-100 border-2 border-sky-400 flex items-center justify-center text-2xl shrink-0">🐰</div>
-            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-sky-500 truncate">Trạm 3 • Ghép Cặp</div><div class="text-sm sm:text-lg font-black text-slate-800 truncate">Suối Ghép Đôi</div></div>
+            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-sky-500 truncate">Trạm 3</div><div class="text-sm sm:text-lg font-black text-slate-800 truncate">Suối Ghép Đôi</div></div>
           </button>
           <div class="w-1.5 h-3 bg-emerald-400 mx-auto border-l-2 border-dashed border-white opacity-60"></div>
-          
           <button onclick="openStationModal('tenframe_bond', 'Trại Tách Gộp')" class="btn-3d w-full bg-white border-4 border-orange-400 rounded-2xl p-3 shadow-md flex items-center gap-3">
             <div class="w-12 h-12 rounded-xl bg-orange-100 border-2 border-orange-400 flex items-center justify-center text-2xl shrink-0">🍱</div>
-            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-orange-500 truncate">Trạm 2 • Khay 10 & Tách</div><div class="text-sm sm:text-lg font-black text-slate-800 truncate">Trại Tách Gộp</div></div>
+            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-orange-500 truncate">Trạm 2</div><div class="text-sm sm:text-lg font-black text-slate-800 truncate">Trại Tách Gộp</div></div>
           </button>
           <div class="w-1.5 h-3 bg-emerald-400 mx-auto border-l-2 border-dashed border-white opacity-60"></div>
-          
           <button onclick="openStationModal('count', 'Rừng Đếm Số')" class="btn-3d w-full bg-white border-4 border-emerald-400 rounded-2xl p-3 shadow-md flex items-center gap-3">
             <div class="w-12 h-12 rounded-xl bg-emerald-100 border-2 border-emerald-400 flex items-center justify-center text-2xl shrink-0">🐾</div>
-            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-emerald-500 truncate">Trạm 1 • Đếm 1-10</div><div class="text-sm sm:text-lg font-black text-slate-800 truncate">Rừng Đếm Số</div></div>
+            <div class="text-left min-w-0 flex-1"><div class="text-[10px] sm:text-xs font-black text-emerald-500 truncate">Trạm 1</div><div class="text-sm sm:text-lg font-black text-slate-800 truncate">Rừng Đếm Số</div></div>
           </button>
         </div>
       </div>
     </div>
 
-    <!-- 4. GAME VIEW -->
+    <!-- GAME VIEW -->
     <div id="game-view" class="hidden flex-col w-full h-full animate-pop relative px-1 py-1 sm:p-2 gap-1.5">
       <header class="bg-white/95 backdrop-blur rounded-2xl p-2 border-2 border-white shadow-sm flex items-center justify-between shrink-0 gap-2">
         <button onclick="switchView('map-view')" class="btn-3d w-9 h-9 sm:w-10 sm:h-10 bg-sky-400 border-b-4 border-sky-600 rounded-xl text-white text-base sm:text-lg flex items-center justify-center shrink-0">⬅️</button>
@@ -184,6 +158,11 @@
           <div id="game-title" class="font-black text-[11px] sm:text-sm text-slate-800 truncate leading-tight">Câu hỏi...</div>
         </div>
         <div class="flex items-center gap-1.5 shrink-0">
+          <!-- Hiển thị Trạng thái Khó (Level) theo thời gian thực -->
+          <div class="hidden sm:flex items-center gap-1 bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-lg border border-emerald-300 shadow-inner">
+            <span class="text-[10px] font-black uppercase">Cấp</span>
+            <span id="game-level-txt" class="text-xs font-black">1</span>
+          </div>
           <div class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded-lg font-black text-xs sm:text-sm border border-amber-300">⭐ <span id="game-stars-txt">0</span></div>
           <button onclick="speakCurrentQuestion()" class="btn-3d bg-sky-500 border-b-[3px] border-sky-700 text-white font-black px-2.5 py-1 rounded-lg text-xs sm:text-sm">🔊</button>
         </div>
@@ -194,6 +173,12 @@
       <main id="game-stage" class="flex-1 board-3d p-1.5 sm:p-3 flex flex-col relative overflow-hidden"></main>
       <footer id="game-controls" class="bg-white rounded-2xl shadow border-2 border-slate-200 p-1.5 shrink-0 flex flex-col gap-1"></footer>
     </div>
+
+    <!-- NOTIFICATION SYSTEM FOR ADAPTIVE LEARNING -->
+    <div id="system-notification" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-slate-800/90 text-white font-black text-sm px-6 py-2 rounded-full shadow-2xl transition-all duration-500 opacity-0 pointer-events-none transform -translate-y-4">
+      Đang tăng độ khó...
+    </div>
+
   </div>
 
   <!-- MODALS -->
@@ -213,7 +198,7 @@
       <div class="bg-sky-500 text-white px-4 py-3 flex justify-between items-center"><h3 id="modal-station-title" class="font-black text-base sm:text-lg truncate">Trạm</h3><button onclick="document.getElementById('station-modal').classList.add('hidden')" class="font-black px-2">✕</button></div>
       <div class="p-4 flex flex-col gap-3 bg-sky-50">
         <button onclick="startGame(false)" class="btn-3d bg-white border-4 border-emerald-400 border-b-[6px] rounded-2xl p-3 sm:p-4 text-left flex gap-3 sm:gap-4 items-center shadow-sm">
-          <span class="text-3xl sm:text-4xl">🎓</span><div class="min-w-0"><div class="font-black text-emerald-600 text-base sm:text-lg">Học Ôn Tập</div><div class="text-[10px] sm:text-xs text-slate-500 font-bold truncate">Chơi vui, sai được làm lại</div></div>
+          <span class="text-3xl sm:text-4xl">🎓</span><div class="min-w-0"><div class="font-black text-emerald-600 text-base sm:text-lg">Học Ôn Tập</div><div class="text-[10px] sm:text-xs text-slate-500 font-bold truncate">Hệ thống tự chỉnh độ khó</div></div>
         </button>
         <button onclick="startGame(true)" class="btn-3d bg-white border-4 border-amber-400 border-b-[6px] rounded-2xl p-3 sm:p-4 text-left flex gap-3 sm:gap-4 items-center shadow-sm">
           <span class="text-3xl sm:text-4xl">📝</span><div class="min-w-0"><div class="font-black text-amber-600 text-base sm:text-lg">Thử Tài Lấy Điểm</div><div class="text-[10px] sm:text-xs text-slate-500 font-bold truncate">5 câu lấy Cúp vàng</div></div>
@@ -237,8 +222,6 @@
   <script>
     const CHILD_NAME = 'Gấu';
     const EMOJIS = ['🐶', '🐱', '🐰', '🐼', '🦊', '🍓'];
-    const WORDS_VI = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín', 'mười'];
-
     const SHAPES = [
       { id: 'Hình tròn', svg: '<svg viewBox="0 0 100 100" class="w-full h-full fill-rose-500 drop-shadow-md"><circle cx="50" cy="50" r="42" /></svg>' },
       { id: 'Hình vuông', svg: '<svg viewBox="0 0 100 100" class="w-full h-full fill-blue-500 drop-shadow-md"><rect x="10" y="10" width="80" height="80" rx="8" /></svg>' },
@@ -246,11 +229,17 @@
       { id: 'Hình chữ nhật', svg: '<svg viewBox="0 0 100 100" class="w-full h-full fill-emerald-500 drop-shadow-md"><rect x="5" y="25" width="90" height="50" rx="6" /></svg>' }
     ];
 
+    /* TÍCH HỢP ĐỘNG CƠ ĐIỀU KHIỂN THÍCH NGHI (ADAPTIVE LEARNING STATE) */
     const state = {
       stars: parseInt(localStorage.getItem('toan1_stars') || '0', 10),
       stationId: null, isTest: false,
       test: { total: 5, current: 0, correct: 0, questions: [] },
-      q: null
+      q: null,
+      
+      // Control System Variables
+      level: parseInt(localStorage.getItem('toan1_level') || '1', 10), // Level 1 to 5
+      history: [], // Stores {correct: boolean, timeMs: number}
+      startTime: 0
     };
 
     let audioCtx = null;
@@ -287,11 +276,22 @@
       if (type === 'pop') { osc.type = 'sine'; osc.frequency.setValueAtTime(440, audioCtx.currentTime); gain.gain.setValueAtTime(0.2, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15); osc.start(); osc.stop(audioCtx.currentTime + 0.15); }
       else if (type === 'success') { osc.type = 'triangle'; osc.frequency.setValueAtTime(659.25, audioCtx.currentTime); gain.gain.setValueAtTime(0.2, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4); osc.start(); osc.stop(audioCtx.currentTime + 0.4); }
       else if (type === 'wrong') { osc.type = 'sawtooth'; osc.frequency.setValueAtTime(200, audioCtx.currentTime); osc.frequency.linearRampToValueAtTime(150, audioCtx.currentTime + 0.2); gain.gain.setValueAtTime(0.1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2); osc.start(); osc.stop(audioCtx.currentTime + 0.2); }
+      else if (type === 'levelup') { osc.type = 'square'; osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); osc.frequency.setValueAtTime(659.25, audioCtx.currentTime+0.1); osc.frequency.setValueAtTime(783.99, audioCtx.currentTime+0.2); gain.gain.setValueAtTime(0.2, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4); osc.start(); osc.stop(audioCtx.currentTime + 0.4); }
     }
 
-    function updateStarsUI() {
+    function updateUIStates() {
       const e1 = document.getElementById('dash-stars'); if(e1) e1.textContent = state.stars;
       const e2 = document.getElementById('game-stars-txt'); if(e2) e2.textContent = state.stars;
+      const e3 = document.getElementById('dash-level'); if(e3) e3.textContent = state.level;
+      const e4 = document.getElementById('game-level-txt'); if(e4) e4.textContent = state.level;
+    }
+
+    function showNotification(msg, type) {
+      const notif = document.getElementById('system-notification');
+      notif.textContent = msg;
+      notif.className = `fixed top-20 left-1/2 -translate-x-1/2 z-50 font-black text-sm px-6 py-2 rounded-full shadow-2xl transition-all duration-300 transform ${type === 'up' ? 'bg-emerald-500 text-white' : 'bg-amber-400 text-amber-950'}`;
+      notif.style.opacity = '1'; notif.style.transform = 'translate(-50%, 0)';
+      setTimeout(() => { notif.style.opacity = '0'; notif.style.transform = 'translate(-50%, -16px)'; }, 2000);
     }
 
     function loadAvatar() {
@@ -358,50 +358,51 @@
       return id;
     }
 
+    /* ĐỘNG CƠ SINH CÂU HỎI THÍCH NGHI DỰA VÀO STATE.LEVEL */
     function generateQuestionData(type) {
       const emoji = EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+      
+      // Ánh xạ Level sang thông số N (maxRange) và Gợi ý trực quan (visualAids)
+      let maxRange = 5; let visualAids = true;
+      if (state.level === 1) { maxRange = 5; visualAids = true; }
+      else if (state.level === 2) { maxRange = 5; visualAids = false; }
+      else if (state.level === 3) { maxRange = 10; visualAids = true; }
+      else if (state.level >= 4) { maxRange = 10; visualAids = false; }
+
       if (type === 'count') {
-        const target = Math.floor(Math.random()*9)+1;
+        const target = Math.floor(Math.random()*(maxRange-1))+1;
         return { type, emoji, target, answer: target, text: `Đếm xem có bao nhiêu hình?`, voice: `${CHILD_NAME} chạm vào từng hình để đếm nhé?`, countedIndices: new Set() };
       } else if (type === 'tenframe') {
-        const target = Math.floor(Math.random()*5)+6; const init = Math.floor(Math.random()*(target-2))+2; const needed = target - init;
+        const target = Math.floor(Math.random()*(maxRange > 5 ? 5 : 3)) + (maxRange > 5 ? 6 : 3); const init = Math.floor(Math.random()*(target-1))+1; const needed = target - init;
         return { type, emoji, init, target, answer: needed, added: 0, text: `Khay có ${init}. Thêm mấy để đủ ${target}?`, voice: `Cần thêm mấy hình nữa để đủ ${target}?` };
       } else if (type === 'bond') {
-        const total = Math.floor(Math.random()*7)+3; const left = Math.floor(Math.random()*(total-1))+1; const right = total - left; const askTotal = Math.random() < 0.5;
-        return { type, emoji, total, left, right, askTotal, answer: askTotal ? total : right, text: askTotal ? `${left} và ${right} gộp được mấy?` : `Có ${total} gồm ${left} và mấy?`, voice: askTotal ? `${left} và ${right} gộp lại được mấy hả ${CHILD_NAME}?` : `${total} gồm ${left} và mấy?` };
-      } else if (type === 'match') {
-        const p = Math.floor(Math.random()*4)+2; const f = Math.floor(Math.random()*4)+2; let a = '='; if (p>f) a='>'; if (p<f) a='<';
-        return { type, p, f, answer: a, matched: 0, text: `Số Thỏ nhiều hơn, ít hơn hay bằng Cà rốt?`, voice: `${CHILD_NAME} nối cà rốt cho thỏ rồi xem bên nào nhiều hơn nhé!` };
-      } else if (type === 'compare') {
-        const n1 = Math.floor(Math.random()*10); const n2 = Math.floor(Math.random()*10); let a = '='; if (n1>n2) a='>'; if (n1<n2) a='<';
-        return { type, n1, n2, answer: a, text: `Gấu hãy Điền dấu: ${n1} ... ${n2}?`, voice: `Số ${n1} lớn hơn, bé hơn hay bằng ${n2}?` };
+        const total = Math.floor(Math.random()*(maxRange-2))+3; const left = Math.floor(Math.random()*(total-1))+1; const right = total - left; const askTotal = Math.random() < 0.5;
+        return { type, emoji, total, left, right, askTotal, answer: askTotal ? total : right, visualAids, text: askTotal ? `${left} và ${right} gộp được mấy?` : `Có ${total} gồm ${left} và mấy?`, voice: askTotal ? `${left} và ${right} gộp lại được mấy hả ${CHILD_NAME}?` : `${total} gồm ${left} và mấy?` };
       } else if (type === 'addition') {
-        const s = Math.floor(Math.random()*8)+3; const n1 = Math.floor(Math.random()*(s-1))+1; const n2 = s - n1;
-        let opts = new Set([s]); while(opts.size < 3) { let w = s + Math.floor(Math.random()*5)-2; if(w>0 && w<=15) opts.add(w); }
-        return { type, n1, n2, answer: s, emoji, options: Array.from(opts).sort(()=>Math.random()-0.5), text: `Tính: ${n1} + ${n2} = ?`, voice: `${n1} cộng ${n2} bằng mấy nhé?` };
+        const s = Math.floor(Math.random()*(maxRange-2))+3; const n1 = Math.floor(Math.random()*(s-1))+1; const n2 = s - n1;
+        let opts = new Set([s]); while(opts.size < 3) { let w = s + Math.floor(Math.random()*4)-2; if(w>0 && w<=20) opts.add(w); }
+        return { type, n1, n2, answer: s, emoji, visualAids, options: Array.from(opts).sort(()=>Math.random()-0.5), text: `Tính: ${n1} + ${n2} = ?`, voice: `${n1} cộng ${n2} bằng mấy nhé?` };
       } else if (type === 'subtraction') {
-        const n1 = Math.floor(Math.random()*9)+2; const n2 = Math.floor(Math.random()*(n1-1))+1; const ans = n1 - n2;
-        let opts = new Set([ans]); while(opts.size < 3) { let w = ans + Math.floor(Math.random()*5)-2; if(w>=0 && w<=10) opts.add(w); }
-        return { type, n1, n2, answer: ans, emoji, options: Array.from(opts).sort(()=>Math.random()-0.5), text: `Bớt đi: ${n1} - ${n2} = ?`, voice: `Có ${n1} hình, bớt đi ${n2} hình thì còn lại mấy hả ${CHILD_NAME}?` };
+        const n1 = Math.floor(Math.random()*(maxRange-1))+2; const n2 = Math.floor(Math.random()*(n1-1))+1; const ans = n1 - n2;
+        let opts = new Set([ans]); while(opts.size < 3) { let w = ans + Math.floor(Math.random()*4)-2; if(w>=0 && w<=20) opts.add(w); }
+        return { type, n1, n2, answer: ans, emoji, visualAids, options: Array.from(opts).sort(()=>Math.random()-0.5), text: `Bớt đi: ${n1} - ${n2} = ?`, voice: `Có ${n1} hình, bớt đi ${n2} hình thì còn lại mấy hả ${CHILD_NAME}?` };
+      } else if (type === 'match' || type === 'compare') {
+        const n1 = Math.floor(Math.random()*maxRange)+1; const n2 = Math.floor(Math.random()*maxRange)+1; let a = '='; if (n1>n2) a='>'; if (n1<n2) a='<';
+        if (type === 'match') return { type, p: n1, f: n2, answer: a, matched: 0, text: `Số Thỏ nhiều hơn, ít hơn hay bằng Cà rốt?`, voice: `${CHILD_NAME} nối cà rốt cho thỏ rồi xem bên nào nhiều hơn nhé!` };
+        return { type, n1, n2, answer: a, text: `Điền dấu: ${n1} ... ${n2}?`, voice: `Số ${n1} lớn hơn, bé hơn hay bằng ${n2}?` };
       } else if (type === 'shape') {
         const targetShape = SHAPES[Math.floor(Math.random()*SHAPES.length)];
         return { type, targetShape, answer: targetShape.id, text: `Đây là hình gì?`, voice: `${CHILD_NAME} ơi, đây là hình gì nhỉ?` };
       } else if (type === 'space3d') {
-        // Bài 14, 15 (Trang 92, 96): Phân loại khối 3D hoặc Định hướng Không gian
         const subType = Math.random() < 0.5 ? 'identify' : 'position';
         if (subType === 'identify') {
           const isCube = Math.random() < 0.5;
           return { type, subType, isCube, answer: isCube ? 'Khối lập phương' : 'Khối hộp chữ nhật', text: 'Đây là khối gì?', voice: 'Khối đang xoay này là khối gì thế Gấu?' };
         } else {
-          const items = ['🐶', '🐱', '🐰'];
-          // Xáo trộn
-          for (let i = items.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [items[i], items[j]] = [items[j], items[i]]; }
-          const askIdx = Math.floor(Math.random() * 3);
-          const isVertical = Math.random() < 0.5; // True = Trên/Giữa/Dưới, False = Trái/Giữa/Phải
-          let posName = '';
-          if (isVertical) posName = askIdx === 0 ? 'trên cùng' : askIdx === 1 ? 'ở giữa' : 'dưới cùng';
-          else posName = askIdx === 0 ? 'bên trái' : askIdx === 1 ? 'ở giữa' : 'bên phải';
-          return { type, subType, items, isVertical, answer: items[askIdx], text: `Bạn nào ở ${posName}?`, voice: `Bạn nào đang ở ${posName} thế Gấu?` };
+          const items = ['🐶', '🐱', '🐰']; for (let i=2; i>0; i--) { const j = Math.floor(Math.random()*(i+1)); [items[i], items[j]] = [items[j], items[i]]; }
+          const askIdx = Math.floor(Math.random() * 3); const isVertical = Math.random() < 0.5;
+          let posName = isVertical ? (askIdx === 0 ? 'trên cùng' : askIdx === 1 ? 'ở giữa' : 'dưới cùng') : (askIdx === 0 ? 'bên trái' : askIdx === 1 ? 'ở giữa' : 'bên phải');
+          return { type, subType, items, isVertical, answer: items[askIdx], text: `Bạn nào ở ${posName}?`, voice: `Bạn nào đang ở ${posName} thế?` };
         }
       }
     }
@@ -411,6 +412,7 @@
       document.getElementById('game-title').textContent = state.isTest ? `📝 Câu ${state.test.current+1}/${state.test.total}: ${q.text}` : `🎓 ${q.text}`;
       if (state.isTest) document.getElementById('test-progress-fill').style.width = ((state.test.current)/state.test.total)*100 + '%';
       speakCurrentQuestion();
+      state.startTime = Date.now(); // Ghi nhận thời gian bắt đầu phản xạ
 
       const stage = document.getElementById('game-stage'); const controls = document.getElementById('game-controls');
       
@@ -442,56 +444,25 @@
                <div class="w-full border-t-2 border-sky-300"></div>
                <div class="flex justify-around w-full font-black text-base sm:text-xl"><div class="text-pink-600">${q.left}</div><div class="h-full border-l-2 border-sky-300"></div><div class="${!q.askTotal ? 'text-rose-500':'text-sky-600'}">${!q.askTotal ? '?' : q.right}</div></div>
             </div>
-            <div class="flex gap-2 sm:gap-4 w-full justify-center">
+            ${q.visualAids ? `<div class="flex gap-2 sm:gap-4 w-full justify-center">
               <div class="w-20 h-20 sm:w-28 sm:h-28 bg-pink-100 rounded-2xl border-4 border-pink-300 flex flex-wrap justify-center content-center text-xl sm:text-3xl p-1">${Array(q.left).fill(q.emoji).join('')}</div>
               <div class="w-20 h-20 sm:w-28 sm:h-28 bg-sky-100 rounded-2xl border-4 border-sky-300 flex flex-wrap justify-center content-center text-xl sm:text-3xl p-1">${Array(q.right).fill(q.emoji).join('')}</div>
-            </div>
+            </div>` : `<div class="text-slate-400 font-bold text-sm mt-4 italic">Hãy tính nhẩm trong đầu nhé!</div>`}
           </div>
         `;
         renderNumpad(controls);
-      } else if (q.type === 'match') {
-        stage.className = 'flex-1 board-3d p-2 flex flex-col bg-sky-50 overflow-y-auto';
-        stage.innerHTML = `
-          <div class="flex justify-around items-center h-full max-w-sm mx-auto w-full py-2">
-            <div class="flex flex-col gap-1 sm:gap-2">${Array(q.p).fill(0).map((_,i) => `<div id="m-pet-${i}" class="w-12 h-12 sm:w-16 sm:h-16 bg-white border-2 sm:border-4 border-pink-300 rounded-xl sm:rounded-2xl flex items-center justify-center text-2xl sm:text-4xl transition-all shadow-sm">🐰</div>`).join('')}</div>
-            <div class="flex flex-col gap-1 sm:gap-2">${Array(q.f).fill(0).map((_,i) => `<button id="m-food-${i}" onclick="matchFood(${i})" class="btn-3d w-12 h-12 sm:w-16 sm:h-16 bg-white border-2 sm:border-4 border-orange-400 rounded-xl sm:rounded-2xl flex items-center justify-center text-2xl sm:text-4xl shadow-sm">🥕</button>`).join('')}</div>
-          </div>
-        `;
-        controls.innerHTML = `
-          <div class="flex justify-center gap-1.5 sm:gap-3 px-1 sm:px-2">
-            <button onclick="checkAnswer('>')" class="btn-3d flex-1 bg-pink-100 border-b-4 border-pink-400 text-pink-700 font-black py-2 sm:py-3 rounded-xl text-[11px] sm:text-base">Nhiều hơn</button>
-            <button onclick="checkAnswer('=')" class="btn-3d flex-1 bg-sky-100 border-b-4 border-sky-400 text-sky-700 font-black py-2 sm:py-3 rounded-xl text-[11px] sm:text-base">Bằng nhau</button>
-            <button onclick="checkAnswer('<')" class="btn-3d flex-1 bg-emerald-100 border-b-4 border-emerald-400 text-emerald-700 font-black py-2 sm:py-3 rounded-xl text-[11px] sm:text-base">Ít hơn</button>
-          </div>
-        `;
-      } else if (q.type === 'compare') {
-        stage.className = 'flex-1 board-3d p-2 flex justify-center items-center bg-amber-50';
-        stage.innerHTML = `
-          <div class="flex items-center justify-center gap-1 sm:gap-4 w-full">
-            <div class="w-16 h-20 sm:w-24 sm:h-28 bg-pink-100 rounded-2xl border-4 border-pink-400 flex items-center justify-center text-4xl sm:text-6xl font-black text-pink-600 shadow-inner">${q.n1}</div>
-            <div id="comp-box" class="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-2xl border-4 border-dashed border-slate-300 flex items-center justify-center text-2xl sm:text-4xl font-black text-slate-300 mx-1">?</div>
-            <div class="w-16 h-20 sm:w-24 sm:h-28 bg-sky-100 rounded-2xl border-4 border-sky-400 flex items-center justify-center text-4xl sm:text-6xl font-black text-sky-600 shadow-inner">${q.n2}</div>
-          </div>
-        `;
-        controls.innerHTML = `
-          <div class="flex justify-center gap-3 sm:gap-5">
-            <button onclick="checkAnswer('>')" class="btn-3d w-16 h-12 sm:w-24 sm:h-16 bg-rose-500 text-white font-black text-2xl sm:text-4xl border-b-4 border-rose-700 rounded-xl sm:rounded-2xl">></button>
-            <button onclick="checkAnswer('=')" class="btn-3d w-16 h-12 sm:w-24 sm:h-16 bg-emerald-500 text-white font-black text-2xl sm:text-4xl border-b-4 border-emerald-700 rounded-xl sm:rounded-2xl">=</button>
-            <button onclick="checkAnswer('<')" class="btn-3d w-16 h-12 sm:w-24 sm:h-16 bg-blue-500 text-white font-black text-2xl sm:text-4xl border-b-4 border-blue-700 rounded-xl sm:rounded-2xl"><</button>
-          </div>
-        `;
       } else if (q.type === 'addition') {
         stage.className = 'flex-1 board-3d p-1 sm:p-2 flex flex-col justify-center items-center bg-indigo-50';
         stage.innerHTML = `
           <div class="flex items-center justify-center gap-1 sm:gap-4 w-full">
             <div class="flex flex-col items-center gap-1">
               <div class="w-12 h-16 sm:w-24 sm:h-28 bg-pink-100 border-2 sm:border-4 border-pink-400 rounded-xl sm:rounded-2xl flex items-center justify-center text-3xl sm:text-6xl font-black text-pink-600 shadow-inner">${q.n1}</div>
-              <div class="flex flex-wrap justify-center w-12 sm:w-24 text-base sm:text-2xl min-h-[30px] sm:min-h-[40px]">${Array(q.n1).fill(q.emoji).join('')}</div>
+              <div class="flex flex-wrap justify-center w-12 sm:w-24 text-base sm:text-2xl min-h-[30px] sm:min-h-[40px]">${q.visualAids ? Array(q.n1).fill(q.emoji).join('') : ''}</div>
             </div>
             <div class="text-2xl sm:text-5xl font-black text-slate-400 mb-6">+</div>
             <div class="flex flex-col items-center gap-1">
               <div class="w-12 h-16 sm:w-24 sm:h-28 bg-amber-100 border-2 sm:border-4 border-amber-400 rounded-xl sm:rounded-2xl flex items-center justify-center text-3xl sm:text-6xl font-black text-amber-600 shadow-inner">${q.n2}</div>
-              <div class="flex flex-wrap justify-center w-12 sm:w-24 text-base sm:text-2xl min-h-[30px] sm:min-h-[40px]">${Array(q.n2).fill(q.emoji).join('')}</div>
+              <div class="flex flex-wrap justify-center w-12 sm:w-24 text-base sm:text-2xl min-h-[30px] sm:min-h-[40px]">${q.visualAids ? Array(q.n2).fill(q.emoji).join('') : ''}</div>
             </div>
             <div class="text-2xl sm:text-5xl font-black text-slate-400 mb-6">=</div>
             <div class="flex flex-col items-center gap-1">
@@ -500,24 +471,19 @@
             </div>
           </div>
         `;
-        controls.innerHTML = `<div class="flex justify-center gap-2 sm:gap-4 w-full">
-          ${q.options.map(o => `<button onclick="checkAnswer(${o})" class="btn-3d flex-1 max-w-[90px] sm:max-w-[120px] bg-sky-500 text-white font-black text-2xl sm:text-4xl py-2 sm:py-3 rounded-xl sm:rounded-2xl border-b-4 border-sky-700">${o}</button>`).join('')}
-        </div>`;
+        controls.innerHTML = `<div class="flex justify-center gap-2 sm:gap-4 w-full">${q.options.map(o => `<button onclick="checkAnswer(${o})" class="btn-3d flex-1 max-w-[90px] sm:max-w-[120px] bg-sky-500 text-white font-black text-2xl sm:text-4xl py-2 sm:py-3 rounded-xl sm:rounded-2xl border-b-4 border-sky-700">${o}</button>`).join('')}</div>`;
       } else if (q.type === 'subtraction') {
         stage.className = 'flex-1 board-3d p-1 sm:p-2 flex flex-col justify-center items-center bg-rose-50';
         stage.innerHTML = `
           <div class="flex items-center justify-center gap-1 sm:gap-4 w-full">
             <div class="flex flex-col items-center gap-1">
               <div class="w-12 h-16 sm:w-24 sm:h-28 bg-emerald-100 border-2 sm:border-4 border-emerald-400 rounded-xl sm:rounded-2xl flex items-center justify-center text-3xl sm:text-6xl font-black text-emerald-600 shadow-inner">${q.n1}</div>
-              <div class="flex flex-wrap justify-center w-12 sm:w-24 text-base sm:text-2xl min-h-[30px] sm:min-h-[40px]">
-                ${Array(q.answer).fill(`<span>${q.emoji}</span>`).join('')}
-                ${Array(q.n2).fill(`<span class="strikethrough-pet">${q.emoji}</span>`).join('')}
-              </div>
+              <div class="flex flex-wrap justify-center w-12 sm:w-24 text-base sm:text-2xl min-h-[30px] sm:min-h-[40px]">${q.visualAids ? Array(q.answer).fill(`<span>${q.emoji}</span>`).join('') + Array(q.n2).fill(`<span class="strikethrough-pet">${q.emoji}</span>`).join('') : ''}</div>
             </div>
             <div class="text-2xl sm:text-5xl font-black text-slate-400 mb-6">-</div>
             <div class="flex flex-col items-center gap-1">
               <div class="w-12 h-16 sm:w-24 sm:h-28 bg-slate-100 border-2 sm:border-4 border-slate-300 rounded-xl sm:rounded-2xl flex items-center justify-center text-3xl sm:text-6xl font-black text-slate-500 shadow-inner">${q.n2}</div>
-              <div class="flex flex-wrap justify-center w-12 sm:w-24 text-base sm:text-2xl min-h-[30px] sm:min-h-[40px] opacity-40">${Array(q.n2).fill(q.emoji).join('')}</div>
+              <div class="flex flex-wrap justify-center w-12 sm:w-24 text-base sm:text-2xl min-h-[30px] sm:min-h-[40px] opacity-40">${q.visualAids ? Array(q.n2).fill(q.emoji).join('') : ''}</div>
             </div>
             <div class="text-2xl sm:text-5xl font-black text-slate-400 mb-6">=</div>
             <div class="flex flex-col items-center gap-1">
@@ -526,65 +492,89 @@
             </div>
           </div>
         `;
-        controls.innerHTML = `<div class="flex justify-center gap-2 sm:gap-4 w-full">
-          ${q.options.map(o => `<button onclick="checkAnswer(${o})" class="btn-3d flex-1 max-w-[90px] sm:max-w-[120px] bg-rose-500 text-white font-black text-2xl sm:text-4xl py-2 sm:py-3 rounded-xl sm:rounded-2xl border-b-4 border-rose-700">${o}</button>`).join('')}
-        </div>`;
-      } else if (q.type === 'shape') {
-        stage.className = 'flex-1 board-3d p-2 flex flex-col justify-center items-center bg-indigo-50';
-        stage.innerHTML = `<div class="w-32 h-32 sm:w-48 sm:h-48 mb-6 animate-float">${q.targetShape.svg}</div>`;
-        controls.innerHTML = `<div class="grid grid-cols-2 gap-2 sm:gap-4 w-full max-w-sm mx-auto px-2">
-          ${SHAPES.map(s => `<button onclick="checkAnswer('${s.id}')" class="btn-3d bg-white text-slate-700 font-black text-sm sm:text-xl py-3 rounded-xl sm:rounded-2xl border-2 sm:border-4 border-slate-300 border-b-[4px] sm:border-b-[6px] active:bg-slate-50">${s.id}</button>`).join('')}
-        </div>`;
-      } else if (q.type === 'space3d') {
+        controls.innerHTML = `<div class="flex justify-center gap-2 sm:gap-4 w-full">${q.options.map(o => `<button onclick="checkAnswer(${o})" class="btn-3d flex-1 max-w-[90px] sm:max-w-[120px] bg-rose-500 text-white font-black text-2xl sm:text-4xl py-2 sm:py-3 rounded-xl sm:rounded-2xl border-b-4 border-rose-700">${o}</button>`).join('')}</div>`;
+      } else if (q.type === 'match' || q.type === 'compare') {
+        stage.className = 'flex-1 board-3d p-2 flex justify-center items-center bg-amber-50';
+        stage.innerHTML = `<div class="flex items-center justify-center gap-1 sm:gap-4 w-full"><div class="w-16 h-20 sm:w-24 sm:h-28 bg-pink-100 rounded-2xl border-4 border-pink-400 flex items-center justify-center text-4xl sm:text-6xl font-black text-pink-600">${q.type==='match'?q.p:q.n1}</div><div id="comp-box" class="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-2xl border-4 border-dashed border-slate-300 flex items-center justify-center text-2xl sm:text-4xl font-black text-slate-300 mx-1">?</div><div class="w-16 h-20 sm:w-24 sm:h-28 bg-sky-100 rounded-2xl border-4 border-sky-400 flex items-center justify-center text-4xl sm:text-6xl font-black text-sky-600">${q.type==='match'?q.f:q.n2}</div></div>`;
+        controls.innerHTML = `<div class="flex justify-center gap-3 sm:gap-5"><button onclick="checkAnswer('>')" class="btn-3d w-16 h-12 sm:w-24 sm:h-16 bg-rose-500 text-white font-black text-2xl sm:text-4xl border-b-4 border-rose-700 rounded-xl sm:rounded-2xl">></button><button onclick="checkAnswer('=')" class="btn-3d w-16 h-12 sm:w-24 sm:h-16 bg-emerald-500 text-white font-black text-2xl sm:text-4xl border-b-4 border-emerald-700 rounded-xl sm:rounded-2xl">=</button><button onclick="checkAnswer('<')" class="btn-3d w-16 h-12 sm:w-24 sm:h-16 bg-blue-500 text-white font-black text-2xl sm:text-4xl border-b-4 border-blue-700 rounded-xl sm:rounded-2xl"><</button></div>`;
+      } else if (q.type === 'shape' || q.type === 'space3d') {
         stage.className = 'flex-1 board-3d p-2 flex flex-col justify-center items-center bg-purple-50';
-        
-        if (q.subType === 'identify') {
-          // Xoay Khối hộp hoặc Khối lập phương bằng CSS 3D
-          let objClass = q.isCube ? 'cube' : 'cuboid';
-          stage.innerHTML = `
-            <div class="scene-3d mb-10">
-              <div class="obj-3d ${objClass}">
-                <div class="face front"></div><div class="face back"></div>
-                <div class="face right"></div><div class="face left"></div>
-                <div class="face top"></div><div class="face bottom"></div>
-              </div>
-            </div>
-          `;
-          controls.innerHTML = `<div class="grid grid-cols-1 gap-3 w-full max-w-xs mx-auto">
-            <button onclick="checkAnswer('Khối lập phương')" class="btn-3d bg-sky-100 text-sky-800 font-black text-base sm:text-xl py-4 rounded-2xl border-4 border-sky-300 border-b-[6px] shadow-sm">Khối lập phương</button>
-            <button onclick="checkAnswer('Khối hộp chữ nhật')" class="btn-3d bg-amber-100 text-amber-800 font-black text-base sm:text-xl py-4 rounded-2xl border-4 border-amber-300 border-b-[6px] shadow-sm">Khối hộp chữ nhật</button>
-          </div>`;
+        if (q.type === 'shape') {
+          stage.innerHTML = `<div class="w-32 h-32 sm:w-48 sm:h-48 mb-6 animate-float">${q.targetShape.svg}</div>`;
+          controls.innerHTML = `<div class="grid grid-cols-2 gap-2 sm:gap-4 w-full max-w-sm mx-auto px-2">${SHAPES.map(s => `<button onclick="checkAnswer('${s.id}')" class="btn-3d bg-white text-slate-700 font-black text-sm sm:text-xl py-3 rounded-xl sm:rounded-2xl border-2 sm:border-4 border-slate-300 border-b-[4px] sm:border-b-[6px] active:bg-slate-50">${s.id}</button>`).join('')}</div>`;
         } else {
-          // Định hướng không gian (Vị trí)
-          let flexClass = q.isVertical ? 'flex-col gap-2' : 'flex-row gap-4';
-          stage.innerHTML = `
-            <div class="flex ${flexClass} items-center justify-center p-4 bg-white rounded-3xl border-4 border-purple-200 shadow-md">
-              ${q.items.map(item => `<div class="w-16 h-16 sm:w-24 sm:h-24 bg-purple-100 rounded-2xl border-2 border-purple-300 flex items-center justify-center text-4xl sm:text-6xl">${item}</div>`).join('')}
-            </div>
-          `;
-          controls.innerHTML = `<div class="grid grid-cols-3 gap-2 sm:gap-4 w-full max-w-sm mx-auto">
-            ${q.items.map(item => `<button onclick="checkAnswer('${item}')" class="btn-3d bg-white text-5xl py-3 rounded-2xl border-2 sm:border-4 border-slate-300 border-b-[6px] shadow-sm">${item}</button>`).join('')}
-          </div>`;
+          if (q.subType === 'identify') {
+            stage.innerHTML = `<div class="scene-3d mb-10"><div class="obj-3d ${q.isCube ? 'cube' : 'cuboid'}"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>`;
+            controls.innerHTML = `<div class="grid grid-cols-1 gap-3 w-full max-w-xs mx-auto"><button onclick="checkAnswer('Khối lập phương')" class="btn-3d bg-sky-100 text-sky-800 font-black text-base sm:text-xl py-4 rounded-2xl border-4 border-sky-300 border-b-[6px] shadow-sm">Khối lập phương</button><button onclick="checkAnswer('Khối hộp chữ nhật')" class="btn-3d bg-amber-100 text-amber-800 font-black text-base sm:text-xl py-4 rounded-2xl border-4 border-amber-300 border-b-[6px] shadow-sm">Khối hộp chữ nhật</button></div>`;
+          } else {
+            stage.innerHTML = `<div class="flex ${q.isVertical ? 'flex-col gap-2' : 'flex-row gap-4'} items-center justify-center p-4 bg-white rounded-3xl border-4 border-purple-200 shadow-md">${q.items.map(item => `<div class="w-16 h-16 sm:w-24 sm:h-24 bg-purple-100 rounded-2xl border-2 border-purple-300 flex items-center justify-center text-4xl sm:text-6xl">${item}</div>`).join('')}</div>`;
+            controls.innerHTML = `<div class="grid grid-cols-3 gap-2 sm:gap-4 w-full max-w-sm mx-auto">${q.items.map(item => `<button onclick="checkAnswer('${item}')" class="btn-3d bg-white text-5xl py-3 rounded-2xl border-2 sm:border-4 border-slate-300 border-b-[6px] shadow-sm">${item}</button>`).join('')}</div>`;
+          }
         }
       }
     }
 
+    function renderNumpad(container) {
+      container.innerHTML = `<div class="flex flex-wrap justify-center gap-1 sm:gap-2 px-1">
+        ${[0,1,2,3,4,5,6,7,8,9,10].map(n => `<button onclick="checkAnswer(${n})" class="btn-3d w-10 h-10 sm:w-14 sm:h-14 rounded-[0.7rem] sm:rounded-xl font-black text-xl sm:text-2xl flex items-center justify-center border-b-[3px] sm:border-b-4 ${n===10?'bg-purple-500 text-white border-purple-700':n===0?'bg-amber-400 text-amber-900 border-amber-600':'bg-pink-100 text-pink-700 border-pink-300'} shadow-sm">${n}</button>`).join('')}
+      </div>`;
+    }
+
+    window.touchCount = function(i) {
+      if(!state.q.countedIndices.has(i)) {
+        state.q.countedIndices.add(i); playSound('pop');
+        document.getElementById(`c-item-${i}`).className = 'w-14 h-14 sm:w-20 sm:h-20 bg-emerald-500 text-white rounded-2xl shadow-lg border-2 sm:border-4 border-emerald-200 text-3xl sm:text-5xl flex items-center justify-center scale-105';
+      }
+    }
+    window.addFrame = function(isValid) { if(state.q.added + state.q.init < 10) { state.q.added++; playSound('pop'); renderQuestion(state.q); } }
+    window.unaddFrame = function() { state.q.added--; playSound('pop'); renderQuestion(state.q); }
+
+    /* CORE LOGIC ADAPTIVE LEARNING (VÒNG LẶP PHẢN HỒI KÍN) */
     window.checkAnswer = function(ans) {
       const q = state.q;
-      if (q.type === 'compare') { document.getElementById('comp-box').textContent = ans; document.getElementById('comp-box').className = 'w-12 h-12 sm:w-16 sm:h-16 bg-slate-700 text-white rounded-2xl flex items-center justify-center text-3xl sm:text-4xl font-black'; }
+      const dt = Date.now() - state.startTime; // Tính độ trễ phản hồi \Delta t
+
+      if (q.type === 'compare' || q.type === 'match') { document.getElementById('comp-box').textContent = ans; document.getElementById('comp-box').className = 'w-12 h-12 sm:w-16 sm:h-16 bg-slate-700 text-white rounded-2xl flex items-center justify-center text-3xl sm:text-4xl font-black'; }
       if (q.type === 'addition' && ans === q.answer) { document.getElementById('add-ans').innerHTML = `<span class="text-5xl sm:text-7xl font-black text-rose-600 animate-pop">${ans}</span>`; document.getElementById('add-ans').classList.replace('border-dashed','border-solid'); document.getElementById('add-ans').classList.replace('bg-white','bg-rose-100'); }
       if (q.type === 'subtraction' && ans === q.answer) { document.getElementById('sub-ans').innerHTML = `<span class="text-5xl sm:text-7xl font-black text-sky-600 animate-pop">${ans}</span>`; document.getElementById('sub-ans').classList.replace('border-dashed','border-solid'); document.getElementById('sub-ans').classList.replace('bg-white','bg-sky-100'); }
 
       if (ans === q.answer) {
-        playSound('success'); speakVietnamese('Chính xác!');
-        if(!state.isTest) { triggerConfetti(); state.stars++; localStorage.setItem('toan1_stars', state.stars); updateStarsUI(); }
+        state.history.push({correct: true, time: dt});
+        
+        // KIỂM TRA ĐIỀU KIỆN TĂNG ĐỘ KHÓ (3 câu đúng liên tiếp & tốc độ < 4s)
+        const last3 = state.history.slice(-3);
+        if (!state.isTest && last3.length === 3 && last3.every(h => h.correct && h.time < 4000)) {
+            if (state.level < 5) {
+                state.level++; localStorage.setItem('toan1_level', state.level);
+                showNotification("Gấu tính nhanh quá! Tự động Tăng độ khó 🚀", "up"); playSound('levelup');
+                state.history = []; updateUIStates();
+            }
+        } else {
+            playSound('success');
+        }
+
+        speakVietnamese('Chính xác!');
+        if(!state.isTest) { triggerConfetti(); state.stars++; localStorage.setItem('toan1_stars', state.stars); updateUIStates(); }
         else { state.test.correct++; }
+        
         setTimeout(() => {
           if (state.isTest) { state.test.current++; if (state.test.current < state.test.total) renderQuestion(state.test.questions[state.test.current]); else endTest(); }
           else { renderQuestion(generateQuestionData(resolveType(state.stationId))); }
         }, 1500);
       } else {
+        state.history.push({correct: false, time: dt});
         playSound('wrong'); speakVietnamese('Chưa đúng rồi!');
+        
+        // KIỂM TRA ĐIỀU KIỆN GIẢM ĐỘ KHÓ (2 câu sai liên tiếp)
+        const last2 = state.history.slice(-2);
+        if (!state.isTest && last2.length === 2 && last2.every(h => !h.correct)) {
+            if (state.level > 1) {
+                state.level--; localStorage.setItem('toan1_level', state.level);
+                showNotification("Hệ thống tự động Hạ độ khó để Gấu ôn lại nhé 🛡️", "down");
+                state.history = []; updateUIStates();
+            }
+        }
+
         if(state.isTest) { setTimeout(() => { state.test.current++; if (state.test.current < state.test.total) renderQuestion(state.test.questions[state.test.current]); else endTest(); }, 1500); }
       }
     }
@@ -593,9 +583,9 @@
       document.getElementById('result-score').textContent = `${state.test.correct} / ${state.test.total}`;
       const title = document.getElementById('result-title'); const icon = document.getElementById('result-icon');
       if (state.test.correct === state.test.total) { title.textContent = "Điểm 10 Tuyệt Đối!"; icon.textContent = "🏆"; title.className="text-xl sm:text-2xl font-black text-rose-500 mb-1"; triggerConfetti(); playSound('success'); state.stars += 5; speakVietnamese(`Tuyệt vời! Gấu đạt điểm 10!`); }
-      else if (state.test.correct >= state.test.total/2) { title.textContent = "Gấu Giỏi quá!"; icon.textContent = "🥇"; title.className="text-xl sm:text-2xl font-black text-emerald-500 mb-1"; playSound('success'); state.stars += 2; speakVietnamese(`Giỏi lắm Gấu ơi!`); }
+      else if (state.test.correct >= state.test.total/2) { title.textContent = "Rất Giỏi!"; icon.textContent = "🥇"; title.className="text-xl sm:text-2xl font-black text-emerald-500 mb-1"; playSound('success'); state.stars += 2; speakVietnamese(`Giỏi lắm Gấu ơi!`); }
       else { title.textContent = "Cố Gắng Nhé!"; icon.textContent = "💪"; title.className="text-xl sm:text-2xl font-black text-amber-500 mb-1"; playSound('pop'); speakVietnamese(`Cố gắng làm lại để lấy cúp nhé!`); }
-      localStorage.setItem('toan1_stars', state.stars); updateStarsUI();
+      localStorage.setItem('toan1_stars', state.stars); updateUIStates();
       document.getElementById('result-modal').classList.remove('hidden');
     }
 
@@ -607,7 +597,7 @@
     function speakCurrentQuestion() { if(state.q && state.q.voice) speakVietnamese(state.q.voice); }
     
     // Init
-    loadAvatar(); updateStarsUI();
+    loadAvatar(); updateUIStates();
   </script>
 </body>
 </html>
