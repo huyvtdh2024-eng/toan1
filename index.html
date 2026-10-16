@@ -8,10 +8,9 @@
   <meta name="apple-mobile-web-app-title" content="Toán Của Gấu" />
   <link rel="manifest" href="./manifest.json" />
   <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/616/616430.png" />
-  <title>Toán Lớp 1 Của Gấu - Thị Trấn Thú Cưng v4.0</title>
+  <title>Toán Lớp 1 Của Gấu - v5.0</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // Xóa cache cũ để cập nhật ngay bản v4.0 của Gấu
     if ('caches' in window) {
       caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
     }
@@ -40,12 +39,8 @@
       padding-left: max(env(safe-area-inset-left), 6px);
       padding-right: max(env(safe-area-inset-right), 6px);
     }
-    .btn-bounce {
-      transition: transform 0.1s ease;
-    }
-    .btn-bounce:active {
-      transform: scale(0.88);
-    }
+    .btn-bounce { transition: transform 0.1s ease; }
+    .btn-bounce:active { transform: scale(0.88); }
     @keyframes popIn {
       0% { transform: scale(0.2); opacity: 0; }
       80% { transform: scale(1.1); opacity: 1; }
@@ -55,15 +50,9 @@
       0%, 100% { transform: translateY(0px); }
       50% { transform: translateY(-4px); }
     }
-    .animate-pop {
-      animation: popIn 0.25s ease-out forwards;
-    }
-    .animate-float {
-      animation: floatSlow 2.2s ease-in-out infinite;
-    }
-    .park-bg {
-      background: linear-gradient(180deg, #bae6fd 0%, #e0f2fe 32%, #bbf7d0 32%, #86efac 100%);
-    }
+    .animate-pop { animation: popIn 0.25s ease-out forwards; }
+    .animate-float { animation: floatSlow 2.2s ease-in-out infinite; }
+    .park-bg { background: linear-gradient(180deg, #bae6fd 0%, #e0f2fe 32%, #bbf7d0 32%, #86efac 100%); }
     .ten-frame-grid {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -91,11 +80,11 @@
     </div>
 
     <span class="bg-white/20 px-3 py-0.5 rounded-full text-xs font-black uppercase tracking-wider mb-1">
-      Phiên bản v4.0 • Dành riêng cho Gấu
+      Phiên bản v5.0 • Tự động đọc đề bài
     </span>
     <h1 class="text-2xl sm:text-4xl font-black mb-1">THỊ TRẤN THÚ CƯNG CỦA GẤU</h1>
     <p class="text-sm sm:text-base font-bold text-pink-100 max-w-md mb-5">
-      Bố Mẹ cùng Gấu học Toán Lớp 1 thật vui nhé!
+      Gấu đã sẵn sàng giải toán chưa nào?
     </p>
 
     <button onclick="startAppWithAudio()" class="btn-bounce bg-amber-400 text-amber-950 font-black text-xl sm:text-2xl px-8 py-3.5 rounded-2xl shadow-xl border-b-4 border-amber-600 flex items-center gap-2">
@@ -104,52 +93,38 @@
     </button>
 
     <button onclick="openParentModal()" class="mt-5 text-xs font-extrabold bg-white/15 hover:bg-white/25 px-4 py-2 rounded-xl border border-white/30">
-      ⚙️ Góc Bố Mẹ: Đổi ảnh của Gấu & Thu âm giọng Bố Mẹ
+      ⚙️ Cài đặt: Đổi ảnh đại diện của Gấu
     </button>
   </div>
 
-  <!-- MODAL CÀI ĐẶT CỦA BỐ MẸ (ĐỔI ẢNH GẤU & THU ÂM TRỰC TIẾP TRÊN IPHONE/IPAD) -->
+  <!-- MODAL CÀI ĐẶT ẢNH CỦA GẤU -->
   <div id="parent-modal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3">
-    <div class="bg-white w-full max-w-lg max-h-[90dvh] rounded-3xl border-4 border-pink-300 shadow-2xl flex flex-col overflow-hidden">
+    <div class="bg-white w-full max-w-sm rounded-3xl border-4 border-pink-300 shadow-2xl flex flex-col overflow-hidden">
       <div class="bg-pink-500 text-white px-4 py-3 flex items-center justify-between shrink-0">
-        <h3 class="font-black text-base sm:text-lg">⚙️ Cài Đặt Cá Nhân Hóa Cho Gấu</h3>
+        <h3 class="font-black text-base">⚙️ Đổi ảnh của Gấu</h3>
         <button onclick="closeParentModal()" class="bg-white/20 px-3 py-1 rounded-lg font-black text-sm">Đóng ✕</button>
       </div>
-
-      <div class="p-4 overflow-y-auto space-y-4 text-slate-700 text-xs sm:text-sm">
-        <!-- 1. CHỌN ẢNH CỦA GẤU -->
-        <div class="bg-pink-50 p-3 rounded-2xl border border-pink-200 flex items-center gap-3">
-          <div id="settings-avatar-preview" class="w-16 h-16 rounded-full bg-white border-2 border-pink-400 flex items-center justify-center text-3xl overflow-hidden shrink-0">
+      <div class="p-4 text-slate-700 text-sm">
+        <div class="bg-pink-50 p-3 rounded-2xl border border-pink-200 flex flex-col items-center gap-3 text-center">
+          <div id="settings-avatar-preview" class="w-20 h-20 rounded-full bg-white border-4 border-pink-400 flex items-center justify-center text-4xl overflow-hidden shrink-0">
             🐻
           </div>
-          <div class="flex-1">
-            <div class="font-black text-pink-800 mb-1">1. Ảnh đại diện của Gấu</div>
-            <label class="btn-bounce inline-block bg-pink-500 text-white font-extrabold px-3 py-1.5 rounded-xl cursor-pointer shadow-sm">
-              📸 Chọn ảnh Gấu từ máy
+          <div>
+            <label class="btn-bounce inline-block bg-pink-500 text-white font-extrabold px-4 py-2 rounded-xl cursor-pointer shadow-sm">
+              📸 Chọn ảnh từ máy iPad/iPhone
               <input type="file" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)" />
             </label>
-            <p class="text-[11px] text-slate-500 mt-1">Hoặc đặt file <code>gau.jpg</code> lên GitHub.</p>
-          </div>
-        </div>
-
-        <!-- 2. PHÒNG THU ÂM GIỌNG BỐ MẸ -->
-        <div class="bg-sky-50 p-3 rounded-2xl border border-sky-200 space-y-2">
-          <div class="font-black text-sky-900">2. Thu âm giọng Bố & Mẹ trực tiếp trên máy</div>
-          <p class="text-[11px] text-slate-600">
-            Bấm <b>🎙️ Thu</b> để đọc (khoảng 2–4 giây), sau đó bấm <b>⏹️ Dừng</b>. Khi Gấu chơi, App sẽ ưu tiên phát giọng thật của Bố Mẹ!
-          </p>
-          <div id="voice-recorder-list" class="space-y-1.5 max-h-60 overflow-y-auto pr-1">
-            <!-- Render danh sách các câu thu âm bằng JS -->
+            <p class="text-[11px] text-slate-500 mt-2">Ảnh sẽ được lưu tự động vào máy để hiện lên màn hình học của bé.</p>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 1. THANH ĐIỀU HƯỚNG TRÊN CÙNG (CÓ ẢNH CỦA GẤU) -->
+  <!-- 1. THANH ĐIỀU HƯỚNG TRÊN CÙNG -->
   <header class="bg-white rounded-xl shadow-sm border border-pink-200 px-2 py-1 shrink-0 flex items-center justify-between gap-1">
     <div class="flex items-center gap-1.5 overflow-x-auto">
-      <!-- Avatar của Gấu ở góc trái -->
+      <!-- Avatar của Gấu -->
       <button onclick="openParentModal()" id="header-avatar-box" class="w-8 h-8 rounded-full bg-pink-100 border-2 border-pink-400 flex items-center justify-center text-base overflow-hidden shrink-0">
         🐻
       </button>
@@ -168,22 +143,19 @@
       </button>
     </div>
 
-    <!-- Điểm sao của Gấu + Nút Loa + Nút Cài đặt Bố Mẹ -->
+    <!-- Điểm sao của Gấu + Nút Loa -->
     <div class="flex items-center gap-1 shrink-0">
       <div class="flex items-center gap-1 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded-lg">
         <span class="text-xs">⭐</span>
         <span id="star-score" class="text-xs sm:text-sm font-black text-amber-700">0</span>
       </div>
       <button onclick="speakCurrentPrompt()" class="btn-bounce bg-sky-500 text-white font-black text-xs px-2 py-1 rounded-lg shadow">
-        🔊
-      </button>
-      <button onclick="openParentModal()" class="btn-bounce bg-slate-100 text-slate-700 font-black text-xs px-2 py-1 rounded-lg border border-slate-300">
-        ⚙️
+        🔊 Đọc lại
       </button>
     </div>
   </header>
 
-  <!-- 2. KHUNG CÂU HỎI GỌI TÊN GẤU -->
+  <!-- 2. KHUNG CÂU HỎI ĐỌC TỰ ĐỘNG -->
   <div onclick="speakCurrentPrompt()" class="btn-bounce cursor-pointer bg-white rounded-xl border-2 border-pink-300 px-2.5 py-1.5 shrink-0 flex items-center justify-between gap-2 shadow-sm">
     <div class="flex items-center gap-2 min-w-0">
       <span class="w-8 h-8 rounded-lg bg-sky-100 border border-sky-300 flex items-center justify-center text-lg shrink-0">🔊</span>
@@ -203,10 +175,10 @@
   <main id="stage-container" class="flex-1 min-h-0 w-full rounded-2xl shadow-inner border-2 border-white overflow-hidden relative flex flex-col">
   </main>
 
-  <!-- 4. BÀN PHÍM SỐ GỌN Ở ĐÁY -->
+  <!-- 4. BÀN PHÍM SỐ -->
   <footer id="numpad-panel" class="bg-white rounded-xl shadow border border-purple-200 p-1.5 shrink-0">
     <div class="flex items-center justify-between px-1 mb-1 text-[11px] font-extrabold text-slate-600">
-      <span id="feedback-text" class="truncate">💡 Gấu chạm vào từng bạn thú cưng để nghe đếm nhé!</span>
+      <span id="feedback-text" class="truncate text-pink-600">💡 Lắng nghe máy đọc câu hỏi nhé Gấu!</span>
       <span id="reward-progress-text" class="text-purple-700 shrink-0 ml-2">Quà của Gấu: 0/5 ⭐</span>
     </div>
     <div id="numpad-grid" class="grid grid-cols-6 sm:grid-cols-11 gap-1"></div>
@@ -216,10 +188,9 @@
 
   <script>
     /********************************************************************
-     * 1. DANH MỤC THÚ CƯNG & DANH SÁCH FILE GHI ÂM CỦA BỐ MẸ
+     * 1. CẤU HÌNH CƠ BẢN
      ********************************************************************/
     const CHILD_NAME = 'Gấu';
-
     const PET_CATALOG = [
       { id: 'cat', emoji: '🐱', name: 'Mèo Miu', food: '🐟', unlockedAt: 0 },
       { id: 'dog', emoji: '🐶', name: 'Cún Bông', food: '🦴', unlockedAt: 5 },
@@ -230,24 +201,6 @@
       { id: 'fox', emoji: '🦊', name: 'Cáo Đỏ', food: '🍓', unlockedAt: 30 },
       { id: 'unicorn', emoji: '🦄', name: 'Kỳ Lân', food: '🧁', unlockedAt: 35 }
     ];
-
-    const VOICE_SLOTS = [
-      { key: 'welcome', label: 'Lời chào Gấu lúc mở App', file: './chao_gau.mp3', hint: 'VD: "Bố mẹ chào Gấu yêu! Mình cùng học toán nhé!"' },
-      { key: 'praise_dad', label: 'Giọng Bố khen Gấu làm đúng', file: './bo_khen.mp3', hint: 'VD: "Xuất sắc quá Gấu ơi! Bố rất tự hào về Gấu!"' },
-      { key: 'praise_mom', label: 'Giọng Mẹ khen Gấu làm đúng', file: './me_khen.mp3', hint: 'VD: "Giỏi lắm Gấu yêu của mẹ! Con được thưởng 1 sao nhé!"' },
-      { key: 'retry', label: 'Giọng Bố/Mẹ động viên khi sai', file: './dong_vien.mp3', hint: 'VD: "Chưa đúng rồi Gấu ơi, con đếm lại thật chậm nhé!"' },
-      { key: 'num_1', label: 'Đếm số 1 ("Một")', file: './1.mp3', hint: 'Đọc: "Một"' },
-      { key: 'num_2', label: 'Đếm số 2 ("Hai")', file: './2.mp3', hint: 'Đọc: "Hai"' },
-      { key: 'num_3', label: 'Đếm số 3 ("Ba")', file: './3.mp3', hint: 'Đọc: "Ba"' },
-      { key: 'num_4', label: 'Đếm số 4 ("Bốn")', file: './4.mp3', hint: 'Đọc: "Bốn"' },
-      { key: 'num_5', label: 'Đếm số 5 ("Năm")', file: './5.mp3', hint: 'Đọc: "Năm"' },
-      { key: 'num_6', label: 'Đếm số 6 ("Sáu")', file: './6.mp3', hint: 'Đọc: "Sáu"' },
-      { key: 'num_7', label: 'Đếm số 7 ("Bảy")', file: './7.mp3', hint: 'Đọc: "Bảy"' },
-      { key: 'num_8', label: 'Đếm số 8 ("Tám")', file: './8.mp3', hint: 'Đọc: "Tám"' },
-      { key: 'num_9', label: 'Đếm số 9 ("Chín")', file: './9.mp3', hint: 'Đọc: "Chín"' },
-      { key: 'num_10', label: 'Đếm số 10 ("Mười")', file: './10.mp3', hint: 'Đọc: "Mười"' }
-    ];
-
     const WORDS_VI = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín', 'mười'];
 
     const state = {
@@ -257,48 +210,12 @@
       currentQuestion: null,
       countedIndices: new Set(),
       userAddedCount: 0,
-      audioUnlocked: false,
-      customVoices: {} // Lưu các bản thu âm của Bố Mẹ trong bộ nhớ máy
+      audioUnlocked: false
     };
 
     /********************************************************************
-     * 2. LƯU TRỮ ẢNH CỦA GẤU & GIỌNG THU ÂM CỦA BỐ MẸ (INDEXEDDB)
+     * 2. ẢNH ĐẠI DIỆN CỦA GẤU
      ********************************************************************/
-    let db = null;
-    function initDB() {
-      const req = indexedDB.open('GauMathDB', 1);
-      req.onupgradeneeded = e => {
-        const database = e.target.result;
-        if (!database.objectStoreNames.contains('voices')) {
-          database.createObjectStore('voices');
-        }
-      };
-      req.onsuccess = e => {
-        db = e.target.result;
-        loadAllCustomVoices();
-      };
-    }
-
-    function saveCustomVoice(key, dataUrl) {
-      state.customVoices[key] = dataUrl;
-      if (!db) return;
-      const tx = db.transaction('voices', 'readwrite');
-      tx.objectStore('voices').put(dataUrl, key);
-    }
-
-    function loadAllCustomVoices() {
-      if (!db) return;
-      const tx = db.transaction('voices', 'readonly');
-      const store = tx.objectStore('voices');
-      VOICE_SLOTS.forEach(slot => {
-        const getReq = store.get(slot.key);
-        getReq.onsuccess = () => {
-          if (getReq.result) state.customVoices[slot.key] = getReq.result;
-        };
-      });
-    }
-
-    // Tải ảnh của Gấu (Ưu tiên ảnh chọn từ máy -> file gau.jpg trên GitHub -> Icon Gấu 🐻)
     function loadGauAvatar() {
       const savedAvatar = localStorage.getItem('gau_avatar_data');
       const boxes = ['welcome-avatar-box', 'header-avatar-box', 'settings-avatar-preview'];
@@ -307,16 +224,6 @@
           const el = document.getElementById(id);
           if (el) el.innerHTML = `<img src="${savedAvatar}" class="gau-avatar-img" alt="Gấu" />`;
         });
-      } else {
-        // Thử kiểm tra xem trên GitHub có file gau.jpg không
-        const testImg = new Image();
-        testImg.onload = () => {
-          boxes.forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.innerHTML = `<img src="./gau.jpg" class="gau-avatar-img" alt="Gấu" />`;
-          });
-        };
-        testImg.src = './gau.jpg';
       }
     }
 
@@ -327,10 +234,8 @@
       reader.onload = e => {
         const img = new Image();
         img.onload = () => {
-          // Cắt ảnh vuông 240x240 cho nhẹ và nét trên iPad/iPhone
           const canvas = document.createElement('canvas');
-          canvas.width = 240;
-          canvas.height = 240;
+          canvas.width = 240; canvas.height = 240;
           const ctx = canvas.getContext('2d');
           const minSide = Math.min(img.width, img.height);
           const sx = (img.width - minSide) / 2;
@@ -345,94 +250,15 @@
       reader.readAsDataURL(file);
     }
 
-    /********************************************************************
-     * 3. PHÒNG THU ÂM GIỌNG BỐ MẸ TRỰC TIẾP TRÊN IPHONE / IPAD
-     ********************************************************************/
-    let mediaRecorder = null;
-    let activeRecordingKey = null;
-    let recordedChunks = [];
-
-    async function toggleRecording(slotKey) {
-      if (mediaRecorder && mediaRecorder.state === 'recording') {
-        mediaRecorder.stop();
-        return;
-      }
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        recordedChunks = [];
-        activeRecordingKey = slotKey;
-        mediaRecorder = new MediaRecorder(stream);
-        mediaRecorder.ondataavailable = e => {
-          if (e.data.size > 0) recordedChunks.push(e.data);
-        };
-        mediaRecorder.onstop = () => {
-          stream.getTracks().forEach(t => t.stop());
-          const blob = new Blob(recordedChunks, { type: mediaRecorder.mimeType || 'audio/mp4' });
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            saveCustomVoice(slotKey, reader.result);
-            activeRecordingKey = null;
-            renderVoiceRecorderList();
-            playVoiceSlot(slotKey, 'Đã lưu giọng của Bố Mẹ!');
-          };
-          reader.readAsDataURL(blob);
-        };
-        mediaRecorder.start();
-        renderVoiceRecorderList();
-      } catch (err) {
-        alert('Để thu âm giọng Bố Mẹ, vui lòng cho phép Safari truy cập Micro nhé!');
-      }
-    }
-
-    function renderVoiceRecorderList() {
-      const container = document.getElementById('voice-recorder-list');
-      if (!container) return;
-      container.innerHTML = '';
-      VOICE_SLOTS.forEach(slot => {
-        const isRec = activeRecordingKey === slot.key;
-        const hasVoice = Boolean(state.customVoices[slot.key]);
-        const row = document.createElement('div');
-        row.className = 'bg-white p-2 rounded-xl border border-sky-200 flex items-center justify-between gap-2';
-        row.innerHTML = `
-          <div class="min-w-0">
-            <div class="font-extrabold text-xs text-slate-800">${slot.label} ${hasVoice ? '✅' : ''}</div>
-            <div class="text-[10px] text-slate-500 truncate">${slot.hint}</div>
-          </div>
-          <div class="flex items-center gap-1 shrink-0">
-            ${
-              hasVoice
-                ? `<button onclick="playVoiceSlot('${slot.key}', '')" class="bg-emerald-100 text-emerald-800 font-black text-xs px-2 py-1 rounded-lg">▶️ Nghe</button>`
-                : ''
-            }
-            <button onclick="toggleRecording('${slot.key}')" class="${
-              isRec ? 'bg-red-600 text-white animate-pulse' : 'bg-sky-500 text-white'
-            } font-black text-xs px-2.5 py-1 rounded-lg">
-              ${isRec ? '⏹️ Dừng' : '🎙️ Thu'}
-            </button>
-          </div>
-        `;
-        container.appendChild(row);
-      });
-    }
-
-    function openParentModal() {
-      renderVoiceRecorderList();
-      document.getElementById('parent-modal').classList.remove('hidden');
-    }
-
-    function closeParentModal() {
-      if (mediaRecorder && mediaRecorder.state === 'recording') {
-        mediaRecorder.stop();
-      }
-      document.getElementById('parent-modal').classList.add('hidden');
-    }
+    function openParentModal() { document.getElementById('parent-modal').classList.remove('hidden'); }
+    function closeParentModal() { document.getElementById('parent-modal').classList.add('hidden'); }
 
     /********************************************************************
-     * 4. ĐỘNG CƠ ÂM THANH 3 LỚP (GIỌNG BỐ MẸ -> FILE GITHUB -> TTS GỌI TÊN GẤU)
+     * 3. HỆ THỐNG ÂM THANH & ĐỌC ĐỀ TỰ ĐỘNG (TTS IPAD)
      ********************************************************************/
     let audioCtx = null;
-    const audioPlayer = new Audio();
-    audioPlayer.referrerPolicy = 'no-referrer';
+    const ttsPlayer = new Audio();
+    ttsPlayer.referrerPolicy = 'no-referrer';
 
     function initAudio() {
       if (navigator.audioSession) {
@@ -445,40 +271,15 @@
       if (audioCtx.state === 'suspended') audioCtx.resume();
     }
 
-    // Phát ưu tiên: 1. Giọng Bố Mẹ thu trên máy -> 2. File mp3 trên GitHub -> 3. Giọng đọc TTS Tiếng Việt
-    function playVoiceSlot(slotKey, fallbackText) {
-      initAudio();
-      const slotInfo = VOICE_SLOTS.find(s => s.key === slotKey);
-
-      // Lớp 1: Có bản thu âm trực tiếp của Bố Mẹ trong máy
-      if (state.customVoices[slotKey]) {
-        audioPlayer.pause();
-        audioPlayer.src = state.customVoices[slotKey];
-        audioPlayer.play().catch(() => speakVietnamese(fallbackText));
-        return;
-      }
-
-      // Lớp 2: Thử phát file mp3 Bố Mẹ tải lên GitHub (nếu có)
-      if (slotInfo && slotInfo.file) {
-        audioPlayer.pause();
-        audioPlayer.src = slotInfo.file;
-        audioPlayer.play().catch(() => {
-          if (fallbackText) speakVietnamese(fallbackText);
-        });
-        return;
-      }
-
-      // Lớp 3: Đọc TTS Tiếng Việt
-      if (fallbackText) speakVietnamese(fallbackText);
-    }
-
     function speakVietnamese(text) {
       if (!text) return;
       initAudio();
+      
+      // Sử dụng Google TTS API mượt mà, fallback về bộ đọc nội bộ của iPad nếu mất mạng
       const url = `https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=vi&q=${encodeURIComponent(text)}`;
-      audioPlayer.pause();
-      audioPlayer.src = url;
-      audioPlayer.play().catch(() => {
+      ttsPlayer.pause();
+      ttsPlayer.src = url;
+      ttsPlayer.play().catch(() => {
         if ('speechSynthesis' in window) {
           window.speechSynthesis.cancel();
           const utter = new SpeechSynthesisUtterance(text);
@@ -500,12 +301,10 @@
       initAudio();
       document.getElementById('welcome-overlay').classList.add('hidden');
       playSuccessSound();
-      if (state.customVoices['welcome']) {
-        playVoiceSlot('welcome', '');
-        setTimeout(() => speakCurrentPrompt(), 2800);
-      } else {
-        setTimeout(() => speakCurrentPrompt(), 300);
-      }
+      
+      // Đọc lời chào trước, sau đó tự động đọc đề bài câu đầu tiên
+      speakVietnamese(`Chào ${CHILD_NAME} yêu! Mình cùng giải toán nhé!`);
+      setTimeout(() => speakCurrentPrompt(), 3500);
     }
 
     const SCALE_FREQS = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25, 587.33, 659.25, 783.99];
@@ -557,7 +356,7 @@
     }
 
     /********************************************************************
-     * 5. BỘ SINH CÂU HỎI GỌI TÊN "GẤU" THEO SGK TOÁN 1
+     * 4. BỘ SINH CÂU HỎI VỚI NỘI DUNG ĐỌC ĐỀ BÀI CỰC CHUẨN
      ********************************************************************/
     function getUnlockedPets() {
       return PET_CATALOG.filter(p => state.stars >= p.unlockedAt);
@@ -577,27 +376,20 @@
       if (state.mode === 'count') {
         const target = Math.floor(Math.random() * (maxRange + 1));
         state.currentQuestion = {
-          type: 'count',
-          pet,
-          target,
-          answer: target,
-          sgkRef: target <= 5 ? 'SGK Bài 1 (Trang 8–13)' : 'SGK Bài 2 (Trang 14–18)',
-          title: `${CHILD_NAME} ơi, có bao nhiêu bạn ${pet.name} trên bãi cỏ?`,
-          voicePrompt: `${CHILD_NAME} ơi, có bao nhiêu bạn ${pet.name} trên bãi cỏ? ${CHILD_NAME} chạm vào từng bạn để đếm nhé!`
+          type: 'count', pet, target, answer: target,
+          sgkRef: target <= 5 ? 'Bài 1 (Trang 8–13)' : 'Bài 2 (Trang 14–18)',
+          title: `${CHILD_NAME} ơi, có bao nhiêu bạn ${pet.name} trên cỏ?`,
+          voicePrompt: `${CHILD_NAME} ơi, có bao nhiêu bạn ${pet.name} trên bãi cỏ? ${CHILD_NAME} hãy chạm vào từng bạn để đếm nhé!`
         };
       } else if (state.mode === 'tenframe') {
         const target = Math.floor(Math.random() * 5) + 6;
         const initial = Math.floor(Math.random() * (target - 2)) + 2;
         const needed = target - initial;
         state.currentQuestion = {
-          type: 'tenframe',
-          pet,
-          initial,
-          target,
-          answer: needed,
-          sgkRef: 'SGK Bài 2 (Trang 18 • Khay 10 ô)',
-          title: `Khay có ${initial} ${pet.emoji}. ${CHILD_NAME} cần thêm mấy ${pet.emoji} để đủ ${target}?`,
-          voicePrompt: `${CHILD_NAME} ơi, trong khay đã có ${initial} bạn ${pet.name}. ${CHILD_NAME} cần cho thêm mấy bạn nữa để đủ ${target} bạn?`
+          type: 'tenframe', pet, initial, target, answer: needed,
+          sgkRef: 'Bài 2 (Trang 18 • Khay 10 ô)',
+          title: `Khay có ${initial} ${pet.emoji}. Cần thêm mấy để đủ ${target}?`,
+          voicePrompt: `${CHILD_NAME} ơi, trong khay đã có ${initial} bạn. Cần cho thêm mấy bạn nữa để trong khay có đủ ${target} bạn?`
         };
       } else if (state.mode === 'bond') {
         const total = Math.floor(Math.random() * (maxRange - 2)) + 3;
@@ -605,31 +397,29 @@
         const right = total - left;
         const askTotal = Math.random() < 0.45;
         state.currentQuestion = {
-          type: 'bond',
-          pet,
-          total,
-          left,
-          right,
-          askTotal,
+          type: 'bond', pet, total, left, right, askTotal,
           answer: askTotal ? total : right,
-          sgkRef: 'SGK Bài 5: Mấy và mấy (Trang 32–36)',
+          sgkRef: 'Bài 5: Mấy và mấy (Trang 32–36)',
           title: askTotal
-            ? `Giỏ Hồng có ${left} ${pet.emoji}, giỏ Xanh có ${right} ${pet.emoji}. ${CHILD_NAME} gộp lại được mấy?`
-            : `Có ${total} ${pet.emoji} gồm ${left} ở giỏ Hồng và mấy ở giỏ Xanh hả ${CHILD_NAME}?`,
+            ? `Giỏ Hồng có ${left}, giỏ Xanh có ${right}. Gộp lại được mấy?`
+            : `Có ${total} ${pet.emoji} gồm ${left} ở giỏ Hồng và mấy ở giỏ Xanh?`,
           voicePrompt: askTotal
-            ? `${CHILD_NAME} ơi, giỏ hồng có ${left} bạn, giỏ xanh có ${right} bạn. Hỏi ${left} và ${right} được mấy?`
-            : `${CHILD_NAME} ơi, có ${total} bạn ${pet.name}, gồm ${left} bạn ở giỏ hồng và mấy bạn ở giỏ xanh?`
+            ? `Giỏ hồng có ${left} bạn, giỏ xanh có ${right} bạn. Hỏi gộp lại được mấy bạn?`
+            : `Có tất cả ${total} bạn, gồm ${left} bạn ở giỏ hồng và mấy bạn ở giỏ xanh hả ${CHILD_NAME}?`
         };
       }
 
       renderWorkspace();
+      
+      // ĐỌC ĐỀ TỰ ĐỘNG SAU MỖI LẦN ĐỔI CÂU HỎI
       if (state.audioUnlocked && state.mode !== 'pets') {
-        setTimeout(() => speakCurrentPrompt(), 250);
+        // Đợi một chút để chuyển cảnh mượt rồi mới đọc
+        setTimeout(() => speakCurrentPrompt(), 400);
       }
     }
 
     /********************************************************************
-     * 6. HIỂN THỊ GIAO DIỆN CỦA GẤU
+     * 5. HIỂN THỊ GIAO DIỆN
      ********************************************************************/
     function renderNumpad() {
       const grid = document.getElementById('numpad-grid');
@@ -665,7 +455,7 @@
 
       numpadPanel.classList.remove('hidden');
       const q = state.currentQuestion;
-      document.getElementById('sgk-badge').textContent = `${q.sgkRef} • Chuỗi thắng của Gấu: ${state.streak} 🔥`;
+      document.getElementById('sgk-badge').textContent = `SGK ${q.sgkRef} • Chuỗi thắng: ${state.streak} 🔥`;
       document.getElementById('question-title').textContent = q.title;
 
       if (q.type === 'count') renderCountStage(stage, q);
@@ -673,14 +463,14 @@
       else if (q.type === 'bond') renderBondStage(stage, q);
     }
 
-   function renderCountStage(stage, q) {
+    function renderCountStage(stage, q) {
       stage.className = 'flex-1 min-h-0 w-full rounded-2xl shadow-inner border-2 border-emerald-300 overflow-hidden relative flex flex-col justify-between park-bg p-2';
 
       const topDecor = document.createElement('div');
       topDecor.className = 'flex items-center justify-between px-2 shrink-0';
       topDecor.innerHTML = `
         <span class="bg-white/90 text-sky-900 font-black text-xs px-2.5 py-0.5 rounded-full shadow-sm">
-          ☁️ Gấu đã đếm: <b class="text-pink-600 text-sm">${state.countedIndices.size}</b>
+          ☁️ Đã đếm: <b class="text-pink-600 text-sm">${state.countedIndices.size}</b>
         </span>
         <span class="text-xl">☀️ 🦋</span>
       `;
@@ -695,7 +485,7 @@
           <div class="bg-white/95 rounded-2xl p-4 border-2 border-dashed border-emerald-500 text-center max-w-xs animate-pop shadow">
             <div class="text-5xl mb-1">🧺</div>
             <p class="text-sm sm:text-base font-black text-emerald-900">
-              Bãi cỏ đang trống không! Có <b>0</b> bạn ${q.pet.name} Gấu nhé.
+              Bãi cỏ trống không! Có <b>0</b> bạn.
             </p>
           </div>
         `;
@@ -705,20 +495,14 @@
           const order = Array.from(state.countedIndices).indexOf(i) + 1;
           const card = document.createElement('button');
           card.className = `btn-bounce w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-2xl flex flex-col items-center justify-center relative shadow border-2 transition-all ${
-            isCounted
-              ? 'bg-pink-500 border-white text-white scale-105'
-              : 'bg-white/95 border-emerald-400'
+            isCounted ? 'bg-pink-500 border-white text-white scale-105' : 'bg-white/95 border-emerald-400'
           }`;
           card.innerHTML = `
             <span class="text-3xl sm:text-4xl md:text-5xl ${isCounted ? '' : 'animate-float'}">${q.pet.emoji}</span>
             <span class="text-[10px] font-black leading-none mt-0.5 ${isCounted ? 'text-white' : 'text-slate-500'}">
               ${isCounted ? `Số ${order}` : 'Chạm'}
             </span>
-            ${
-              isCounted
-                ? `<span class="absolute -top-2 -right-2 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-amber-400 text-amber-950 font-black text-xs sm:text-sm flex items-center justify-center shadow border border-white animate-pop">${order}</span>`
-                : ''
-            }
+            ${isCounted ? `<span class="absolute -top-2 -right-2 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-amber-400 text-amber-950 font-black text-xs sm:text-sm flex items-center justify-center shadow border border-white animate-pop">${order}</span>` : ''}
           `;
           card.onclick = () => {
             if (!state.countedIndices.has(i)) {
@@ -726,14 +510,10 @@
               const n = state.countedIndices.size;
               playNote(n - 1);
               
-              // CƠ CHẾ KÉP: Nếu chưa thu âm giọng Bố Mẹ thì tự động gọi TTS đọc to số n
-              if (state.customVoices[`num_${n}`]) {
-                playVoiceSlot(`num_${n}`, WORDS_VI[n]);
-              } else {
-                speakVietnamese(WORDS_VI[n]);
-              }
+              // MÁY TỰ ĐỘNG ĐỌC SỐ
+              speakVietnamese(WORDS_VI[n]);
 
-              document.getElementById('feedback-text').textContent = `👏 Gấu đếm được: ${n} bạn ${q.pet.name}!`;
+              document.getElementById('feedback-text').textContent = `👏 Đếm được: ${n} bạn ${q.pet.name}!`;
               renderCountStage(stage, q);
             }
           };
@@ -744,8 +524,7 @@
 
       const bottomFlowers = document.createElement('div');
       bottomFlowers.className = 'text-center text-[11px] font-black text-emerald-950 shrink-0';
-      bottomFlowers.textContent = '🌷 Gấu chạm vào từng bạn thú cưng để đếm rồi chọn số ở dưới nhé! 🌷';
-      stage.addImage = '';
+      bottomFlowers.textContent = '🌷 Chạm vào thú cưng để đếm rồi bấm số ở dưới nhé! 🌷';
       stage.appendChild(bottomFlowers);
     }
 
@@ -755,7 +534,7 @@
 
       stage.innerHTML = `
         <div class="w-full flex items-center justify-between bg-white px-3 py-1 rounded-xl border border-amber-300 text-xs sm:text-sm font-black shrink-0">
-          <span>Có sẵn: <b class="text-pink-600">${q.initial}</b> + Gấu thêm: <b class="text-sky-600">${state.userAddedCount}</b></span>
+          <span>Có sẵn: <b class="text-pink-600">${q.initial}</b> + Thêm: <b class="text-sky-600">${state.userAddedCount}</b></span>
           <span class="px-2 py-0.5 rounded-lg ${currentTotal === q.target ? 'bg-emerald-500 text-white' : 'bg-amber-100 text-amber-900'}">
             Tổng: ${currentTotal} / ${q.target}
           </span>
@@ -772,13 +551,7 @@
         const isTargetSlot = i < q.target;
 
         cell.className = `btn-bounce rounded-xl border-2 flex flex-col items-center justify-center relative ${
-          isInitial
-            ? 'bg-pink-100 border-pink-400'
-            : isUserAdded
-            ? 'bg-sky-200 border-sky-600 shadow-sm'
-            : isTargetSlot
-            ? 'bg-white border-dashed border-rose-400'
-            : 'bg-amber-100/50 border-amber-300/60 opacity-50'
+          isInitial ? 'bg-pink-100 border-pink-400' : isUserAdded ? 'bg-sky-200 border-sky-600 shadow-sm' : isTargetSlot ? 'bg-white border-dashed border-rose-400' : 'bg-amber-100/50 border-amber-300/60 opacity-50'
         }`;
 
         if (isInitial) {
@@ -800,7 +573,7 @@
             if (q.initial + state.userAddedCount < 10) {
               state.userAddedCount++;
               playNote(state.userAddedCount - 1);
-              playVoiceSlot(`num_${state.userAddedCount}`, WORDS_VI[state.userAddedCount]);
+              speakVietnamese(WORDS_VI[state.userAddedCount]);
               renderTenFrameStage(stage, q);
             }
           };
@@ -811,10 +584,9 @@
 
       const foot = document.createElement('div');
       foot.className = 'text-[11px] font-black text-amber-900 text-center shrink-0';
-      foot.innerHTML =
-        currentTotal === q.target
-          ? `✅ Đã đủ ${q.target}! Gấu vừa thêm <b class="text-sky-700">${state.userAddedCount}</b> ô màu xanh, Gấu bấm số <b class="text-rose-600">${state.userAddedCount}</b> ở dưới nhé!`
-          : `👆 Gấu chạm vào các ô "+ Thêm" cho đến khi đủ ${q.target} bạn nhé!`;
+      foot.innerHTML = currentTotal === q.target
+          ? `✅ Đã đủ ${q.target}! Vừa thêm <b class="text-sky-700">${state.userAddedCount}</b> ô, hãy bấm số <b class="text-rose-600">${state.userAddedCount}</b> ở dưới nhé!`
+          : `👆 Chạm vào các ô "+ Thêm" cho đến khi đủ ${q.target} bạn nhé!`;
       stage.appendChild(foot);
     }
 
@@ -823,8 +595,7 @@
 
       stage.innerHTML = `
         <div class="bg-white border border-pink-200 px-3 py-1 rounded-xl text-sm sm:text-lg font-black text-slate-800 shrink-0 shadow-sm">
-          ${
-            q.askTotal
+          ${q.askTotal
               ? `<span class="text-pink-600">${q.left}</span> và <span class="text-sky-600">${q.right}</span> được <span class="px-2 py-0.5 rounded bg-rose-500 text-white">?</span>`
               : `<span class="text-purple-700">${q.total}</span> gồm <span class="text-pink-600">${q.left}</span> và <span class="px-2 py-0.5 rounded bg-rose-500 text-white">?</span>`
           }
@@ -867,7 +638,7 @@
 
     function renderPetSanctuary(stage) {
       stage.className = 'flex-1 min-h-0 w-full rounded-2xl border-2 border-purple-300 bg-white p-2 overflow-y-auto';
-      document.getElementById('question-title').textContent = 'Bộ Sưu Tập Thú Cưng Của Gấu (Gấu chạm vào thú cưng nhé!)';
+      document.getElementById('question-title').textContent = 'Bộ Sưu Tập Thú Cưng (Chạm vào thú cưng để nghe chào!)';
 
       const grid = document.createElement('div');
       grid.className = 'grid grid-cols-2 sm:grid-cols-4 gap-2';
@@ -885,7 +656,7 @@
         if (unlocked) {
           card.onclick = () => {
             playSuccessSound();
-            speakVietnamese(`Xin chào chị Gấu xinh đẹp! Mình là ${pet.name} đây!`);
+            speakVietnamese(`Xin chào ${CHILD_NAME} xinh đẹp! Mình là ${pet.name} đây!`);
           };
         }
         grid.appendChild(card);
@@ -895,7 +666,7 @@
     }
 
     /********************************************************************
-     * 7. XỬ LÝ KẾT QUẢ & PHÁT GIỌNG KHEN CỦA BỐ / MẸ
+     * 6. XỬ LÝ KẾT QUẢ & LỜI KHEN
      ********************************************************************/
     function handleAnswerSubmit(selectedNum) {
       const q = state.currentQuestion;
@@ -908,27 +679,22 @@
         playSuccessSound();
         launchConfetti();
 
-        const msg = `Đúng rồi! Là số ${selectedNum}. Gấu của bố mẹ giỏi quá!`;
+        const praises = [
+          `Đúng rồi! Là số ${selectedNum}. ${CHILD_NAME} giỏi quá!`,
+          `Xuất sắc! ${CHILD_NAME} được thưởng một ngôi sao nhé!`,
+          `Chính xác! Các bạn thú cưng rất thích ${CHILD_NAME}!`
+        ];
+        const msg = praises[Math.floor(Math.random() * praises.length)];
         document.getElementById('feedback-text').textContent = `🌟 ${msg}`;
+        speakVietnamese(msg);
 
-        // Luân phiên phát giọng Bố khen hoặc Mẹ khen (nếu đã thu âm)
-        const praiseKey = Math.random() < 0.5 ? 'praise_dad' : 'praise_mom';
-        const altKey = praiseKey === 'praise_dad' ? 'praise_mom' : 'praise_dad';
-        if (state.customVoices[praiseKey]) {
-          playVoiceSlot(praiseKey, msg);
-        } else if (state.customVoices[altKey]) {
-          playVoiceSlot(altKey, msg);
-        } else {
-          playVoiceSlot(praiseKey, msg);
-        }
-
-        setTimeout(() => generateQuestion(), 1800);
+        setTimeout(() => generateQuestion(), 2800);
       } else {
         state.streak = 0;
         playGentleRetrySound();
-        const retry = `Chưa phải số ${selectedNum} rồi Gấu ơi, Gấu đếm lại các bạn trên hình nhé!`;
+        const retry = `Chưa phải số ${selectedNum} rồi, ${CHILD_NAME} đếm lại thật chậm nhé!`;
         document.getElementById('feedback-text').textContent = `💡 ${retry}`;
-        playVoiceSlot('retry', retry);
+        speakVietnamese(retry);
       }
     }
 
@@ -936,13 +702,15 @@
       state.mode = newMode;
       ['count', 'tenframe', 'bond', 'pets'].forEach(m => {
         const btn = document.getElementById(`tab-${m}`);
-        btn.className =
-          m === newMode
+        btn.className = m === newMode
             ? 'btn-bounce px-2 py-1 rounded-lg font-black text-xs bg-pink-500 text-white shadow shrink-0'
             : 'btn-bounce px-2 py-1 rounded-lg font-black text-xs text-pink-700 bg-pink-50 shrink-0';
       });
-      if (newMode === 'pets') renderWorkspace();
-      else generateQuestion();
+      if (newMode === 'pets') {
+        renderWorkspace();
+      } else {
+        generateQuestion();
+      }
     }
 
     function nextQuestion() {
@@ -978,8 +746,7 @@
       animate();
     }
 
-    // KHỞI ĐỘNG HỆ THỐNG CỦA GẤU
-    initDB();
+    // KHỞI ĐỘNG HỆ THỐNG
     loadGauAvatar();
     renderNumpad();
     generateQuestion();
