@@ -41,7 +41,7 @@
       <div id="welcome-avatar-box" class="w-32 h-32 rounded-full bg-white border-4 border-amber-300 flex items-center justify-center text-6xl shadow-2xl overflow-hidden animate-float">🐻</div>
       <span class="absolute -bottom-1 -right-1 bg-amber-400 text-amber-950 text-xs font-black px-2.5 py-0.5 rounded-full border-2 border-white">Bé Gấu 🎀</span>
     </div>
-    <span class="bg-white/20 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider mb-2">Toán 1 • Bản Tổng Hợp v9.0</span>
+    <span class="bg-white/20 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider mb-2">Toán 1 • Bản Tổng Hợp v9.1</span>
     <h1 class="text-3xl sm:text-5xl font-black mb-2 drop-shadow-md">THỊ TRẤN THÚ CƯNG</h1>
     <p class="text-base sm:text-lg font-bold text-sky-100 mb-8">Ôn tập toàn bộ từ bài Đếm số đến Phép cộng</p>
     <button onclick="startAppWithAudio()" class="btn-3d bg-amber-400 border-b-[6px] border-amber-600 text-amber-950 font-black text-xl sm:text-2xl px-8 py-4 rounded-2xl shadow-xl flex items-center gap-2">
@@ -98,37 +98,31 @@
     </header>
     <div class="flex-1 board-3d map-bg p-4 flex flex-col items-center overflow-y-auto relative">
       <div class="w-full max-w-sm flex flex-col gap-6 py-4">
-        <!-- Trạm Boss -->
         <button onclick="openStationModal('all', 'Lâu Đài Tổng Ôn')" class="btn-3d w-full bg-gradient-to-r from-purple-500 to-indigo-500 border-b-[6px] border-indigo-700 rounded-3xl p-3 shadow-xl flex items-center gap-3">
           <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center text-4xl">🏰</div>
           <div class="text-left"><div class="text-[11px] font-black text-purple-200">Trạm Cuối • Đánh Giá</div><div class="text-xl font-black text-white">Lâu Đài Tổng Ôn</div></div>
         </button>
         <div class="w-2 h-6 bg-emerald-400 mx-auto border-l-4 border-dashed border-white"></div>
-        <!-- Trạm 5: Cộng -->
         <button onclick="openStationModal('addition', 'Thung Lũng Phép Cộng')" class="btn-3d w-full bg-white border-4 border-pink-400 rounded-3xl p-3 shadow-lg flex items-center gap-3">
           <div class="w-14 h-14 rounded-2xl bg-pink-100 border-2 border-pink-400 flex items-center justify-center text-3xl">➕</div>
           <div class="text-left"><div class="text-[11px] font-black text-pink-500">Trạm 5 • SGK Tr56</div><div class="text-lg font-black text-slate-800">Thung Lũng Phép Cộng</div></div>
         </button>
         <div class="w-2 h-6 bg-emerald-400 mx-auto border-l-4 border-dashed border-white"></div>
-        <!-- Trạm 4: So Sánh -->
         <button onclick="openStationModal('compare', 'Đỉnh Núi So Sánh')" class="btn-3d w-full bg-white border-4 border-amber-400 rounded-3xl p-3 shadow-lg flex items-center gap-3">
           <div class="w-14 h-14 rounded-2xl bg-amber-100 border-2 border-amber-400 flex items-center justify-center text-3xl">⚖️</div>
           <div class="text-left"><div class="text-[11px] font-black text-amber-500">Trạm 4 • SGK Tr24</div><div class="text-lg font-black text-slate-800">Đỉnh Núi So Sánh</div></div>
         </button>
         <div class="w-2 h-6 bg-emerald-400 mx-auto border-l-4 border-dashed border-white"></div>
-        <!-- Trạm 3: Ghép Đôi -->
         <button onclick="openStationModal('match', 'Suối Ghép Đôi')" class="btn-3d w-full bg-white border-4 border-sky-400 rounded-3xl p-3 shadow-lg flex items-center gap-3">
           <div class="w-14 h-14 rounded-2xl bg-sky-100 border-2 border-sky-400 flex items-center justify-center text-3xl">🐰</div>
           <div class="text-left"><div class="text-[11px] font-black text-sky-500">Trạm 3 • SGK Tr20</div><div class="text-lg font-black text-slate-800">Suối Ghép Đôi</div></div>
         </button>
         <div class="w-2 h-6 bg-emerald-400 mx-auto border-l-4 border-dashed border-white"></div>
-        <!-- Trạm 2: Khay 10 & Tách Gộp -->
         <button onclick="openStationModal('tenframe_bond', 'Trại Tách Gộp')" class="btn-3d w-full bg-white border-4 border-orange-400 rounded-3xl p-3 shadow-lg flex items-center gap-3">
           <div class="w-14 h-14 rounded-2xl bg-orange-100 border-2 border-orange-400 flex items-center justify-center text-3xl">🍱</div>
           <div class="text-left"><div class="text-[11px] font-black text-orange-500">Trạm 2 • SGK Tr18,32</div><div class="text-lg font-black text-slate-800">Trại Tách Gộp</div></div>
         </button>
         <div class="w-2 h-6 bg-emerald-400 mx-auto border-l-4 border-dashed border-white"></div>
-        <!-- Trạm 1: Đếm -->
         <button onclick="openStationModal('count', 'Rừng Đếm Số')" class="btn-3d w-full bg-white border-4 border-emerald-400 rounded-3xl p-3 shadow-lg flex items-center gap-3">
           <div class="w-14 h-14 rounded-2xl bg-emerald-100 border-2 border-emerald-400 flex items-center justify-center text-3xl">🐾</div>
           <div class="text-left"><div class="text-[11px] font-black text-emerald-500">Trạm 1 • SGK Tr8</div><div class="text-lg font-black text-slate-800">Rừng Đếm Số</div></div>
@@ -172,7 +166,7 @@
     </header>
     
     <!-- Thanh tiến trình (chỉ hiện khi Kiểm tra) -->
-    <div id="test-progress-bar" class="hidden w-full h-2 bg-white rounded-full overflow-hidden shrink-0"><div id="test-progress-fill" class="h-full bg-emerald-500" style="width: 0%"></div></div>
+    <div id="test-progress-bar" class="hidden w-full h-2 bg-white rounded-full overflow-hidden shrink-0"><div id="test-progress-fill" class="h-full bg-emerald-500 transition-all duration-300" style="width: 0%"></div></div>
 
     <!-- Sân khấu chính thay đổi theo Module -->
     <main id="game-stage" class="flex-1 board-3d p-2 flex flex-col relative overflow-hidden"></main>
@@ -199,7 +193,6 @@
     let audioCtx = null;
     const ttsPlayer = new Audio(); ttsPlayer.referrerPolicy = 'no-referrer';
 
-    /* -- AUDIO & AVATAR INIT -- */
     function initAudio() {
       if (navigator.audioSession) { try { navigator.audioSession.type = 'playback'; } catch(e){} }
       if (!audioCtx) audioCtx = new window.AudioContext();
@@ -259,19 +252,19 @@
       }; r.readAsDataURL(file);
     }
 
-    /* -- ROUTING -- */
     function startAppWithAudio() {
       initAudio(); forceWakeUpTTS(); playSound('success');
+      document.getElementById('welcome-overlay').classList.add('hidden'); // Fix lỗi ẩn màn hình chào
       switchView('dashboard-view');
       setTimeout(() => speakVietnamese(`Chào ${CHILD_NAME} yêu! Mình cùng giải toán nhé!`), 500);
     }
 
     function switchView(viewId) {
+      playSound('pop');
       document.querySelectorAll('.app-view').forEach(el => el.classList.remove('active'));
       document.getElementById(viewId).classList.add('active');
     }
 
-    /* -- GAME FLOW -- */
     function openStationModal(id, title) {
       playSound('pop'); state.stationId = id;
       document.getElementById('modal-station-title').textContent = title;
@@ -304,7 +297,6 @@
       return id;
     }
 
-    /* -- QUESTION GENERATORS -- */
     function generateQuestionData(type) {
       const emoji = EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
       if (type === 'count') {
@@ -329,7 +321,6 @@
       }
     }
 
-    /* -- RENDER WORKSPACE -- */
     function renderQuestion(q) {
       state.q = q;
       if (state.isTest) {
@@ -432,7 +423,6 @@
       </div>`;
     }
 
-    /* -- IN-GAME INTERACTIONS -- */
     window.touchCount = function(i) {
       if(!state.q.countedIndices.has(i)) {
         state.q.countedIndices.add(i); playSound('pop');
@@ -450,14 +440,13 @@
       }
     }
 
-    /* -- ANSWER CHECKING -- */
     window.checkAnswer = function(ans) {
       const q = state.q;
       if (q.type === 'compare') { document.getElementById('comp-box').textContent = ans; document.getElementById('comp-box').className = 'w-16 h-16 bg-white rounded-2xl border-4 border-slate-400 flex items-center justify-center text-4xl font-black text-slate-800'; }
       if (q.type === 'addition' && ans === q.answer) { document.getElementById('add-ans').innerHTML = `<span class="text-6xl font-black text-rose-600 animate-pop">${ans}</span>`; document.getElementById('add-ans').classList.replace('border-dashed','border-solid'); }
 
       if (ans === q.answer) {
-        playSound('success'); speakVietnamese('Chính xác! Gấu giỏi quá!');
+        playSound('success'); speakVietnamese('Chính xác!');
         if(!state.isTest) { triggerConfetti(); state.stars++; localStorage.setItem('toan1_stars', state.stars); updateStarsUI(); }
         else { state.test.correct++; }
         
@@ -471,7 +460,7 @@
           }
         }, 1500);
       } else {
-        playSound('wrong'); speakVietnamese('Chưa đúng rồi, Gấu thử lại nhé!');
+        playSound('wrong'); speakVietnamese('Chưa đúng rồi!');
         if(state.isTest) {
           setTimeout(() => {
             state.test.current++;
