@@ -6,508 +6,318 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Toán Của Gấu" />
-  <link rel="manifest" href="./manifest.json" />
-  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/616/616430.png" />
-  <title>Toán Lớp 1 Của Gấu - v5.1</title>
+  <title>Toán Lớp 1 Của Gấu  </title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    if ('caches' in window) {
-      caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
-    }
-  </script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; user-select: none; -webkit-user-select: none; }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
     html, body { margin: 0; padding: 0; width: 100%; height: 100dvh; overflow: hidden; overscroll-behavior: none; touch-action: manipulation; font-family: 'Nunito', sans-serif; background: #fdf2f8; padding-top: max(env(safe-area-inset-top), 6px); padding-bottom: max(env(safe-area-inset-bottom), 6px); padding-left: max(env(safe-area-inset-left), 6px); padding-right: max(env(safe-area-inset-right), 6px); }
-    .btn-bounce { transition: transform 0.1s ease; }
+    .btn-bounce { transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1); }
     .btn-bounce:active { transform: scale(0.88); }
+    @keyframes floatSlow { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-6px); } }
     @keyframes popIn { 0% { transform: scale(0.2); opacity: 0; } 80% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
-    @keyframes floatSlow { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-4px); } }
-    .animate-pop { animation: popIn 0.25s ease-out forwards; }
-    .animate-float { animation: floatSlow 2.2s ease-in-out infinite; }
-    .park-bg { background: linear-gradient(180deg, #bae6fd 0%, #e0f2fe 32%, #bbf7d0 32%, #86efac 100%); }
-    .ten-frame-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 6px; }
-    .gau-avatar-img { object-fit: cover; width: 100%; height: 100%; }
+    .animate-float { animation: floatSlow 2.5s ease-in-out infinite; }
+    .animate-pop { animation: popIn 0.3s ease-out forwards; }
+    .map-bg { background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="%23dcfce7" opacity="0.4"/></svg>') #ecfdf5; background-size: 80px 80px; }
   </style>
 </head>
-<body class="flex flex-col justify-between h-full w-full max-w-5xl mx-auto gap-1.5">
+<body class="flex flex-col justify-between h-full w-full max-w-5xl mx-auto gap-2">
 
-  <div id="welcome-overlay" class="fixed inset-0 z-50 bg-gradient-to-b from-pink-500 via-rose-500 to-purple-600 flex flex-col items-center justify-center p-5 text-center text-white">
-    <div class="relative mb-3">
-      <div id="welcome-avatar-box" class="w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-white border-4 border-amber-300 flex items-center justify-center text-6xl shadow-2xl overflow-hidden animate-float">🐻</div>
-      <span class="absolute -bottom-1 -right-1 bg-amber-400 text-amber-950 text-xs font-black px-2.5 py-0.5 rounded-full border-2 border-white shadow">Bé Gấu 🎀</span>
-    </div>
-    <span class="bg-white/20 px-3 py-0.5 rounded-full text-xs font-black uppercase tracking-wider mb-1">Phiên bản v5.1 • Ép kích hoạt loa iOS</span>
-    <h1 class="text-2xl sm:text-4xl font-black mb-1">THỊ TRẤN THÚ CƯNG CỦA GẤU</h1>
-    <p class="text-sm sm:text-base font-bold text-pink-100 max-w-md mb-5">Gấu đã sẵn sàng giải toán chưa nào?</p>
-    <button onclick="startAppWithAudio()" class="btn-bounce bg-amber-400 text-amber-950 font-black text-xl sm:text-2xl px-8 py-3.5 rounded-2xl shadow-xl border-b-4 border-amber-600 flex items-center gap-2">
-      <span>▶️ GẤU BẤM ĐỂ BẮT ĐẦU</span><span>🔊</span>
-    </button>
-    <button onclick="openParentModal()" class="mt-5 text-xs font-extrabold bg-white/15 hover:bg-white/25 px-4 py-2 rounded-xl border border-white/30">⚙️ Cài đặt: Đổi ảnh đại diện của Gấu</button>
-  </div>
-
-  <div id="parent-modal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3">
-    <div class="bg-white w-full max-w-sm rounded-3xl border-4 border-pink-300 shadow-2xl flex flex-col overflow-hidden">
-      <div class="bg-pink-500 text-white px-4 py-3 flex items-center justify-between shrink-0">
-        <h3 class="font-black text-base">⚙️ Đổi ảnh của Gấu</h3>
-        <button onclick="closeParentModal()" class="bg-white/20 px-3 py-1 rounded-lg font-black text-sm">Đóng ✕</button>
-      </div>
-      <div class="p-4 text-slate-700 text-sm">
-        <div class="bg-pink-50 p-3 rounded-2xl border border-pink-200 flex flex-col items-center gap-3 text-center">
-          <div id="settings-avatar-preview" class="w-20 h-20 rounded-full bg-white border-4 border-pink-400 flex items-center justify-center text-4xl overflow-hidden shrink-0">🐻</div>
-          <div>
-            <label class="btn-bounce inline-block bg-pink-500 text-white font-extrabold px-4 py-2 rounded-xl cursor-pointer shadow-sm">
-              📸 Chọn ảnh từ máy
-              <input type="file" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)" />
-            </label>
-          </div>
-        </div>
+  <!-- HEADER -->
+  <header class="bg-white rounded-2xl shadow-sm border-2 border-pink-200 px-3 py-2 shrink-0 flex items-center justify-between gap-2 z-10">
+    <div class="flex items-center gap-2">
+      <button onclick="switchView('map')" class="w-10 h-10 rounded-xl bg-pink-100 border-2 border-pink-400 flex items-center justify-center text-xl shrink-0 btn-bounce">🐻</button>
+      <div class="flex flex-col">
+        <span class="text-[10px] font-black text-pink-500 uppercase">Hành trình của Gấu</span>
+        <span id="current-station-name" class="text-sm sm:text-base font-black text-slate-800 leading-tight">Bản đồ Kho báu</span>
       </div>
     </div>
-  </div>
-
-  <header class="bg-white rounded-xl shadow-sm border border-pink-200 px-2 py-1 shrink-0 flex items-center justify-between gap-1">
-    <div class="flex items-center gap-1.5 overflow-x-auto">
-      <button onclick="openParentModal()" id="header-avatar-box" class="w-8 h-8 rounded-full bg-pink-100 border-2 border-pink-400 flex items-center justify-center text-base overflow-hidden shrink-0">🐻</button>
-      <button onclick="switchMode('count')" id="tab-count" class="btn-bounce px-2 py-1 rounded-lg font-black text-xs bg-pink-500 text-white shadow shrink-0">🐾 Đếm Số</button>
-      <button onclick="switchMode('tenframe')" id="tab-tenframe" class="btn-bounce px-2 py-1 rounded-lg font-black text-xs text-pink-700 bg-pink-50 shrink-0">🍱 Khay 10</button>
-      <button onclick="switchMode('bond')" id="tab-bond" class="btn-bounce px-2 py-1 rounded-lg font-black text-xs text-pink-700 bg-pink-50 shrink-0">🌸 Tách-Gộp</button>
-      <button onclick="switchMode('pets')" id="tab-pets" class="btn-bounce px-2 py-1 rounded-lg font-black text-xs text-purple-700 bg-purple-50 shrink-0">🏡 Thú (<span id="pet-count-badge">1</span>/8)</button>
-    </div>
-    <div class="flex items-center gap-1 shrink-0">
-      <div class="flex items-center gap-1 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded-lg"><span class="text-xs">⭐</span><span id="star-score" class="text-xs sm:text-sm font-black text-amber-700">0</span></div>
-      <button onclick="speakCurrentPrompt()" class="btn-bounce bg-sky-500 text-white font-black text-xs px-2 py-1 rounded-lg shadow">🔊 Đọc lại</button>
+    <div class="flex items-center gap-2">
+      <div class="flex items-center gap-1 bg-amber-100 border-2 border-amber-300 px-3 py-1 rounded-xl shadow-inner">
+        <span class="text-base">⭐</span><span id="star-score" class="text-base sm:text-lg font-black text-amber-700">0</span>
+      </div>
+      <button onclick="switchView('map')" class="btn-bounce bg-sky-500 text-white font-black text-xs sm:text-sm px-3 py-2 rounded-xl shadow-md border-b-2 border-sky-700">🗺️ Bản đồ</button>
     </div>
   </header>
 
-  <div onclick="speakCurrentPrompt()" class="btn-bounce cursor-pointer bg-white rounded-xl border-2 border-pink-300 px-2.5 py-1.5 shrink-0 flex items-center justify-between gap-2 shadow-sm">
-    <div class="flex items-center gap-2 min-w-0">
-      <span class="w-8 h-8 rounded-lg bg-sky-100 border border-sky-300 flex items-center justify-center text-lg shrink-0">🔊</span>
-      <div class="min-w-0">
-        <div id="sgk-badge" class="text-[10px] font-extrabold text-pink-600 uppercase leading-none">SGK Bài 1 • Toán của Gấu</div>
-        <h2 id="question-title" class="text-xs sm:text-base md:text-lg font-black text-slate-800 leading-tight truncate">Gấu ơi, có bao nhiêu bạn Mèo Miu trên bãi cỏ?</h2>
-      </div>
-    </div>
-    <button onclick="event.stopPropagation(); nextQuestion();" class="btn-bounce bg-slate-100 text-slate-600 font-extrabold text-xs px-2 py-1 rounded-lg shrink-0">Đổi ↻</button>
-  </div>
-
-  <main id="stage-container" class="flex-1 min-h-0 w-full rounded-2xl shadow-inner border-2 border-white overflow-hidden relative flex flex-col"></main>
-
-  <footer id="numpad-panel" class="bg-white rounded-xl shadow border border-purple-200 p-1.5 shrink-0">
-    <div class="flex items-center justify-between px-1 mb-1 text-[11px] font-extrabold text-slate-600">
-      <span id="feedback-text" class="truncate text-pink-600">💡 Lắng nghe máy đọc câu hỏi nhé Gấu!</span>
-      <span id="reward-progress-text" class="text-purple-700 shrink-0 ml-2">Quà của Gấu: 0/5 ⭐</span>
-    </div>
-    <div id="numpad-grid" class="grid grid-cols-6 sm:grid-cols-11 gap-1"></div>
-  </footer>
+  <!-- MÀN HÌNH CHÍNH CHỨA BẢN ĐỒ HOẶC MINI-GAME -->
+  <main id="main-container" class="flex-1 min-h-0 w-full rounded-3xl shadow-inner border-4 border-white overflow-hidden relative flex flex-col"></main>
 
   <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-40"></canvas>
 
   <script>
     const CHILD_NAME = 'Gấu';
-    const PET_CATALOG = [
-      { id: 'cat', emoji: '🐱', name: 'Mèo Miu', food: '🐟', unlockedAt: 0 }, { id: 'dog', emoji: '🐶', name: 'Cún Bông', food: '🦴', unlockedAt: 5 },
-      { id: 'bunny', emoji: '🐰', name: 'Thỏ Trắng', food: '🥕', unlockedAt: 10 }, { id: 'duck', emoji: '🐥', name: 'Vịt Nhỏ', food: '🌽', unlockedAt: 15 },
-      { id: 'hamster', emoji: '🐹', name: 'Hamster', food: '🌻', unlockedAt: 20 }, { id: 'panda', emoji: '🐼', name: 'Gấu Trúc', food: '🎋', unlockedAt: 25 },
-      { id: 'fox', emoji: '🦊', name: 'Cáo Đỏ', food: '🍓', unlockedAt: 30 }, { id: 'unicorn', emoji: '🦄', name: 'Kỳ Lân', food: '🧁', unlockedAt: 35 }
-    ];
-    const WORDS_VI = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín', 'mười'];
-
     const state = {
-      mode: 'count',
+      view: 'map', // 'map', 'match', 'compare'
       stars: parseInt(localStorage.getItem('toan1_stars') || '0', 10),
-      streak: 0,
-      currentQuestion: null,
-      countedIndices: new Set(),
-      userAddedCount: 0,
-      audioUnlocked: false
+      currentQ: null
     };
 
-    function loadGauAvatar() {
-      const savedAvatar = localStorage.getItem('gau_avatar_data');
-      const boxes = ['welcome-avatar-box', 'header-avatar-box', 'settings-avatar-preview'];
-      if (savedAvatar) {
-        boxes.forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.innerHTML = `<img src="${savedAvatar}" class="gau-avatar-img" alt="Gấu" />`;
-        });
-      }
-    }
-
-    function handleAvatarUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = e => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          canvas.width = 240; canvas.height = 240;
-          const ctx = canvas.getContext('2d');
-          const minSide = Math.min(img.width, img.height);
-          ctx.drawImage(img, (img.width - minSide) / 2, (img.height - minSide) / 2, minSide, minSide, 0, 0, 240, 240);
-          localStorage.setItem('gau_avatar_data', canvas.toDataURL('image/jpeg', 0.85));
-          loadGauAvatar();
-        };
-        img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function openParentModal() { document.getElementById('parent-modal').classList.remove('hidden'); }
-    function closeParentModal() { document.getElementById('parent-modal').classList.add('hidden'); }
-
-    // ĐỘNG CƠ ÂM THANH MỚI (ÉP KÍCH HOẠT NATIVE iOS)
     let audioCtx = null;
-
     function initAudio() {
-      if (navigator.audioSession) {
-        try { navigator.audioSession.type = 'playback'; } catch (e) {}
-      }
-      if (!audioCtx) {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        audioCtx = new AudioContext();
-      }
+      if (navigator.audioSession) { try { navigator.audioSession.type = 'playback'; } catch(e){} }
+      if (!audioCtx) audioCtx = new window.AudioContext();
       if (audioCtx.state === 'suspended') audioCtx.resume();
     }
 
     function forceWakeUpTTS() {
-      // Bắn một lệnh đọc rỗng với âm lượng 0 để ép iOS Safari mở khóa động cơ TTS ngay khi có tương tác chạm
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
-        const silent = new SpeechSynthesisUtterance(' ');
-        silent.volume = 0;
+        const silent = new SpeechSynthesisUtterance(' '); silent.volume = 0;
         window.speechSynthesis.speak(silent);
       }
     }
 
     function speakVietnamese(text) {
       if (!text || !('speechSynthesis' in window)) return;
-      initAudio();
-      window.speechSynthesis.cancel();
+      initAudio(); window.speechSynthesis.cancel();
       const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = 'vi-VN';
-      utter.rate = 0.95; // Tăng tốc độ đọc cho tự nhiên hơn
+      utter.lang = 'vi-VN'; utter.rate = 0.95;
       window.speechSynthesis.speak(utter);
     }
 
-    function speakCurrentPrompt() {
-      if (state.currentQuestion && state.currentQuestion.voicePrompt) {
-        speakVietnamese(state.currentQuestion.voicePrompt);
+    function playSound(type) {
+      initAudio();
+      const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      if (type === 'pop') {
+        osc.type = 'sine'; osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+      } else if (type === 'success') {
+        osc.type = 'triangle'; osc.frequency.setValueAtTime(659.25, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+      } else if (type === 'wrong') {
+        osc.type = 'sawtooth'; osc.frequency.setValueAtTime(200, audioCtx.currentTime); osc.frequency.linearRampToValueAtTime(150, audioCtx.currentTime + 0.2);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.2);
       }
     }
 
-    function startAppWithAudio() {
-      state.audioUnlocked = true;
-      initAudio();
-      forceWakeUpTTS();
-      document.getElementById('welcome-overlay').classList.add('hidden');
-      playSuccessSound();
+    /* =========================================================
+       1. BẢN ĐỒ PHIÊU LƯU
+       ========================================================= */
+    function renderMap() {
+      const container = document.getElementById('main-container');
+      document.getElementById('current-station-name').textContent = 'Bản đồ Kho báu';
+      container.className = 'flex-1 min-h-0 w-full rounded-3xl shadow-inner border-4 border-emerald-300 map-bg p-4 flex items-center justify-center relative overflow-hidden';
       
-      setTimeout(() => {
-        speakVietnamese(`Chào ${CHILD_NAME} yêu! Mình cùng giải toán nhé!`);
-      }, 500);
-      setTimeout(() => speakCurrentPrompt(), 3200);
-    }
+      container.innerHTML = `
+        <div class="w-full max-w-sm flex flex-col gap-8 relative">
+          <!-- Trạm 3 -->
+          <button onclick="startCompareGame()" class="btn-bounce relative w-full bg-white border-4 border-amber-400 rounded-3xl p-3 shadow-lg flex items-center gap-3">
+            <div class="w-14 h-14 rounded-2xl bg-amber-100 border-2 border-amber-400 flex items-center justify-center text-3xl shrink-0">⚖️</div>
+            <div class="text-left">
+              <div class="text-xs font-black text-amber-500 uppercase">Trạm 3 • SGK Trang 24</div>
+              <div class="text-lg font-black text-slate-800">Đỉnh Núi So Sánh</div>
+            </div>
+            <span class="absolute -top-3 -right-3 bg-rose-500 text-white text-xs font-black px-2 py-1 rounded-full animate-pop">Mới!</span>
+          </button>
+          
+          <div class="w-2 h-10 bg-emerald-400 mx-auto border-l-4 border-dashed border-white opacity-60"></div>
 
-    const SCALE_FREQS = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25, 587.33, 659.25, 783.99];
-    function playNote(index) {
-      initAudio();
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(SCALE_FREQS[index % SCALE_FREQS.length], audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.22, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.2);
-    }
+          <!-- Trạm 2 -->
+          <button onclick="startMatchGame()" class="btn-bounce relative w-full bg-white border-4 border-sky-400 rounded-3xl p-3 shadow-lg flex items-center gap-3">
+            <div class="w-14 h-14 rounded-2xl bg-sky-100 border-2 border-sky-400 flex items-center justify-center text-3xl shrink-0">🐰</div>
+            <div class="text-left">
+              <div class="text-xs font-black text-sky-500 uppercase">Trạm 2 • SGK Trang 20</div>
+              <div class="text-lg font-black text-slate-800">Suối Ghép Đôi</div>
+            </div>
+          </button>
 
-    function playSuccessSound() {
-      initAudio();
-      [523.25, 659.25, 783.99, 1046.5].forEach((freq, idx) => {
-        setTimeout(() => {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-          gain.gain.setValueAtTime(0.24, audioCtx.currentTime);
-          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          osc.start();
-          osc.stop(audioCtx.currentTime + 0.3);
-        }, idx * 80);
-      });
-    }
+          <div class="w-2 h-10 bg-emerald-400 mx-auto border-l-4 border-dashed border-white opacity-60"></div>
 
-    function playGentleRetrySound() {
-      initAudio();
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(240, audioCtx.currentTime);
-      osc.frequency.linearRampToValueAtTime(185, audioCtx.currentTime + 0.25);
-      gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.25);
-    }
-
-    function getUnlockedPets() { return PET_CATALOG.filter(p => state.stars >= p.unlockedAt); }
-    function pickRandomPet() { const unlocked = getUnlockedPets(); return unlocked[Math.floor(Math.random() * unlocked.length)]; }
-
-    function generateQuestion() {
-      state.countedIndices.clear();
-      state.userAddedCount = 0;
-      const pet = pickRandomPet();
-      const maxRange = state.stars >= 4 || state.streak >= 3 ? 10 : 5;
-
-      if (state.mode === 'count') {
-        const target = Math.floor(Math.random() * (maxRange + 1));
-        state.currentQuestion = {
-          type: 'count', pet, target, answer: target, sgkRef: target <= 5 ? 'Bài 1 (Trang 8–13)' : 'Bài 2 (Trang 14–18)',
-          title: `${CHILD_NAME} ơi, có bao nhiêu bạn ${pet.name} trên cỏ?`,
-          voicePrompt: `${CHILD_NAME} ơi, có bao nhiêu bạn ${pet.name} trên bãi cỏ? ${CHILD_NAME} hãy chạm vào từng bạn để đếm nhé!`
-        };
-      } else if (state.mode === 'tenframe') {
-        const target = Math.floor(Math.random() * 5) + 6;
-        const initial = Math.floor(Math.random() * (target - 2)) + 2;
-        const needed = target - initial;
-        state.currentQuestion = {
-          type: 'tenframe', pet, initial, target, answer: needed, sgkRef: 'Bài 2 (Trang 18 • Khay 10 ô)',
-          title: `Khay có ${initial} ${pet.emoji}. Cần thêm mấy để đủ ${target}?`,
-          voicePrompt: `${CHILD_NAME} ơi, trong khay đã có ${initial} bạn. Cần cho thêm mấy bạn nữa để trong khay có đủ ${target} bạn?`
-        };
-      } else if (state.mode === 'bond') {
-        const total = Math.floor(Math.random() * (maxRange - 2)) + 3;
-        const left = Math.floor(Math.random() * (total - 1)) + 1;
-        const right = total - left;
-        const askTotal = Math.random() < 0.45;
-        state.currentQuestion = {
-          type: 'bond', pet, total, left, right, askTotal, answer: askTotal ? total : right, sgkRef: 'Bài 5: Mấy và mấy (Trang 32–36)',
-          title: askTotal ? `Giỏ Hồng có ${left}, giỏ Xanh có ${right}. Gộp lại được mấy?` : `Có ${total} ${pet.emoji} gồm ${left} ở giỏ Hồng và mấy ở giỏ Xanh?`,
-          voicePrompt: askTotal ? `Giỏ hồng có ${left} bạn, giỏ xanh có ${right} bạn. Hỏi gộp lại được mấy bạn?` : `Có tất cả ${total} bạn, gồm ${left} bạn ở giỏ hồng và mấy bạn ở giỏ xanh hả ${CHILD_NAME}?`
-        };
-      }
-
-      renderWorkspace();
-      if (state.audioUnlocked && state.mode !== 'pets') {
-        setTimeout(() => speakCurrentPrompt(), 400);
-      }
-    }
-
-    function renderNumpad() {
-      const grid = document.getElementById('numpad-grid');
-      grid.innerHTML = '';
-      for (let num = 0; num <= 10; num++) {
-        const btn = document.createElement('button');
-        btn.className = `btn-bounce h-10 sm:h-12 rounded-xl font-black text-lg sm:text-2xl shadow-sm border-b-2 flex items-center justify-center ${num === 10 ? 'col-span-2 sm:col-span-1 bg-purple-600 text-white border-purple-800' : num === 0 ? 'bg-amber-400 text-amber-950 border-amber-600' : 'bg-pink-50 active:bg-pink-200 text-pink-700 border-pink-300'}`;
-        btn.textContent = num;
-        btn.onclick = () => handleAnswerSubmit(num);
-        grid.appendChild(btn);
-      }
-    }
-
-    function renderWorkspace() {
-      document.getElementById('star-score').textContent = state.stars;
-      document.getElementById('pet-count-badge').textContent = getUnlockedPets().length;
-      document.getElementById('reward-progress-text').textContent = `Quà của Gấu: ${state.stars % 5}/5 ⭐`;
-
-      const stage = document.getElementById('stage-container');
-      const numpadPanel = document.getElementById('numpad-panel');
-
-      if (state.mode === 'pets') { numpadPanel.classList.add('hidden'); renderPetSanctuary(stage); return; }
-
-      numpadPanel.classList.remove('hidden');
-      const q = state.currentQuestion;
-      document.getElementById('sgk-badge').textContent = `SGK ${q.sgkRef} • Chuỗi thắng: ${state.streak} 🔥`;
-      document.getElementById('question-title').textContent = q.title;
-
-      if (q.type === 'count') renderCountStage(stage, q);
-      else if (q.type === 'tenframe') renderTenFrameStage(stage, q);
-      else if (q.type === 'bond') renderBondStage(stage, q);
-    }
-
-    function renderCountStage(stage, q) {
-      stage.className = 'flex-1 min-h-0 w-full rounded-2xl shadow-inner border-2 border-emerald-300 overflow-hidden relative flex flex-col justify-between park-bg p-2';
-      const topDecor = document.createElement('div');
-      topDecor.className = 'flex items-center justify-between px-2 shrink-0';
-      topDecor.innerHTML = `<span class="bg-white/90 text-sky-900 font-black text-xs px-2.5 py-0.5 rounded-full shadow-sm">☁️ Đã đếm: <b class="text-pink-600 text-sm">${state.countedIndices.size}</b></span><span class="text-xl">☀️ 🦋</span>`;
-      stage.innerHTML = '';
-      stage.appendChild(topDecor);
-
-      const grass = document.createElement('div');
-      grass.className = 'flex-1 flex flex-wrap items-center justify-center content-center gap-2 sm:gap-3.5 p-1 overflow-y-auto';
-
-      if (q.target === 0) {
-        grass.innerHTML = `<div class="bg-white/95 rounded-2xl p-4 border-2 border-dashed border-emerald-500 text-center max-w-xs animate-pop shadow"><div class="text-5xl mb-1">🧺</div><p class="text-sm sm:text-base font-black text-emerald-900">Bãi cỏ trống không! Có <b>0</b> bạn.</p></div>`;
-      } else {
-        for (let i = 0; i < q.target; i++) {
-          const isCounted = state.countedIndices.has(i);
-          const order = Array.from(state.countedIndices).indexOf(i) + 1;
-          const card = document.createElement('button');
-          card.className = `btn-bounce w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-2xl flex flex-col items-center justify-center relative shadow border-2 transition-all ${isCounted ? 'bg-pink-500 border-white text-white scale-105' : 'bg-white/95 border-emerald-400'}`;
-          card.innerHTML = `<span class="text-3xl sm:text-4xl md:text-5xl ${isCounted ? '' : 'animate-float'}">${q.pet.emoji}</span><span class="text-[10px] font-black leading-none mt-0.5 ${isCounted ? 'text-white' : 'text-slate-500'}">${isCounted ? `Số ${order}` : 'Chạm'}</span>${isCounted ? `<span class="absolute -top-2 -right-2 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-amber-400 text-amber-950 font-black text-xs sm:text-sm flex items-center justify-center shadow border border-white animate-pop">${order}</span>` : ''}`;
-          card.onclick = () => {
-            if (!state.countedIndices.has(i)) {
-              state.countedIndices.add(i);
-              const n = state.countedIndices.size;
-              playNote(n - 1);
-              speakVietnamese(WORDS_VI[n]);
-              document.getElementById('feedback-text').textContent = `👏 Đếm được: ${n} bạn ${q.pet.name}!`;
-              renderCountStage(stage, q);
-            }
-          };
-          grass.appendChild(card);
-        }
-      }
-      stage.appendChild(grass);
-      const bottomFlowers = document.createElement('div');
-      bottomFlowers.className = 'text-center text-[11px] font-black text-emerald-950 shrink-0';
-      bottomFlowers.textContent = '🌷 Chạm vào thú cưng để đếm rồi bấm số ở dưới nhé! 🌷';
-      stage.appendChild(bottomFlowers);
-    }
-
-    function renderTenFrameStage(stage, q) {
-      stage.className = 'flex-1 min-h-0 w-full rounded-2xl shadow-inner border-2 border-amber-300 bg-amber-50 p-2 flex flex-col justify-between items-center overflow-hidden';
-      const currentTotal = q.initial + state.userAddedCount;
-      stage.innerHTML = `<div class="w-full flex items-center justify-between bg-white px-3 py-1 rounded-xl border border-amber-300 text-xs sm:text-sm font-black shrink-0"><span>Có sẵn: <b class="text-pink-600">${q.initial}</b> + Thêm: <b class="text-sky-600">${state.userAddedCount}</b></span><span class="px-2 py-0.5 rounded-lg ${currentTotal === q.target ? 'bg-emerald-500 text-white' : 'bg-amber-100 text-amber-900'}">Tổng: ${currentTotal} / ${q.target}</span></div>`;
-
-      const grid = document.createElement('div');
-      grid.className = 'ten-frame-grid w-full max-w-lg flex-1 my-1.5 bg-amber-200/80 p-2 rounded-xl border-2 border-amber-500';
-
-      for (let i = 0; i < 10; i++) {
-        const cell = document.createElement('button');
-        const isInitial = i < q.initial;
-        const isUserAdded = i >= q.initial && i < q.initial + state.userAddedCount;
-        const isTargetSlot = i < q.target;
-
-        cell.className = `btn-bounce rounded-xl border-2 flex flex-col items-center justify-center relative ${isInitial ? 'bg-pink-100 border-pink-400' : isUserAdded ? 'bg-sky-200 border-sky-600 shadow-sm' : isTargetSlot ? 'bg-white border-dashed border-rose-400' : 'bg-amber-100/50 border-amber-300/60 opacity-50'}`;
-
-        if (isInitial) {
-          cell.innerHTML = `<span class="text-2xl sm:text-4xl">${q.pet.emoji}</span>`;
-        } else if (isUserAdded) {
-          const addedNum = i - q.initial + 1;
-          cell.innerHTML = `<span class="text-2xl sm:text-4xl animate-pop">${q.pet.emoji}</span><span class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-sky-600 text-white font-black text-[10px] flex items-center justify-center">+${addedNum}</span>`;
-          cell.onclick = () => { state.userAddedCount--; playNote(Math.max(0, state.userAddedCount)); renderTenFrameStage(stage, q); };
-        } else {
-          cell.innerHTML = `<span class="text-[11px] font-black ${isTargetSlot ? 'text-rose-500' : 'text-amber-500'}">${isTargetSlot ? '+ Thêm' : ''}</span>`;
-          cell.onclick = () => {
-            if (q.initial + state.userAddedCount < 10) {
-              state.userAddedCount++;
-              playNote(state.userAddedCount - 1);
-              speakVietnamese(WORDS_VI[state.userAddedCount]);
-              renderTenFrameStage(stage, q);
-            }
-          };
-        }
-        grid.appendChild(cell);
-      }
-      stage.appendChild(grid);
-      const foot = document.createElement('div');
-      foot.className = 'text-[11px] font-black text-amber-900 text-center shrink-0';
-      foot.innerHTML = currentTotal === q.target ? `✅ Đã đủ ${q.target}! Vừa thêm <b class="text-sky-700">${state.userAddedCount}</b> ô, hãy bấm số <b class="text-rose-600">${state.userAddedCount}</b> ở dưới nhé!` : `👆 Chạm vào các ô "+ Thêm" cho đến khi đủ ${q.target} bạn nhé!`;
-      stage.appendChild(foot);
-    }
-
-    function renderBondStage(stage, q) {
-      stage.className = 'flex-1 min-h-0 w-full rounded-2xl shadow-inner border-2 border-pink-300 bg-gradient-to-b from-pink-50 to-sky-50 p-2 flex flex-col justify-between items-center overflow-hidden';
-      stage.innerHTML = `
-        <div class="bg-white border border-pink-200 px-3 py-1 rounded-xl text-sm sm:text-lg font-black text-slate-800 shrink-0 shadow-sm">
-          ${q.askTotal ? `<span class="text-pink-600">${q.left}</span> và <span class="text-sky-600">${q.right}</span> được <span class="px-2 py-0.5 rounded bg-rose-500 text-white">?</span>` : `<span class="text-purple-700">${q.total}</span> gồm <span class="text-pink-600">${q.left}</span> và <span class="px-2 py-0.5 rounded bg-rose-500 text-white">?</span>`}
+          <!-- Trạm 1 (Đã hoàn thành) -->
+          <div class="relative w-full bg-emerald-50 border-4 border-emerald-300 rounded-3xl p-3 shadow opacity-80 flex items-center gap-3">
+            <div class="w-14 h-14 rounded-2xl bg-emerald-200 border-2 border-emerald-500 flex items-center justify-center text-3xl shrink-0">🐾</div>
+            <div class="text-left">
+              <div class="text-xs font-black text-emerald-600 uppercase">Trạm 1 (Đã qua)</div>
+              <div class="text-lg font-black text-slate-700">Rừng Đếm Số</div>
+            </div>
+            <span class="absolute -top-3 -right-3 text-2xl">✅</span>
+          </div>
         </div>
-        <div class="flex-1 w-full grid grid-cols-12 gap-1.5 items-center my-1 min-h-0">
-          <div class="col-span-4 h-full bg-pink-100/90 border-2 border-pink-400 rounded-xl p-1.5 flex flex-col items-center justify-between overflow-hidden">
-            <span class="text-[11px] font-black text-pink-800">Giỏ Hồng (${q.left})</span>
-            <div class="flex flex-wrap items-center justify-center gap-1 my-auto">
-              ${Array(q.left).fill(`<span class="text-xl sm:text-3xl animate-pop">${q.pet.emoji}</span>`).join('')}
-            </div>
-          </div>
-          <div class="col-span-4 flex items-center justify-center">
-            <div class="w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-amber-100 border-4 border-sky-500 shadow flex flex-col items-center justify-between p-1.5">
-              <div class="w-8 h-7 sm:w-10 sm:h-8 rounded bg-white border border-sky-600 flex items-center justify-center font-black text-sm sm:text-lg ${q.askTotal ? 'text-rose-600' : 'text-purple-800'}">${q.askTotal ? '?' : q.total}</div>
-              <div class="w-full border-t border-sky-400"></div>
-              <div class="flex items-center justify-around w-full">
-                <div class="w-7 h-6 sm:w-9 sm:h-8 rounded bg-pink-200 border border-pink-500 flex items-center justify-center font-black text-xs sm:text-base text-pink-900">${q.left}</div>
-                <div class="w-7 h-6 sm:w-9 sm:h-8 rounded bg-sky-200 border border-sky-500 flex items-center justify-center font-black text-xs sm:text-base ${!q.askTotal ? 'text-rose-600' : 'text-sky-900'}">${!q.askTotal ? '?' : q.right}</div>
+      `;
+      speakVietnamese(`${CHILD_NAME} ơi, mình đi tới Trạm Suối Ghép Đôi hay Đỉnh Núi So Sánh nào?`);
+    }
+
+    /* =========================================================
+       2. TRẠM SUỐI GHÉP ĐÔI (NHIỀU HƠN / ÍT HƠN) - BÀI 3
+       ========================================================= */
+    function startMatchGame() {
+      forceWakeUpTTS();
+      state.view = 'match';
+      const pets = Math.floor(Math.random() * 4) + 2; // 2 to 5
+      const foods = Math.floor(Math.random() * 4) + 2;
+      let answer = 'bằng nhau';
+      if (pets > foods) answer = 'nhiều hơn';
+      if (pets < foods) answer = 'ít hơn';
+
+      state.currentQ = { pets, foods, answer, matched: 0 };
+      document.getElementById('current-station-name').textContent = 'Suối Ghép Đôi';
+      renderMatchGame();
+      setTimeout(() => speakVietnamese(`${CHILD_NAME} ơi, cho mỗi bạn Thỏ một củ cà rốt, rồi xem bên nào nhiều hơn nhé!`), 400);
+    }
+
+    function renderMatchGame() {
+      const container = document.getElementById('main-container');
+      const q = state.currentQ;
+      
+      container.className = 'flex-1 min-h-0 w-full rounded-3xl shadow-inner border-4 border-sky-300 bg-gradient-to-b from-sky-50 to-blue-100 p-2 flex flex-col';
+      
+      const allMatched = (q.matched === Math.min(q.pets, q.foods));
+
+      container.innerHTML = `
+        <div class="bg-white rounded-2xl p-3 shadow border-2 border-sky-200 text-center shrink-0">
+          <div class="text-sm sm:text-lg font-black text-slate-800">Chạm vào củ cà rốt để chia cho các bạn Thỏ nhé!</div>
+        </div>
+        
+        <div class="flex-1 flex flex-row items-center justify-around mt-4">
+          <!-- Cột Thỏ -->
+          <div class="flex flex-col gap-2">
+            ${Array(q.pets).fill(0).map((_, i) => `
+              <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-2xl border-4 border-pink-200 shadow-md flex items-center justify-center text-4xl relative transition-all ${i < q.matched ? 'bg-emerald-100 border-emerald-400' : ''}">
+                🐰
+                ${i < q.matched ? '<span class="absolute -bottom-2 -right-2 text-2xl animate-pop">🥕</span>' : ''}
               </div>
-            </div>
+            `).join('')}
           </div>
-          <div class="col-span-4 h-full bg-sky-100/90 border-2 border-sky-400 rounded-xl p-1.5 flex flex-col items-center justify-between overflow-hidden">
-            <span class="text-[11px] font-black text-sky-800">Giỏ Xanh (${q.askTotal ? q.right : '?'})</span>
-            <div class="flex flex-wrap items-center justify-center gap-1 my-auto">
-              ${Array(q.right).fill(`<span class="text-xl sm:text-3xl animate-pop">${q.pet.emoji}</span>`).join('')}
-            </div>
+
+          <!-- Cột Cà rốt -->
+          <div class="flex flex-col gap-2">
+            ${Array(q.foods).fill(0).map((_, i) => `
+              <button onclick="feedRabbit()" class="btn-bounce w-16 h-16 sm:w-20 sm:h-20 rounded-2xl border-4 shadow-md flex items-center justify-center text-4xl transition-all ${i < q.matched ? 'opacity-0 scale-50 pointer-events-none' : 'bg-white border-orange-300 hover:bg-orange-50'}">
+                🥕
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <!-- Khung Trả lời hiện lên khi chia xong -->
+        <div id="match-answer-box" class="w-full bg-white p-3 rounded-2xl shadow-lg border-t-4 border-sky-400 transition-all ${allMatched ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'}">
+          <div class="text-center font-black text-base sm:text-xl text-slate-800 mb-3">Số bạn Thỏ <span>___</span> số Cà rốt?</div>
+          <div class="flex justify-center gap-2">
+            <button onclick="checkMatch('nhiều hơn')" class="btn-bounce flex-1 bg-pink-100 border-2 border-pink-400 text-pink-700 font-black py-3 rounded-xl text-sm sm:text-lg">Nhiều hơn</button>
+            <button onclick="checkMatch('bằng nhau')" class="btn-bounce flex-1 bg-sky-100 border-2 border-sky-400 text-sky-700 font-black py-3 rounded-xl text-sm sm:text-lg">Bằng nhau</button>
+            <button onclick="checkMatch('ít hơn')" class="btn-bounce flex-1 bg-emerald-100 border-2 border-emerald-400 text-emerald-700 font-black py-3 rounded-xl text-sm sm:text-lg">Ít hơn</button>
+          </div>
+        </div>
+      `;
+
+      if (allMatched && !q.asked) {
+        q.asked = true;
+        speakVietnamese(`Đã chia xong! ${CHILD_NAME} nhìn xem, số bạn thỏ nhiều hơn, ít hơn, hay bằng số cà rốt?`);
+      }
+    }
+
+    window.feedRabbit = function() {
+      const q = state.currentQ;
+      if (q.matched < q.pets && q.matched < q.foods) {
+        playSound('pop');
+        q.matched++;
+        renderMatchGame();
+      }
+    };
+
+    window.checkMatch = function(userAns) {
+      if (userAns === state.currentQ.answer) {
+        playSound('success'); triggerConfetti();
+        state.stars++; localStorage.setItem('toan1_stars', state.stars); document.getElementById('star-score').textContent = state.stars;
+        speakVietnamese(`Giỏi quá! Số thỏ ${userAns} số cà rốt.`);
+        setTimeout(() => startMatchGame(), 2000);
+      } else {
+        playSound('wrong');
+        speakVietnamese(`Chưa đúng rồi, ${CHILD_NAME} nhìn kỹ xem bên nào bị thừa ra nhé!`);
+      }
+    };
+
+    /* =========================================================
+       3. TRẠM ĐỈNH NÚI SO SÁNH (>, <, =) - BÀI 4
+       ========================================================= */
+    function startCompareGame() {
+      forceWakeUpTTS();
+      state.view = 'compare';
+      const num1 = Math.floor(Math.random() * 10);
+      const num2 = Math.floor(Math.random() * 10);
+      let answer = '=';
+      if (num1 > num2) answer = '>';
+      if (num1 < num2) answer = '<';
+
+      state.currentQ = { num1, num2, answer };
+      document.getElementById('current-station-name').textContent = 'Đỉnh Núi So Sánh';
+      renderCompareGame();
+      setTimeout(() => speakVietnamese(`${CHILD_NAME} ơi, số ${num1} lớn hơn, bé hơn hay bằng số ${num2}?`), 400);
+    }
+
+    function renderCompareGame() {
+      const container = document.getElementById('main-container');
+      const q = state.currentQ;
+      
+      container.className = 'flex-1 min-h-0 w-full rounded-3xl shadow-inner border-4 border-amber-300 bg-gradient-to-b from-amber-50 to-orange-100 p-3 flex flex-col justify-center items-center';
+      
+      container.innerHTML = `
+        <!-- Mô phỏng xe tải chở số SGK trang 24 -->
+        <div class="bg-white rounded-3xl p-5 shadow-lg border-4 border-amber-400 w-full max-w-sm flex items-center justify-between animate-pop mb-10">
+          <div class="w-20 h-24 bg-pink-100 border-4 border-pink-400 rounded-2xl flex items-center justify-center text-5xl font-black text-pink-700 shadow-inner">
+            ${q.num1}
+          </div>
+          
+          <div class="w-16 h-16 bg-slate-100 border-4 border-dashed border-slate-400 rounded-2xl flex items-center justify-center text-4xl font-black text-slate-300">
+            ?
+          </div>
+
+          <div class="w-20 h-24 bg-sky-100 border-4 border-sky-400 rounded-2xl flex items-center justify-center text-5xl font-black text-sky-700 shadow-inner">
+            ${q.num2}
+          </div>
+        </div>
+
+        <div class="w-full max-w-sm">
+          <div class="text-center font-black text-amber-700 mb-3">Chọn dấu đúng thả vào ô trống:</div>
+          <div class="flex justify-center gap-3">
+            <button onclick="checkCompare('>')" class="btn-bounce w-20 h-20 bg-rose-500 text-white border-b-4 border-rose-700 rounded-2xl font-black text-4xl shadow-md flex items-center justify-center">></button>
+            <button onclick="checkCompare('=')" class="btn-bounce w-20 h-20 bg-emerald-500 text-white border-b-4 border-emerald-700 rounded-2xl font-black text-4xl shadow-md flex items-center justify-center">=</button>
+            <button onclick="checkCompare('<')" class="btn-bounce w-20 h-20 bg-blue-500 text-white border-b-4 border-blue-700 rounded-2xl font-black text-4xl shadow-md flex items-center justify-center"><</button>
           </div>
         </div>
       `;
     }
 
-    function renderPetSanctuary(stage) {
-      stage.className = 'flex-1 min-h-0 w-full rounded-2xl border-2 border-purple-300 bg-white p-2 overflow-y-auto';
-      document.getElementById('question-title').textContent = 'Bộ Sưu Tập Thú Cưng (Chạm vào thú cưng để nghe chào!)';
-      const grid = document.createElement('div');
-      grid.className = 'grid grid-cols-2 sm:grid-cols-4 gap-2';
-      PET_CATALOG.forEach(pet => {
-        const unlocked = state.stars >= pet.unlockedAt;
-        const card = document.createElement('button');
-        card.className = `btn-bounce rounded-xl p-2 border-2 flex flex-col items-center text-center ${unlocked ? 'bg-pink-50 border-pink-300' : 'bg-slate-100 border-slate-300 opacity-60'}`;
-        card.innerHTML = `<div class="text-3xl sm:text-4xl">${unlocked ? pet.emoji : '🔒'}</div><div class="font-black text-xs text-slate-800 mt-1">${pet.name}</div><div class="text-[10px] font-bold text-slate-500">${unlocked ? `Món ăn: ${pet.food}` : `Mở ở ${pet.unlockedAt} ⭐`}</div>`;
-        if (unlocked) card.onclick = () => { playSuccessSound(); speakVietnamese(`Xin chào chị Gấu xinh đẹp! Mình là ${pet.name} đây!`); };
-        grid.appendChild(card);
-      });
-      stage.innerHTML = '';
-      stage.appendChild(grid);
-    }
-
-    function handleAnswerSubmit(selectedNum) {
-      const q = state.currentQuestion;
-      if (!q) return;
-      if (selectedNum === q.answer) {
-        state.stars += 1; state.streak += 1; localStorage.setItem('toan1_stars', String(state.stars));
-        playSuccessSound(); launchConfetti();
-        const msg = `Chính xác! Là số ${selectedNum}. Gấu rất giỏi!`;
-        document.getElementById('feedback-text').textContent = `🌟 ${msg}`;
-        speakVietnamese(msg);
-        setTimeout(() => generateQuestion(), 2800);
+    window.checkCompare = function(userAns) {
+      if (userAns === state.currentQ.answer) {
+        playSound('success'); triggerConfetti();
+        state.stars++; localStorage.setItem('toan1_stars', state.stars); document.getElementById('star-score').textContent = state.stars;
+        let word = userAns === '>' ? 'lớn hơn' : userAns === '<' ? 'bé hơn' : 'bằng';
+        speakVietnamese(`Chính xác! Số ${state.currentQ.num1} ${word} số ${state.currentQ.num2}.`);
+        setTimeout(() => startCompareGame(), 2000);
       } else {
-        state.streak = 0; playGentleRetrySound();
-        const retry = `Chưa đúng rồi, Gấu đếm lại thật chậm nhé!`;
-        document.getElementById('feedback-text').textContent = `💡 ${retry}`;
-        speakVietnamese(retry);
+        playSound('wrong');
+        speakVietnamese(`Chưa đúng rồi Gấu ơi, thử lại nhé!`);
       }
-    }
+    };
 
-    function switchMode(newMode) {
-      state.mode = newMode;
-      ['count', 'tenframe', 'bond', 'pets'].forEach(m => {
-        document.getElementById(`tab-${m}`).className = m === newMode ? 'btn-bounce px-2 py-1 rounded-lg font-black text-xs bg-pink-500 text-white shadow shrink-0' : 'btn-bounce px-2 py-1 rounded-lg font-black text-xs text-pink-700 bg-pink-50 shrink-0';
-      });
-      if (newMode === 'pets') renderWorkspace(); else generateQuestion();
-    }
+    /* =========================================================
+       4. ĐIỀU HƯỚNG & PHÁO HOA
+       ========================================================= */
+    window.switchView = function(view) {
+      playSound('pop');
+      if (view === 'map') renderMap();
+    };
 
-    function nextQuestion() { generateQuestion(); }
-
-    function launchConfetti() {
-      const canvas = document.getElementById('confetti-canvas');
-      const ctx = canvas.getContext('2d');
+    function triggerConfetti() {
+      const canvas = document.getElementById('confetti-canvas'); const ctx = canvas.getContext('2d');
       canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-      const pieces = Array.from({ length: 35 }, () => ({ x: canvas.width / 2, y: canvas.height / 2, vx: (Math.random() - 0.5) * 14, vy: (Math.random() - 0.8) * 14, size: Math.random() * 7 + 5, color: ['#ec4899', '#f59e0b', '#8b5cf6', '#10b981', '#3b82f6'][Math.floor(Math.random() * 5)] }));
+      const pieces = Array.from({length: 40}, () => ({ x: canvas.width/2, y: canvas.height/2, vx: (Math.random()-0.5)*15, vy: (Math.random()-0.8)*15, size: Math.random()*8+6, color: ['#ec4899','#f59e0b','#8b5cf6','#10b981','#3b82f6'][Math.floor(Math.random()*5)] }));
       let frame = 0;
       function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        pieces.forEach(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.45; ctx.fillStyle = p.color; ctx.fillRect(p.x, p.y, p.size, p.size); });
+        pieces.forEach(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.5; ctx.fillStyle = p.color; ctx.fillRect(p.x, p.y, p.size, p.size); });
         if (++frame < 35) requestAnimationFrame(animate); else ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
       animate();
     }
 
-    loadGauAvatar(); renderNumpad(); generateQuestion();
+    renderMap();
   </script>
 </body>
 </html>
