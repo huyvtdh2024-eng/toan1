@@ -13,31 +13,22 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
-    
-    /* Gỡ bỏ flex của body, giao lại toàn quyền cho app-root để tránh xung đột ngang */
     html, body { 
       margin: 0; padding: 0; width: 100%; height: 100dvh; overflow: hidden; overscroll-behavior: none; touch-action: manipulation;
       font-family: 'Nunito', sans-serif; background: #fdf2f8;
     }
-    
     #app-root {
-      padding-top: max(env(safe-area-inset-top), 8px);
-      padding-bottom: max(env(safe-area-inset-bottom), 8px);
-      padding-left: max(env(safe-area-inset-left), 8px);
-      padding-right: max(env(safe-area-inset-right), 8px);
+      padding-top: max(env(safe-area-inset-top), 8px); padding-bottom: max(env(safe-area-inset-bottom), 8px); padding-left: max(env(safe-area-inset-left), 8px); padding-right: max(env(safe-area-inset-right), 8px);
     }
-
     .btn-3d { transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1); position: relative; }
     .btn-3d:active { transform: translateY(4px); border-bottom-width: 0px !important; margin-top: 4px; }
     .wood-sign { background: #b45309; border: 4px solid #78350f; box-shadow: inset 0 -4px 0 rgba(0,0,0,0.2), 0 4px 10px rgba(0,0,0,0.1); border-radius: 20px; }
     .board-3d { background: #ffffff; border: 4px solid #f1f5f9; box-shadow: 0 12px 24px -6px rgba(0,0,0,0.1), inset 0 -6px 0 rgba(0,0,0,0.03); border-radius: 24px; }
     .map-bg { background: linear-gradient(180deg, #ecfdf5 0%, #d1fae5 100%); background-image: radial-gradient(#a7f3d0 20%, transparent 20%); background-size: 40px 40px; }
-    
     @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 80% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
     @keyframes floatBaby { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
     .animate-pop { animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
     .animate-float { animation: floatBaby 3s ease-in-out infinite; }
-    
     .ten-frame-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 4px; }
     .gau-avatar-img { object-fit: cover; width: 100%; height: 100%; }
   </style>
@@ -46,15 +37,15 @@
 
   <div id="app-root" class="w-full h-full max-w-5xl mx-auto flex flex-col relative bg-gradient-to-b from-sky-50 to-pink-50">
 
-    <!-- 1. MÀN HÌNH CHÀO BẮT ĐẦU -->
+    <!-- 1. MÀN HÌNH CHÀO -->
     <div id="welcome-view" class="flex flex-col items-center justify-center h-full p-4 text-center animate-pop z-10 bg-gradient-to-b from-sky-400 to-indigo-600 rounded-3xl text-white shadow-2xl">
       <div class="relative mb-4">
         <div id="welcome-avatar-box" class="w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-white border-4 border-amber-300 flex items-center justify-center text-6xl shadow-2xl overflow-hidden animate-float">🐻</div>
         <span class="absolute -bottom-1 -right-1 bg-amber-400 text-amber-950 text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-full border-2 border-white">Bé Gấu 🎀</span>
       </div>
-      <span class="bg-white/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider mb-2">Toán 1 • Bản v10.0 Tối Ưu Màn Dọc</span>
+      <span class="bg-white/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider mb-2">Toán 1 • v10.1 (Vá Lỗi)</span>
       <h1 class="text-3xl sm:text-4xl md:text-5xl font-black mb-2 drop-shadow-md">THỊ TRẤN THÚ CƯNG</h1>
-      <p class="text-sm sm:text-base font-bold text-sky-100 mb-8">Giao diện mới vừa khít mọi điện thoại</p>
+      <p class="text-sm sm:text-base font-bold text-sky-100 mb-8">Bố mẹ đã sửa lại để Gấu chơi mượt rồi nhé!</p>
       <button onclick="startAppWithAudio()" class="btn-3d bg-amber-400 border-b-[6px] border-amber-600 text-amber-950 font-black text-xl sm:text-2xl px-8 py-4 rounded-2xl shadow-xl flex items-center gap-2">
         <span>▶️ BẮT ĐẦU CHƠI</span><span>🔊</span>
       </button>
@@ -89,7 +80,7 @@
       </div>
     </div>
 
-    <!-- 3. MAP VIEW (BẢN ĐỒ CÁC TRẠM) -->
+    <!-- 3. MAP VIEW (BẢN ĐỒ) -->
     <div id="map-view" class="hidden flex-col w-full h-full animate-pop relative px-1 py-2 sm:p-2">
       <header class="bg-white rounded-2xl shadow border-2 border-emerald-200 px-2 py-2 shrink-0 flex justify-between items-center z-10 mb-2">
         <button onclick="switchView('dashboard-view')" class="btn-3d bg-slate-100 font-black text-slate-600 px-3 py-1.5 rounded-xl border-b-4 border-slate-300 text-xs sm:text-sm">⬅️ Trở về</button>
@@ -130,10 +121,8 @@
       </div>
     </div>
 
-    <!-- 4. GAME VIEW (KHU VỰC HỌC TẬP TỐI ƯU IPHONE) -->
+    <!-- 4. GAME VIEW (KHU VỰC HỌC TẬP) -->
     <div id="game-view" class="hidden flex-col w-full h-full animate-pop relative px-1 py-1 sm:p-2 gap-1.5">
-      
-      <!-- Header Game -->
       <header class="bg-white/95 backdrop-blur rounded-2xl p-2 border-2 border-white shadow-sm flex items-center justify-between shrink-0 gap-2">
         <button onclick="switchView('map-view')" class="btn-3d w-9 h-9 sm:w-10 sm:h-10 bg-sky-400 border-b-4 border-sky-600 rounded-xl text-white text-base sm:text-lg flex items-center justify-center shrink-0">⬅️</button>
         <div class="flex-1 min-w-0 flex flex-col justify-center">
@@ -147,10 +136,8 @@
       
       <div id="test-progress-bar" class="hidden w-full h-1.5 bg-white rounded-full overflow-hidden shrink-0"><div id="test-progress-fill" class="h-full bg-emerald-500 transition-all duration-300" style="width: 0%"></div></div>
 
-      <!-- Sân khấu chính (Khung hình thay đổi theo bài) -->
       <main id="game-stage" class="flex-1 board-3d p-1.5 sm:p-3 flex flex-col relative overflow-hidden"></main>
 
-      <!-- Khu vực đáp án chung (Numpad) -->
       <footer id="game-controls" class="bg-white rounded-2xl shadow border-2 border-slate-200 p-1.5 shrink-0 flex flex-col gap-1"></footer>
     </div>
   </div>
@@ -241,10 +228,10 @@
       else if (type === 'wrong') { osc.type = 'sawtooth'; osc.frequency.setValueAtTime(200, audioCtx.currentTime); osc.frequency.linearRampToValueAtTime(150, audioCtx.currentTime + 0.2); gain.gain.setValueAtTime(0.1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2); osc.start(); osc.stop(audioCtx.currentTime + 0.2); }
     }
 
+    /* ĐÃ VÁ LỖI CẬP NHẬT ĐIỂM SAO */
     function updateStarsUI() {
-      document.getElementById('dash-stars').textContent = state.stars;
-      document.getElementById('star-score').textContent = state.stars;
-      document.getElementById('game-stars-txt').textContent = state.stars;
+      const e1 = document.getElementById('dash-stars'); if(e1) e1.textContent = state.stars;
+      const e2 = document.getElementById('game-stars-txt'); if(e2) e2.textContent = state.stars;
     }
 
     function loadAvatar() {
@@ -274,7 +261,6 @@
       setTimeout(() => speakVietnamese(`Chào ${CHILD_NAME}! Mình cùng giải toán nhé!`), 400);
     }
 
-    /* Đổi View bằng cách ẩn/hiện triệt để (Không dùng Flex xung đột) */
     function switchView(viewId) {
       playSound('pop');
       ['dashboard-view', 'map-view', 'game-view'].forEach(id => {
@@ -316,7 +302,8 @@
       const emoji = EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
       if (type === 'count') {
         const target = Math.floor(Math.random()*9)+1;
-        return { type, emoji, target, answer: target, text: `Đếm xem có bao nhiêu ${emoji}?`, voice: `${CHILD_NAME} đếm xem có bao nhiêu hình nhé?`, counted: new Set() };
+        // ĐÃ VÁ LỖI countedIndices cho màn Đếm số
+        return { type, emoji, target, answer: target, text: `Đếm xem có bao nhiêu ${emoji}?`, voice: `${CHILD_NAME} chạm vào từng hình để đếm nhé?`, countedIndices: new Set() };
       } else if (type === 'tenframe') {
         const target = Math.floor(Math.random()*5)+6; const init = Math.floor(Math.random()*(target-2))+2; const needed = target - init;
         return { type, emoji, init, target, answer: needed, added: 0, text: `Khay có ${init}. Thêm mấy để đủ ${target}?`, voice: `Cần thêm mấy hình nữa để đủ ${target}?` };
@@ -336,7 +323,6 @@
       }
     }
 
-    /* RENDER SÂN KHẤU GAME CỰC KỲ RESPONSIVE (Tối ưu Mobile First) */
     function renderQuestion(q) {
       state.q = q;
       document.getElementById('game-title').textContent = state.isTest ? `📝 Câu ${state.test.current+1}/${state.test.total}: ${q.text}` : `🎓 ${q.text}`;
@@ -460,6 +446,7 @@
       }
     }
 
+    /* ĐÃ VÁ LỖI CHECK ANSWER (THÊM setTimeout ĐỂ CHUYỂN CÂU) */
     window.checkAnswer = function(ans) {
       const q = state.q;
       if (q.type === 'compare') { document.getElementById('comp-box').textContent = ans; document.getElementById('comp-box').className = 'w-12 h-12 sm:w-16 sm:h-16 bg-slate-700 text-white rounded-2xl flex items-center justify-center text-3xl sm:text-4xl font-black'; }
@@ -469,13 +456,25 @@
         playSound('success'); speakVietnamese('Chính xác!');
         if(!state.isTest) { triggerConfetti(); state.stars++; localStorage.setItem('toan1_stars', state.stars); updateStarsUI(); }
         else { state.test.correct++; }
+        
         setTimeout(() => {
-          if (state.isTest) { state.test.current++; if (state.test.current < state.test.total) renderQuestion(state.test.questions[state.test.current]); else endTest(); }
-          else { renderQuestion(generateQuestionData(resolveType(state.stationId))); }
-        }, 1500);
+          if (state.isTest) {
+            state.test.current++;
+            if (state.test.current < state.test.total) renderQuestion(state.test.questions[state.test.current]);
+            else endTest();
+          } else {
+            renderQuestion(generateQuestionData(resolveType(state.stationId)));
+          }
+        }, 1500); // 1.5 giây sau khi trả lời đúng sẽ tự chuyển câu!
       } else {
         playSound('wrong'); speakVietnamese('Chưa đúng rồi!');
-        if(state.isTest) { setTimeout(() => { state.test.current++; if (state.test.current < state.test.total) renderQuestion(state.test.questions[state.test.current]); else endTest(); }, 1500); }
+        if(state.isTest) {
+          setTimeout(() => {
+            state.test.current++;
+            if (state.test.current < state.test.total) renderQuestion(state.test.questions[state.test.current]);
+            else endTest();
+          }, 1500);
+        }
       }
     }
 
@@ -496,6 +495,7 @@
     }
     function speakCurrentQuestion() { if(state.q && state.q.voice) speakVietnamese(state.q.voice); }
     
+    // Init
     loadAvatar(); updateStarsUI();
   </script>
 </body>
