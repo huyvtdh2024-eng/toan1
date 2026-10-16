@@ -4,122 +4,244 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Toán Của Gấu" />
-  <link rel="manifest" href="./manifest.json" />
-  <title>Toán Lớp 1 Của Gấu </title>
+  <title>Toán Lớp 1 Của Gấu - v8.0 Siêu UI</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
-    html, body { margin: 0; padding: 0; width: 100%; height: 100dvh; overflow: hidden; overscroll-behavior: none; touch-action: manipulation; font-family: 'Nunito', sans-serif; background: #fdf2f8; padding-top: max(env(safe-area-inset-top), 6px); padding-bottom: max(env(safe-area-inset-bottom), 6px); padding-left: max(env(safe-area-inset-left), 6px); padding-right: max(env(safe-area-inset-right), 6px); }
-    .btn-bounce { transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1); }
-    .btn-bounce:active { transform: scale(0.88); }
-    @keyframes floatSlow { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-6px); } }
-    @keyframes popIn { 0% { transform: scale(0.2); opacity: 0; } 80% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
-    .animate-float { animation: floatSlow 2.5s ease-in-out infinite; }
-    .animate-pop { animation: popIn 0.3s ease-out forwards; }
-    .map-bg { background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="%23dcfce7" opacity="0.4"/></svg>') #ecfdf5; background-size: 80px 80px; }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+    html, body { 
+      margin: 0; padding: 0; width: 100%; height: 100dvh; overflow: hidden; 
+      font-family: 'Nunito', sans-serif; 
+      background: linear-gradient(135deg, #e0f2fe 0%, #fce7f3 100%);
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+    
+    /* Hiệu ứng Nút 3D Bubbly */
+    .btn-3d {
+      transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+    .btn-3d:active {
+      transform: translateY(4px);
+      border-bottom-width: 0px !important;
+      margin-top: 4px;
+    }
+    
+    /* Bảng gỗ (Wood Sign) */
+    .wood-sign {
+      background: #b45309;
+      border: 4px solid #78350f;
+      box-shadow: inset 0 -4px 0 rgba(0,0,0,0.2), 0 4px 10px rgba(0,0,0,0.1);
+      border-radius: 20px;
+    }
+
+    /* Bảng Trắng nổi (White Board) */
+    .board-3d {
+      background: #ffffff;
+      border: 4px solid #f1f5f9;
+      box-shadow: 0 12px 24px -6px rgba(0,0,0,0.1), 0 8px 12px -6px rgba(0,0,0,0.05), inset 0 -6px 0 rgba(0,0,0,0.03);
+      border-radius: 32px;
+    }
+
+    @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 80% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes floatBaby { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    .animate-pop { animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+    .animate-float { animation: floatBaby 3s ease-in-out infinite; }
   </style>
 </head>
-<body class="flex flex-col justify-between h-full w-full max-w-5xl mx-auto gap-2">
+<body class="flex items-center justify-center p-2 sm:p-4">
 
-  <!-- HEADER GỌN GÀNG -->
-  <header class="bg-white rounded-2xl shadow-sm border-2 border-pink-200 px-3 py-2 shrink-0 flex items-center justify-between gap-2 z-10">
-    <div class="flex items-center gap-2">
-      <div class="w-10 h-10 rounded-xl bg-pink-100 border-2 border-pink-400 flex items-center justify-center text-xl shrink-0">🐻</div>
-      <div class="flex flex-col">
-        <span class="text-[10px] font-black text-pink-500 uppercase">Hành trình của Gấu</span>
-        <span id="header-title" class="text-sm sm:text-base font-black text-slate-800 leading-tight">Bản đồ Kho báu</span>
+  <!-- MÀN HÌNH 1: BẢNG THÀNH TÍCH (DASHBOARD) -->
+  <div id="dashboard-view" class="w-full max-w-5xl h-full flex flex-col relative animate-pop">
+    
+    <!-- Tiêu đề Gỗ -->
+    <div class="absolute -top-2 left-1/2 -translate-x-1/2 z-20">
+      <div class="wood-sign px-6 sm:px-12 py-2 text-center relative">
+        <div class="absolute -left-3 -top-2 text-3xl animate-spin" style="animation-duration: 4s;">✨</div>
+        <div class="absolute -right-3 -bottom-2 text-3xl animate-spin" style="animation-duration: 3s;">✨</div>
+        <h1 class="text-xl sm:text-4xl font-black text-amber-100 uppercase tracking-wide drop-shadow-md">Thành Tích Của Gấu</h1>
       </div>
     </div>
-    <div class="flex items-center gap-2">
-      <div class="flex items-center gap-1 bg-amber-100 border-2 border-amber-300 px-3 py-1 rounded-xl shadow-inner">
-        <span class="text-base">⭐</span><span id="star-score" class="text-base sm:text-lg font-black text-amber-700">0</span>
-      </div>
-      <button onclick="goToMap()" class="btn-bounce bg-sky-500 text-white font-black text-xs sm:text-sm px-3 py-2 rounded-xl shadow border-b-2 border-sky-700">🗺️ Bản đồ</button>
-    </div>
-  </header>
 
-  <!-- MÀN HÌNH CHÍNH (MAP HOẶC GAME) -->
-  <main id="main-container" class="flex-1 min-h-0 w-full rounded-3xl shadow-inner border-4 border-white overflow-hidden relative flex flex-col"></main>
-
-  <!-- BÀN PHÍM SỐ BÊN DƯỚI (CHỈ HIỆN KHI CẦN) -->
-  <footer id="numpad-panel" class="hidden bg-white rounded-2xl shadow-md border-2 border-purple-200 p-2 shrink-0 z-10">
-    <div id="test-progress-bar" class="hidden w-full h-2 bg-slate-100 rounded-full mb-2 overflow-hidden">
-      <div id="test-progress-fill" class="h-full bg-emerald-500 transition-all duration-300" style="width: 0%"></div>
-    </div>
-    <div id="numpad-grid" class="flex justify-center flex-wrap gap-1 sm:gap-2"></div>
-  </footer>
-
-  <!-- MODAL CHỌN CHẾ ĐỘ HỌC HAY KIỂM TRA -->
-  <div id="station-modal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-sm rounded-3xl border-4 border-sky-300 shadow-2xl flex flex-col overflow-hidden animate-pop">
-      <div class="bg-sky-500 text-white px-4 py-3 flex items-center justify-between">
-        <h3 id="station-modal-title" class="font-black text-lg">Tên Trạm</h3>
-        <button onclick="closeStationModal()" class="bg-white/20 px-3 py-1 rounded-lg font-black text-sm btn-bounce">✕</button>
-      </div>
-      <div class="p-5 flex flex-col gap-4 bg-sky-50">
-        <button onclick="startMode('learn')" class="btn-bounce w-full bg-white border-4 border-emerald-400 rounded-2xl p-4 shadow-md flex items-center gap-4">
-          <div class="text-4xl">🎓</div>
-          <div class="text-left">
-            <div class="font-black text-xl text-emerald-600">Học Ôn Tập</div>
-            <div class="text-xs font-bold text-slate-500">Chơi vui, sai được làm lại</div>
-          </div>
+    <!-- Khung chính Dashboard -->
+    <div class="flex-1 board-3d mt-8 sm:mt-10 p-3 sm:p-5 flex flex-col sm:flex-row gap-4 overflow-hidden relative">
+      
+      <!-- Cột Trái: Mascot & Nút Bắt đầu -->
+      <div class="w-full sm:w-1/3 bg-gradient-to-b from-sky-100 to-indigo-50 rounded-[2rem] border-4 border-white flex flex-col items-center justify-center p-4 relative shadow-inner shrink-0">
+        <div class="absolute top-4 left-4 bg-white/80 px-3 py-1.5 rounded-2xl shadow-sm text-sm font-black text-indigo-600 flex items-center gap-2">
+          <span>Giỏi quá!</span>💖
+        </div>
+        <div class="text-7xl sm:text-9xl animate-float mt-6">🐻</div>
+        <div class="text-center mt-4 mb-6">
+          <h2 class="text-xl font-black text-slate-800">Gấu Ngoan</h2>
+          <p class="text-sm font-bold text-slate-500">Tiến bộ mỗi ngày</p>
+        </div>
+        
+        <button onclick="startMathGame('addition')" class="btn-3d w-full bg-emerald-500 border-b-[6px] border-emerald-700 text-white text-xl sm:text-2xl font-black py-4 rounded-2xl shadow-lg flex items-center justify-center gap-2">
+          <span>▶️</span> Học Tiếp Lớp 1
         </button>
-        <button onclick="startMode('test')" class="btn-bounce w-full bg-white border-4 border-amber-400 rounded-2xl p-4 shadow-md flex items-center gap-4">
-          <div class="text-4xl">📝</div>
-          <div class="text-left">
-            <div class="font-black text-xl text-amber-600">Kiểm Tra</div>
-            <div class="text-xs font-bold text-slate-500">5 câu liên tục lấy điểm</div>
+      </div>
+
+      <!-- Cột Phải: Thống kê & Huy hiệu -->
+      <div class="flex-1 flex flex-col gap-3 overflow-y-auto pr-1">
+        
+        <div class="grid grid-cols-2 gap-3 shrink-0">
+          <!-- Card Sao -->
+          <div class="bg-amber-50 rounded-[2rem] p-4 border-2 border-amber-200 flex items-center justify-center gap-4">
+            <div class="text-5xl drop-shadow-md">⭐</div>
+            <div class="text-center">
+              <div class="text-sm font-bold text-amber-700">Sao thưởng</div>
+              <div id="dash-stars" class="text-4xl sm:text-5xl font-black text-amber-500 leading-none">0</div>
+            </div>
           </div>
-        </button>
+          
+          <!-- Card Bài học -->
+          <div class="bg-blue-50 rounded-[2rem] p-4 border-2 border-blue-200 flex items-center justify-center gap-4">
+            <div class="text-center">
+              <div class="text-sm font-bold text-blue-700">Bài SGK</div>
+              <div class="text-3xl sm:text-4xl font-black text-blue-500 leading-none">Bài 10</div>
+            </div>
+            <div class="text-5xl drop-shadow-md">📚</div>
+          </div>
+        </div>
+
+        <!-- Mục tiêu -->
+        <div class="bg-emerald-50 rounded-[2rem] p-4 border-2 border-emerald-200 shrink-0">
+          <div class="flex justify-between items-end mb-2">
+            <div class="font-black text-emerald-800 flex items-center gap-2"><span class="text-xl">🎯</span> Chinh phục phép cộng</div>
+            <div class="text-sm font-bold text-emerald-600">Đang học</div>
+          </div>
+          <div class="w-full h-4 bg-emerald-200 rounded-full overflow-hidden">
+            <div class="h-full bg-emerald-500 rounded-full w-1/3 relative overflow-hidden">
+              <div class="absolute top-0 left-0 w-full h-full bg-white/30 skew-x-12"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Huy hiệu -->
+        <div class="bg-pink-50 rounded-[2rem] p-4 border-2 border-pink-200 flex-1 min-h-[140px] flex flex-col">
+          <div class="font-black text-pink-800 mb-3 flex items-center gap-2"><span class="text-xl">🎁</span> Huy hiệu của Gấu</div>
+          <div class="flex gap-3 overflow-x-auto pb-2 flex-1 items-center">
+            <div class="flex flex-col items-center gap-1 opacity-100 shrink-0"><div class="w-16 h-16 bg-white rounded-2xl border-4 border-amber-300 shadow flex items-center justify-center text-3xl">🐾</div><span class="text-[10px] font-bold text-slate-500">Biết Đếm</span></div>
+            <div class="flex flex-col items-center gap-1 opacity-100 shrink-0"><div class="w-16 h-16 bg-white rounded-2xl border-4 border-sky-300 shadow flex items-center justify-center text-3xl">⚖️</div><span class="text-[10px] font-bold text-slate-500">So Sánh</span></div>
+            <div class="flex flex-col items-center gap-1 opacity-40 shrink-0"><div class="w-16 h-16 bg-slate-200 rounded-2xl border-4 border-slate-300 shadow-inner flex items-center justify-center text-3xl grayscale">➕</div><span class="text-[10px] font-bold text-slate-500">Phép Cộng</span></div>
+            <div class="flex flex-col items-center gap-1 opacity-40 shrink-0"><div class="w-16 h-16 bg-slate-200 rounded-2xl border-4 border-slate-300 shadow-inner flex items-center justify-center text-3xl grayscale">➖</div><span class="text-[10px] font-bold text-slate-500">Phép Trừ</span></div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 
-  <!-- MODAL KẾT QUẢ KIỂM TRA -->
-  <div id="result-modal" class="hidden fixed inset-0 z-50 bg-slate-900/90 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-sm rounded-3xl border-4 border-amber-400 shadow-2xl flex flex-col items-center p-6 text-center animate-pop">
-      <div id="result-icon" class="text-7xl mb-2 animate-float">🏆</div>
-      <h2 id="result-title" class="text-2xl font-black text-amber-600 mb-1">Xuất Sắc!</h2>
-      <div class="text-slate-600 font-bold mb-4">Gấu đạt được:</div>
-      <div id="result-score" class="text-5xl font-black text-rose-500 mb-6 bg-rose-50 px-6 py-3 rounded-2xl border-2 border-rose-200">5 / 5</div>
-      <button onclick="goToMap()" class="btn-bounce w-full bg-amber-400 text-amber-950 font-black text-xl py-3 rounded-2xl shadow-md border-b-4 border-amber-600">
-        🗺️ Về Bản Đồ
+  <!-- MÀN HÌNH 2: BÀI HỌC PHÉP CỘNG (GAMEPLAY) -->
+  <div id="game-view" class="hidden w-full max-w-5xl h-full flex flex-col gap-3 animate-pop">
+    
+    <!-- Thanh Header Gameplay -->
+    <header class="bg-white/80 backdrop-blur rounded-3xl p-2 border-4 border-white shadow-sm flex items-center justify-between shrink-0">
+      <button onclick="goHome()" class="btn-3d w-12 h-12 bg-sky-400 border-b-4 border-sky-600 rounded-2xl text-white text-xl flex items-center justify-center shadow-md">
+        ⬅️
       </button>
-    </div>
+      
+      <div class="bg-indigo-500 text-white px-6 py-2 rounded-2xl font-black border-b-4 border-indigo-700 shadow flex items-center gap-2 text-sm sm:text-lg">
+        🚀 Bài 10: Phép Cộng
+      </div>
+
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex w-32 h-4 bg-slate-200 rounded-full overflow-hidden"><div id="game-progress" class="h-full bg-emerald-400" style="width: 20%"></div></div>
+        <div class="bg-amber-400 text-amber-900 px-3 py-1.5 rounded-2xl font-black text-sm sm:text-lg border-b-4 border-amber-600 shadow flex items-center gap-1">
+          ⭐ <span id="game-stars">0</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Khu vực Bảng Toán -->
+    <main class="flex-1 board-3d p-4 flex flex-col relative bg-sky-50">
+      <div class="text-center font-black text-sky-800 text-base sm:text-xl mb-4" id="game-prompt">
+        Gấu hãy gộp lại và chọn đáp án đúng nhé!
+      </div>
+
+      <!-- Bảng phương trình trung tâm -->
+      <div class="flex-1 flex items-center justify-center gap-2 sm:gap-6 mb-4">
+        
+        <!-- Khối Số 1 -->
+        <div class="flex flex-col items-center gap-3">
+          <div class="w-20 h-24 sm:w-28 sm:h-32 bg-pink-100 border-4 border-pink-300 rounded-[2rem] flex items-center justify-center shadow-inner">
+            <span id="num1" class="text-5xl sm:text-7xl font-black text-pink-500">2</span>
+          </div>
+          <div id="visual1" class="flex flex-wrap justify-center w-24 gap-1 min-h-[40px]">
+            <span class="text-2xl animate-float" style="animation-delay: 0.1s">🐶</span>
+            <span class="text-2xl animate-float" style="animation-delay: 0.3s">🐶</span>
+          </div>
+        </div>
+
+        <div class="text-4xl sm:text-6xl font-black text-slate-400 mt-[-40px]">+</div>
+
+        <!-- Khối Số 2 -->
+        <div class="flex flex-col items-center gap-3">
+          <div class="w-20 h-24 sm:w-28 sm:h-32 bg-amber-100 border-4 border-amber-300 rounded-[2rem] flex items-center justify-center shadow-inner">
+            <span id="num2" class="text-5xl sm:text-7xl font-black text-amber-500">3</span>
+          </div>
+          <div id="visual2" class="flex flex-wrap justify-center w-24 gap-1 min-h-[40px]">
+            <span class="text-2xl animate-float" style="animation-delay: 0.2s">🐶</span>
+            <span class="text-2xl animate-float" style="animation-delay: 0.4s">🐶</span>
+            <span class="text-2xl animate-float" style="animation-delay: 0.6s">🐶</span>
+          </div>
+        </div>
+
+        <div class="text-4xl sm:text-6xl font-black text-slate-400 mt-[-40px]">=</div>
+
+        <!-- Khối Kết Quả (?) -->
+        <div class="flex flex-col items-center gap-3">
+          <div id="ans-box" class="w-24 h-28 sm:w-32 sm:h-36 bg-white border-4 border-dashed border-rose-300 rounded-[2rem] flex items-center justify-center shadow">
+            <span class="text-6xl sm:text-8xl font-black text-rose-400 animate-pulse">?</span>
+          </div>
+          <div class="h-[40px] w-24"></div> <!-- Placeholder cho cân bằng -->
+        </div>
+
+      </div>
+
+      <!-- Khu vực chọn đáp án (3 Nút to) -->
+      <div id="answer-options" class="grid grid-cols-3 gap-3 sm:gap-6 px-4 sm:px-12 mb-4 shrink-0">
+        <!-- Render bằng JS -->
+      </div>
+
+      <!-- Thanh Công Cụ Đáy -->
+      <div class="flex justify-center gap-4 shrink-0">
+        <button onclick="speakQuestion()" class="btn-3d bg-pink-400 border-b-[5px] border-pink-600 text-white font-black text-base sm:text-lg px-6 py-3 rounded-2xl shadow flex items-center gap-2">
+          🔊 Nghe
+        </button>
+        <button onclick="showHint()" class="btn-3d bg-amber-400 border-b-[5px] border-amber-600 text-amber-900 font-black text-base sm:text-lg px-6 py-3 rounded-2xl shadow flex items-center gap-2">
+          💡 Gợi ý
+        </button>
+      </div>
+    </main>
+
   </div>
 
-  <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-40"></canvas>
+  <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
 
   <script>
-    /* ===================================================================
-       1. CẤU HÌNH CƠ BẢN & ÂM THANH
-       =================================================================== */
     const CHILD_NAME = 'Gấu';
-    const state = {
-      view: 'map', // 'map', 'game'
-      stars: parseInt(localStorage.getItem('toan1_stars') || '0', 10),
-      selectedStation: null, // 'count', 'match', 'compare', 'all'
-      isTest: false,
-      testData: { total: 5, currentIdx: 0, correct: 0, questions: [] },
-      currentQ: null
-    };
-
+    const EMOJIS = ['🐶', '🐱', '🐰', '🐼', '🍓', '🚗', '🎈', '⭐'];
+    
+    let stars = parseInt(localStorage.getItem('toan1_stars') || '0', 10);
+    let currentQ = null;
     let audioCtx = null;
+    const ttsPlayer = new Audio();
+
+    function updateStars() {
+      document.getElementById('dash-stars').textContent = stars;
+      document.getElementById('game-stars').textContent = stars;
+    }
+    updateStars();
+
+    // -- AUDIO ENGINE --
     function initAudio() {
       if (navigator.audioSession) { try { navigator.audioSession.type = 'playback'; } catch(e){} }
       if (!audioCtx) audioCtx = new window.AudioContext();
       if (audioCtx.state === 'suspended') audioCtx.resume();
-    }
-
-    function speakVietnamese(text) {
-      if (!text || !('speechSynthesis' in window)) return;
-      initAudio(); window.speechSynthesis.cancel();
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = 'vi-VN'; utter.rate = 0.95;
-      window.speechSynthesis.speak(utter);
     }
 
     function playSound(type) {
@@ -141,299 +263,115 @@
       }
     }
 
-    /* ===================================================================
-       2. BẢN ĐỒ & MODAL CHỌN TRẠM
-       =================================================================== */
-    document.getElementById('star-score').textContent = state.stars;
-
-    function goToMap() {
-      state.view = 'map';
-      document.getElementById('numpad-panel').classList.add('hidden');
-      document.getElementById('result-modal').classList.add('hidden');
-      document.getElementById('header-title').textContent = 'Bản đồ Kho báu';
-      
-      const container = document.getElementById('main-container');
-      container.className = 'flex-1 min-h-0 w-full rounded-3xl shadow-inner border-4 border-emerald-300 map-bg p-3 sm:p-5 flex items-center justify-center relative overflow-hidden overflow-y-auto';
-      
-      container.innerHTML = `
-        <div class="w-full max-w-sm flex flex-col gap-6 relative py-4">
-          
-          <!-- Lâu Đài Boss -->
-          <button onclick="openStationModal('all', 'Lâu Đài Tổng Ôn')" class="btn-bounce relative w-full bg-gradient-to-r from-purple-500 to-indigo-500 border-4 border-purple-300 rounded-3xl p-3 sm:p-4 shadow-xl flex items-center gap-3">
-            <div class="w-14 h-14 rounded-2xl bg-white/20 border-2 border-white/50 flex items-center justify-center text-4xl shrink-0">🏰</div>
-            <div class="text-left">
-              <div class="text-[11px] font-black text-purple-200 uppercase">Trạm Cuối • Đánh Giá</div>
-              <div class="text-lg sm:text-xl font-black text-white">Lâu Đài Tổng Ôn</div>
-            </div>
-            <span class="absolute -top-3 -right-3 text-3xl animate-bounce">👑</span>
-          </button>
-          
-          <div class="w-2 h-8 bg-emerald-400 mx-auto border-l-4 border-dashed border-white opacity-60"></div>
-
-          <!-- Trạm 3 -->
-          <button onclick="openStationModal('compare', 'Đỉnh Núi So Sánh')" class="btn-bounce relative w-full bg-white border-4 border-amber-400 rounded-3xl p-3 shadow-lg flex items-center gap-3">
-            <div class="w-14 h-14 rounded-2xl bg-amber-100 border-2 border-amber-400 flex items-center justify-center text-3xl shrink-0">⚖️</div>
-            <div class="text-left">
-              <div class="text-[11px] font-black text-amber-500 uppercase">Trạm 3 • SGK Trang 24</div>
-              <div class="text-base sm:text-lg font-black text-slate-800">Đỉnh Núi So Sánh</div>
-            </div>
-          </button>
-          
-          <div class="w-2 h-8 bg-emerald-400 mx-auto border-l-4 border-dashed border-white opacity-60"></div>
-
-          <!-- Trạm 2 -->
-          <button onclick="openStationModal('match', 'Suối Ghép Đôi')" class="btn-bounce relative w-full bg-white border-4 border-sky-400 rounded-3xl p-3 shadow-lg flex items-center gap-3">
-            <div class="w-14 h-14 rounded-2xl bg-sky-100 border-2 border-sky-400 flex items-center justify-center text-3xl shrink-0">🐰</div>
-            <div class="text-left">
-              <div class="text-[11px] font-black text-sky-500 uppercase">Trạm 2 • SGK Trang 20</div>
-              <div class="text-base sm:text-lg font-black text-slate-800">Suối Ghép Đôi</div>
-            </div>
-          </button>
-
-          <div class="w-2 h-8 bg-emerald-400 mx-auto border-l-4 border-dashed border-white opacity-60"></div>
-
-          <!-- Trạm 1 -->
-          <button onclick="openStationModal('count', 'Rừng Đếm Số')" class="btn-bounce relative w-full bg-white border-4 border-emerald-400 rounded-3xl p-3 shadow-lg flex items-center gap-3">
-            <div class="w-14 h-14 rounded-2xl bg-emerald-100 border-2 border-emerald-400 flex items-center justify-center text-3xl shrink-0">🐾</div>
-            <div class="text-left">
-              <div class="text-[11px] font-black text-emerald-500 uppercase">Trạm 1 • SGK Trang 8</div>
-              <div class="text-base sm:text-lg font-black text-slate-800">Rừng Đếm Số</div>
-            </div>
-          </button>
-        </div>
-      `;
-      speakVietnamese(`Bản đồ kho báu mở ra rồi! ${CHILD_NAME} muốn vào trạm nào?`);
-    }
-
-    function openStationModal(stationId, stationName) {
-      playSound('pop');
-      state.selectedStation = stationId;
-      document.getElementById('station-modal-title').textContent = stationName;
-      document.getElementById('station-modal').classList.remove('hidden');
-    }
-
-    function closeStationModal() {
-      playSound('pop');
-      document.getElementById('station-modal').classList.add('hidden');
-    }
-
-    /* ===================================================================
-       3. LOGIC TẠO CÂU HỎI & BẮT ĐẦU GAME
-       =================================================================== */
-    function generateQuestionData(type) {
-      if (type === 'count') {
-        const target = Math.floor(Math.random() * 9) + 1; // 1-9
-        return { type: 'count', target: target, answer: target, text: `Có bao nhiêu bạn Mèo?` };
-      } else if (type === 'match') {
-        const pets = Math.floor(Math.random() * 4) + 2; 
-        const foods = Math.floor(Math.random() * 4) + 2;
-        let answer = 'bằng nhau'; if (pets > foods) answer = 'nhiều hơn'; if (pets < foods) answer = 'ít hơn';
-        return { type: 'match', pets, foods, answer, matched: 0, text: `Số Thỏ nhiều hơn, ít hơn hay bằng Cà rốt?` };
-      } else if (type === 'compare') {
-        const num1 = Math.floor(Math.random() * 10);
-        const num2 = Math.floor(Math.random() * 10);
-        let answer = '='; if (num1 > num2) answer = '>'; if (num1 < num2) answer = '<';
-        return { type: 'compare', num1, num2, answer, text: `Số ${num1} lớn hơn, bé hơn hay bằng ${num2}?` };
-      }
-    }
-
-    function startMode(modeStr) {
-      closeStationModal();
-      state.view = 'game';
-      state.isTest = (modeStr === 'test');
-      
-      if (state.isTest) {
-        state.testData.total = (state.selectedStation === 'all') ? 10 : 5;
-        state.testData.currentIdx = 0;
-        state.testData.correct = 0;
-        state.testData.questions = [];
-        for(let i=0; i<state.testData.total; i++) {
-          let t = state.selectedStation === 'all' ? ['count', 'match', 'compare'][Math.floor(Math.random()*3)] : state.selectedStation;
-          state.testData.questions.push(generateQuestionData(t));
+    function speakVietnamese(text) {
+      if (!text) return;
+      initAudio();
+      const url = `https://translate.googleapis.com/translate_tts?client=gtx&ie=UTF-8&tl=vi&q=${encodeURIComponent(text)}`;
+      ttsPlayer.pause(); ttsPlayer.src = url;
+      ttsPlayer.play().catch(() => {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const utter = new SpeechSynthesisUtterance(text);
+          utter.lang = 'vi-VN'; utter.rate = 0.95;
+          window.speechSynthesis.speak(utter);
         }
-        document.getElementById('test-progress-bar').classList.remove('hidden');
-        loadQuestion(state.testData.questions[0]);
-      } else {
-        document.getElementById('test-progress-bar').classList.add('hidden');
-        let t = state.selectedStation === 'all' ? ['count', 'match', 'compare'][Math.floor(Math.random()*3)] : state.selectedStation;
-        loadQuestion(generateQuestionData(t));
-      }
+      });
     }
 
-    function loadQuestion(q) {
-      state.currentQ = q;
-      state.currentQ.countedIndices = new Set();
+    // -- NAVIGATION --
+    function goHome() {
+      playSound('pop');
+      document.getElementById('game-view').classList.add('hidden');
+      document.getElementById('dashboard-view').classList.remove('hidden');
+      updateStars();
+    }
+
+    function startMathGame(topic) {
+      playSound('pop');
+      document.getElementById('dashboard-view').classList.add('hidden');
+      document.getElementById('game-view').classList.remove('hidden');
+      generateAdditionQuestion();
+    }
+
+    // -- ADDITION GAME LOGIC --
+    function generateAdditionQuestion() {
+      // Phép cộng phạm vi 10 (Bài 10 SGK)
+      const sum = Math.floor(Math.random() * 8) + 3; // 3 đến 10
+      const num1 = Math.floor(Math.random() * (sum - 1)) + 1; // Ít nhất là 1
+      const num2 = sum - num1;
+      const emoji = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
       
-      // Update Header Title
-      let titlePrefix = state.isTest ? `📝 Câu ${state.testData.currentIdx + 1}/${state.testData.total}: ` : `🎓 Ôn tập: `;
-      document.getElementById('header-title').textContent = titlePrefix + q.text;
-      speakVietnamese(q.text);
-
-      // Render Stage & Numpad based on type
-      const container = document.getElementById('main-container');
-      const numpad = document.getElementById('numpad-panel');
-      const numpadGrid = document.getElementById('numpad-grid');
-      numpad.classList.remove('hidden');
-
-      if (state.isTest) {
-        let pct = (state.testData.currentIdx / state.testData.total) * 100;
-        document.getElementById('test-progress-fill').style.width = pct + '%';
+      // Tạo 3 đáp án (1 đúng, 2 sai)
+      let options = new Set([sum]);
+      while(options.size < 3) {
+        let wrong = sum + Math.floor(Math.random() * 5) - 2;
+        if(wrong > 0 && wrong <= 15) options.add(wrong);
       }
+      options = Array.from(options).sort(() => Math.random() - 0.5);
 
-      if (q.type === 'count') {
-        container.className = 'flex-1 min-h-0 w-full rounded-3xl shadow-inner border-4 border-emerald-300 bg-emerald-50 p-2 flex flex-col relative';
-        container.innerHTML = `
-          <div class="flex-1 flex flex-wrap items-center justify-center content-center gap-3 p-2 overflow-y-auto">
-            ${Array(q.target).fill(0).map((_, i) => `
-              <button id="count-item-${i}" onclick="touchCountItem(${i})" class="btn-bounce w-16 h-16 sm:w-24 sm:h-24 bg-white rounded-2xl shadow border-2 border-emerald-400 text-4xl sm:text-6xl flex items-center justify-center relative">🐱</button>
-            `).join('')}
-          </div>
-        `;
-        renderNumberPad(numpadGrid);
-
-      } else if (q.type === 'match') {
-        container.className = 'flex-1 min-h-0 w-full rounded-3xl shadow-inner border-4 border-sky-300 bg-sky-50 p-2 flex flex-col relative';
-        container.innerHTML = `
-          <div class="flex-1 flex flex-row items-center justify-around">
-            <div class="flex flex-col gap-2">
-              ${Array(q.pets).fill(0).map((_, i) => `<div id="match-pet-${i}" class="w-14 h-14 sm:w-20 sm:h-20 bg-white rounded-2xl border-4 border-pink-200 flex items-center justify-center text-3xl sm:text-4xl transition-all">🐰</div>`).join('')}
-            </div>
-            <div class="flex flex-col gap-2">
-              ${Array(q.foods).fill(0).map((_, i) => `<button id="match-food-${i}" onclick="touchMatchFood(${i})" class="btn-bounce w-14 h-14 sm:w-20 sm:h-20 bg-white border-4 border-orange-300 rounded-2xl flex items-center justify-center text-3xl sm:text-4xl shadow-md transition-all">🥕</button>`).join('')}
-            </div>
-          </div>
-        `;
-        numpadGrid.innerHTML = `
-          <button onclick="submitAnswer('nhiều hơn')" class="btn-bounce bg-pink-100 border-2 border-pink-400 text-pink-700 font-black px-4 py-3 rounded-xl w-[30%] text-xs sm:text-base">Nhiều hơn</button>
-          <button onclick="submitAnswer('bằng nhau')" class="btn-bounce bg-sky-100 border-2 border-sky-400 text-sky-700 font-black px-4 py-3 rounded-xl w-[30%] text-xs sm:text-base">Bằng nhau</button>
-          <button onclick="submitAnswer('ít hơn')" class="btn-bounce bg-emerald-100 border-2 border-emerald-400 text-emerald-700 font-black px-4 py-3 rounded-xl w-[30%] text-xs sm:text-base">Ít hơn</button>
-        `;
-
-      } else if (q.type === 'compare') {
-        container.className = 'flex-1 min-h-0 w-full rounded-3xl shadow-inner border-4 border-amber-300 bg-amber-50 p-2 flex flex-col justify-center items-center';
-        container.innerHTML = `
-          <div class="bg-white rounded-3xl p-5 shadow border-4 border-amber-400 w-full max-w-sm flex items-center justify-between">
-            <div class="w-16 h-20 sm:w-20 sm:h-24 bg-pink-100 border-4 border-pink-400 rounded-2xl flex items-center justify-center text-4xl sm:text-5xl font-black text-pink-700">${q.num1}</div>
-            <div id="compare-box" class="w-14 h-14 sm:w-16 sm:h-16 bg-slate-100 border-4 border-dashed border-slate-400 rounded-2xl flex items-center justify-center text-3xl sm:text-4xl font-black text-slate-300">?</div>
-            <div class="w-16 h-20 sm:w-20 sm:h-24 bg-sky-100 border-4 border-sky-400 rounded-2xl flex items-center justify-center text-4xl sm:text-5xl font-black text-sky-700">${q.num2}</div>
-          </div>
-        `;
-        numpadGrid.innerHTML = `
-          <button onclick="submitAnswer('>')" class="btn-bounce w-20 h-16 bg-rose-500 text-white border-b-4 border-rose-700 rounded-2xl font-black text-4xl flex items-center justify-center">></button>
-          <button onclick="submitAnswer('=')" class="btn-bounce w-20 h-16 bg-emerald-500 text-white border-b-4 border-emerald-700 rounded-2xl font-black text-4xl flex items-center justify-center">=</button>
-          <button onclick="submitAnswer('<')" class="btn-bounce w-20 h-16 bg-blue-500 text-white border-b-4 border-blue-700 rounded-2xl font-black text-4xl flex items-center justify-center"><</button>
-        `;
-      }
+      currentQ = { num1, num2, sum, emoji, options };
+      renderAdditionUI();
+      
+      setTimeout(() => speakQuestion(), 600);
     }
 
-    function renderNumberPad(gridElement) {
-      gridElement.innerHTML = '';
-      for (let num = 0; num <= 10; num++) {
+    function speakQuestion() {
+      speakVietnamese(`${CHILD_NAME} ơi, ${currentQ.num1} cộng ${currentQ.num2} bằng mấy?`);
+    }
+
+    function showHint() {
+      playSound('pop');
+      speakVietnamese(`${CHILD_NAME} hãy đếm tất cả các hình ở bên dưới số nhé: 1, 2, 3...`);
+    }
+
+    function renderAdditionUI() {
+      const q = currentQ;
+      document.getElementById('num1').textContent = q.num1;
+      document.getElementById('num2').textContent = q.num2;
+      
+      // Box kết quả reset
+      const ansBox = document.getElementById('ans-box');
+      ansBox.className = 'w-24 h-28 sm:w-32 sm:h-36 bg-white border-4 border-dashed border-rose-300 rounded-[2rem] flex items-center justify-center shadow transition-all';
+      ansBox.innerHTML = '<span class="text-6xl sm:text-8xl font-black text-rose-400 animate-pulse">?</span>';
+
+      // Sinh hình ảnh dưới số
+      document.getElementById('visual1').innerHTML = Array(q.num1).fill(0).map((_,i) => `<span class="text-2xl sm:text-3xl animate-float" style="animation-delay: ${i*0.1}s">${q.emoji}</span>`).join('');
+      document.getElementById('visual2').innerHTML = Array(q.num2).fill(0).map((_,i) => `<span class="text-2xl sm:text-3xl animate-float" style="animation-delay: ${(i+q.num1)*0.1}s">${q.emoji}</span>`).join('');
+
+      // Nút đáp án (dùng các màu của ảnh mockup: Xanh dương, Xanh lá, Tím, Cam)
+      const colors = [
+        { bg: 'bg-blue-400', border: 'border-blue-600', text: 'text-white' },
+        { bg: 'bg-emerald-500', border: 'border-emerald-700', text: 'text-white' },
+        { bg: 'bg-purple-500', border: 'border-purple-700', text: 'text-white' }
+      ];
+
+      const optsContainer = document.getElementById('answer-options');
+      optsContainer.innerHTML = '';
+      q.options.forEach((opt, idx) => {
+        const c = colors[idx];
         const btn = document.createElement('button');
-        btn.className = `btn-bounce w-12 h-12 sm:w-14 sm:h-14 rounded-xl font-black text-xl shadow border-b-2 flex items-center justify-center ${num===10?'bg-purple-500 text-white border-purple-700':num===0?'bg-amber-400 text-amber-900 border-amber-600':'bg-pink-100 text-pink-700 border-pink-300'}`;
-        btn.textContent = num;
-        btn.onclick = () => submitAnswer(num);
-        gridElement.appendChild(btn);
-      }
+        btn.className = `btn-3d ${c.bg} border-b-[6px] ${c.border} ${c.text} rounded-3xl py-4 sm:py-6 text-4xl sm:text-6xl font-black shadow-md flex items-center justify-center`;
+        btn.textContent = opt;
+        btn.onclick = () => submitAddition(opt);
+        optsContainer.appendChild(btn);
+      });
     }
 
-    /* ===================================================================
-       4. TƯƠNG TÁC TRONG GAME & CHẤM ĐIỂM
-       =================================================================== */
-    window.touchCountItem = function(idx) {
-      const q = state.currentQ;
-      if (!q.countedIndices.has(idx)) {
-        q.countedIndices.add(idx);
-        playSound('pop');
-        const btn = document.getElementById(`count-item-${idx}`);
-        btn.className = 'btn-bounce w-16 h-16 sm:w-24 sm:h-24 bg-pink-500 text-white rounded-2xl shadow border-2 border-white text-4xl sm:text-6xl flex items-center justify-center relative scale-105';
-        btn.innerHTML = `🐱<span class="absolute -top-2 -right-2 w-6 h-6 bg-amber-400 text-amber-900 text-xs font-black rounded-full flex items-center justify-center border-2 border-white">${q.countedIndices.size}</span>`;
-      }
-    }
-
-    window.touchMatchFood = function(idx) {
-      const q = state.currentQ;
-      if (q.matched < q.pets && q.matched < q.foods) {
-        playSound('pop');
-        document.getElementById(`match-food-${idx}`).className = 'opacity-0 pointer-events-none w-14 h-14 sm:w-20 sm:h-20';
-        const petEl = document.getElementById(`match-pet-${q.matched}`);
-        petEl.className = 'w-14 h-14 sm:w-20 sm:h-20 bg-emerald-100 rounded-2xl border-4 border-emerald-400 flex items-center justify-center text-3xl sm:text-4xl relative';
-        petEl.innerHTML = `🐰<span class="absolute -bottom-2 -right-2 text-xl sm:text-2xl animate-pop">🥕</span>`;
-        q.matched++;
-      }
-    }
-
-    window.submitAnswer = function(userAns) {
-      const q = state.currentQ;
-      const isCorrect = (userAns === q.answer);
-
-      if (q.type === 'compare') {
-        document.getElementById('compare-box').textContent = userAns;
-        document.getElementById('compare-box').className = `w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-3xl sm:text-4xl font-black text-white ${isCorrect?'bg-emerald-500 border-4 border-emerald-600':'bg-rose-500 border-4 border-rose-600'}`;
-      }
-
-      if (isCorrect) {
-        playSound('success');
-        if (!state.isTest) triggerConfetti();
-        speakVietnamese('Đúng rồi!');
+    function submitAddition(selected) {
+      if (selected === currentQ.sum) {
+        playSound('success'); triggerConfetti();
+        stars += 2; localStorage.setItem('toan1_stars', stars); updateStars();
         
-        if (state.isTest) {
-          state.testData.correct++;
-          setTimeout(() => processNextStep(), 1200);
-        } else {
-          state.stars++; localStorage.setItem('toan1_stars', state.stars); document.getElementById('star-score').textContent = state.stars;
-          setTimeout(() => {
-            let t = state.selectedStation === 'all' ? ['count', 'match', 'compare'][Math.floor(Math.random()*3)] : state.selectedStation;
-            loadQuestion(generateQuestionData(t));
-          }, 1500);
-        }
+        // Hiệu ứng điền số vào ô Kết quả
+        const ansBox = document.getElementById('ans-box');
+        ansBox.className = 'w-24 h-28 sm:w-32 sm:h-36 bg-rose-500 border-4 border-rose-600 rounded-[2rem] flex items-center justify-center shadow-lg animate-pop';
+        ansBox.innerHTML = `<span class="text-6xl sm:text-8xl font-black text-white">${currentQ.sum}</span>`;
+
+        speakVietnamese(`Giỏi quá! ${currentQ.num1} cộng ${currentQ.num2} bằng ${currentQ.sum}.`);
+        setTimeout(() => generateAdditionQuestion(), 2500);
       } else {
         playSound('wrong');
-        if (state.isTest) {
-          speakVietnamese('Sai mất rồi.');
-          setTimeout(() => processNextStep(), 1200);
-        } else {
-          speakVietnamese(`Chưa đúng rồi ${CHILD_NAME} ơi, thử lại nhé!`);
-        }
-      }
-    }
-
-    function processNextStep() {
-      state.testData.currentIdx++;
-      if (state.testData.currentIdx < state.testData.total) {
-        loadQuestion(state.testData.questions[state.testData.currentIdx]);
-      } else {
-        // Kết thúc bài kiểm tra
-        document.getElementById('numpad-panel').classList.add('hidden');
-        const modal = document.getElementById('result-modal');
-        const scoreBox = document.getElementById('result-score');
-        const titleBox = document.getElementById('result-title');
-        const iconBox = document.getElementById('result-icon');
-        
-        scoreBox.textContent = `${state.testData.correct} / ${state.testData.total}`;
-        if (state.testData.correct === state.testData.total) {
-          titleBox.textContent = "Điểm 10 Tuyệt Đối!";
-          titleBox.className = "text-2xl font-black text-rose-500 mb-1";
-          iconBox.textContent = "🏆";
-          playSound('success'); triggerConfetti();
-          speakVietnamese(`Chúc mừng ${CHILD_NAME} đạt điểm 10 tuyệt đối! Bố mẹ thưởng cúp vàng cho con!`);
-          state.stars += 5; // Bonus
-        } else if (state.testData.correct >= state.testData.total / 2) {
-          titleBox.textContent = "Rất Giỏi!";
-          titleBox.className = "text-2xl font-black text-emerald-500 mb-1";
-          iconBox.textContent = "🥇";
-          playSound('success');
-          speakVietnamese(`Giỏi lắm ${CHILD_NAME}! Cố gắng làm đúng hết vào lần sau nhé!`);
-          state.stars += 2;
-        } else {
-          titleBox.textContent = "Cần Cố Gắng Hơn!";
-          titleBox.className = "text-2xl font-black text-amber-500 mb-1";
-          iconBox.textContent = "💪";
-          playSound('pop');
-          speakVietnamese(`${CHILD_NAME} cố gắng lên nhé, làm lại lần nữa sẽ điểm cao ngay!`);
-        }
-        localStorage.setItem('toan1_stars', state.stars); document.getElementById('star-score').textContent = state.stars;
-        modal.classList.remove('hidden');
+        speakVietnamese(`Chưa đúng rồi, Gấu đếm cẩn thận lại tổng số hình ở bên dưới nhé!`);
       }
     }
 
@@ -445,12 +383,10 @@
       function animate() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         pieces.forEach(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.5; ctx.fillStyle = p.color; ctx.fillRect(p.x, p.y, p.size, p.size); });
-        if (++frame < 35) requestAnimationFrame(animate); else ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (++frame < 40) requestAnimationFrame(animate); else ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
       animate();
     }
-
-    goToMap();
   </script>
 </body>
 </html>
