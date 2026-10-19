@@ -47,21 +47,19 @@
 
   <div id="app-root" class="w-full h-full max-w-5xl mx-auto flex flex-col relative bg-gradient-to-b from-sky-50 to-pink-50">
 
-    <!-- MÀN HÌNH CHÀO -->
     <div id="welcome-view" class="flex flex-col items-center justify-center h-full p-4 text-center animate-pop z-10 bg-gradient-to-b from-sky-400 to-indigo-600 rounded-3xl text-white shadow-2xl">
       <div class="relative mb-4">
         <div id="welcome-avatar-box" class="w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-white border-4 border-amber-300 flex items-center justify-center text-6xl shadow-2xl overflow-hidden animate-float">🐻</div>
       </div>
       <span class="bg-white/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider mb-2">Toán Học</span>
       <h1 class="text-3xl sm:text-4xl md:text-5xl font-black mb-2 drop-shadow-md">THỊ TRẤN THÚ CƯNG</h1>
-      <p class="text-sm sm:text-base font-bold text-sky-100 mb-8">Cùng Gấu học toán với phương pháp đếm ngón tay.</p>
+      <p class="text-sm sm:text-base font-bold text-sky-100 mb-8">
       <button onclick="startAppWithAudio()" class="btn-3d bg-amber-400 border-b-[6px] border-amber-600 text-amber-950 font-black text-xl sm:text-2xl px-8 py-4 rounded-2xl shadow-xl flex items-center gap-2">
         <span>▶️ BẮT ĐẦU CHƠI</span><span>🔊</span>
       </button>
       <button onclick="document.getElementById('parent-modal').classList.remove('hidden')" class="mt-6 text-xs font-extrabold bg-white/15 px-4 py-2 rounded-xl">⚙️ Đổi ảnh đại diện</button>
     </div>
 
-    <!-- DASHBOARD -->
     <div id="dashboard-view" class="hidden flex-col w-full h-full animate-pop relative px-2 py-4">
       <div class="absolute top-2 left-1/2 -translate-x-1/2 z-20 w-11/12 max-w-sm"><div class="wood-sign px-4 py-2 text-center"><h1 class="text-lg sm:text-2xl font-black text-amber-100 uppercase drop-shadow-md">Thành Tích Của Gấu</h1></div></div>
       <div class="flex-1 board-3d mt-10 p-3 sm:p-5 flex flex-col sm:flex-row gap-3 overflow-hidden">
@@ -93,7 +91,6 @@
       </div>
     </div>
 
-    <!-- MAP VIEW -->
     <div id="map-view" class="hidden flex-col w-full h-full animate-pop relative px-1 py-2 sm:p-2">
       <header class="bg-white rounded-2xl shadow border-2 border-emerald-200 px-2 py-2 shrink-0 flex justify-between items-center z-10 mb-2">
         <button onclick="switchView('dashboard-view')" class="btn-3d bg-slate-100 font-black text-slate-600 px-3 py-1.5 rounded-xl border-b-4 border-slate-300 text-xs sm:text-sm">⬅️ Trở về</button>
@@ -149,7 +146,6 @@
       </div>
     </div>
 
-    <!-- GAME VIEW -->
     <div id="game-view" class="hidden flex-col w-full h-full animate-pop relative px-1 py-1 sm:p-2 gap-1.5">
       <header class="bg-white/95 backdrop-blur rounded-2xl p-2 border-2 border-white shadow-sm flex items-center justify-between shrink-0 gap-2">
         <button onclick="switchView('map-view')" class="btn-3d w-9 h-9 sm:w-10 sm:h-10 bg-sky-400 border-b-4 border-sky-600 rounded-xl text-white text-base sm:text-lg flex items-center justify-center shrink-0">⬅️</button>
@@ -177,7 +173,6 @@
     </div>
   </div>
 
-  <!-- MODALS -->
   <div id="parent-modal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3">
     <div class="bg-white w-full max-w-sm rounded-3xl border-4 border-pink-300 flex flex-col overflow-hidden animate-pop">
       <div class="bg-pink-500 text-white px-4 py-3 flex justify-between items-center"><h3 class="font-black text-base">Đổi ảnh</h3><button onclick="document.getElementById('parent-modal').classList.add('hidden')" class="font-black px-2">✕</button></div>
@@ -194,7 +189,7 @@
       <div class="bg-sky-500 text-white px-4 py-3 flex justify-between items-center"><h3 id="modal-station-title" class="font-black text-base sm:text-lg truncate">Trạm</h3><button onclick="document.getElementById('station-modal').classList.add('hidden')" class="font-black px-2">✕</button></div>
       <div class="p-4 flex flex-col gap-3 bg-sky-50">
         <button onclick="startGame(false)" class="btn-3d bg-white border-4 border-emerald-400 border-b-[6px] rounded-2xl p-3 sm:p-4 text-left flex gap-3 sm:gap-4 items-center shadow-sm">
-          <span class="text-3xl sm:text-4xl">🎓</span><div class="min-w-0"><div class="font-black text-emerald-600 text-base sm:text-lg">Học Ôn Tập</div><div class="text-[10px] sm:text-xs text-slate-500 font-bold truncate">Hệ thống tự chỉnh độ khó</div></div>
+          <span class="text-3xl sm:text-4xl">🎓</span><div class="min-w-0"><div class="font-black text-emerald-600 text-base sm:text-lg">Học Ôn Tập</div><div class="text-[10px] sm:text-xs text-slate-500 font-bold truncate">Luyện tập không giới hạn</div></div>
         </button>
         <button onclick="startGame(true)" class="btn-3d bg-white border-4 border-amber-400 border-b-[6px] rounded-2xl p-3 sm:p-4 text-left flex gap-3 sm:gap-4 items-center shadow-sm">
           <span class="text-3xl sm:text-4xl">📝</span><div class="min-w-0"><div class="font-black text-amber-600 text-base sm:text-lg">Thử Tài Lấy Điểm</div><div class="text-[10px] sm:text-xs text-slate-500 font-bold truncate">5 câu lấy Cúp vàng</div></div>
@@ -225,7 +220,6 @@
       { id: 'Hình chữ nhật', svg: '<svg viewBox="0 0 100 100" class="w-full h-full fill-emerald-500 drop-shadow-md"><rect x="5" y="25" width="90" height="50" rx="6" /></svg>' }
     ];
 
-    // HÀM CHUYỂN ĐỔI SỐ THÀNH BÀN TAY
     const HANDS = ['✊', '☝️', '✌️', '🤟', '🖖', '🖐'];
     function getFingers(n) {
       if (n <= 0) return HANDS[0];
@@ -349,11 +343,9 @@
 
     function generateQuestionData(type) {
       const emoji = EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
-      let maxRange = 5; let visualAids = true;
-      if (state.level === 1) { maxRange = 5; visualAids = true; }
-      else if (state.level === 2) { maxRange = 5; visualAids = false; }
-      else if (state.level === 3) { maxRange = 10; visualAids = true; }
-      else if (state.level >= 4) { maxRange = 10; visualAids = false; }
+      // KHÓA CỨNG: LUÔN LUÔN HIỂN THỊ HÌNH ẢNH MINH HỌA
+      const visualAids = true;
+      const maxRange = state.level <= 2 ? 5 : 10;
 
       if (type === 'count') {
         const target = Math.floor(Math.random()*(maxRange-1))+1;
@@ -412,19 +404,19 @@
         renderNumpad(controls);
       } else if (q.type === 'bond') {
         stage.className = 'flex-1 board-3d p-2 flex flex-col justify-center bg-sky-50';
-        stage.innerHTML = `<div class="w-full max-w-xs sm:max-w-sm mx-auto flex flex-col items-center gap-2 sm:gap-4"><div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-sky-400 flex flex-col items-center justify-between p-1.5 sm:p-2 bg-white shadow-md"><div class="font-black text-lg sm:text-2xl ${q.askTotal ? 'text-rose-500':'text-slate-800'}">${q.askTotal ? '?' : q.total}</div><div class="w-full border-t-2 border-sky-300"></div><div class="flex justify-around w-full font-black text-base sm:text-xl"><div class="text-pink-600">${q.left}</div><div class="h-full border-l-2 border-sky-300"></div><div class="${!q.askTotal ? 'text-rose-500':'text-sky-600'}">${!q.askTotal ? '?' : q.right}</div></div></div>${q.visualAids ? `<div class="flex gap-2 sm:gap-4 w-full justify-center"><div class="w-20 h-20 sm:w-28 sm:h-28 bg-pink-100 rounded-2xl border-4 border-pink-300 flex flex-wrap justify-center content-center text-xl sm:text-3xl p-1">${Array(q.left).fill(q.emoji).join('')}</div><div class="w-20 h-20 sm:w-28 sm:h-28 bg-sky-100 rounded-2xl border-4 border-sky-300 flex flex-wrap justify-center content-center text-xl sm:text-3xl p-1">${Array(q.right).fill(q.emoji).join('')}</div></div>` : `<div class="text-slate-400 font-bold text-sm mt-4 italic">Hãy tính nhẩm trong đầu nhé!</div>`}</div>`;
+        stage.innerHTML = `<div class="w-full max-w-xs sm:max-w-sm mx-auto flex flex-col items-center gap-2 sm:gap-4"><div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-sky-400 flex flex-col items-center justify-between p-1.5 sm:p-2 bg-white shadow-md"><div class="font-black text-lg sm:text-2xl ${q.askTotal ? 'text-rose-500':'text-slate-800'}">${q.askTotal ? '?' : q.total}</div><div class="w-full border-t-2 border-sky-300"></div><div class="flex justify-around w-full font-black text-base sm:text-xl"><div class="text-pink-600">${q.left}</div><div class="h-full border-l-2 border-sky-300"></div><div class="${!q.askTotal ? 'text-rose-500':'text-sky-600'}">${!q.askTotal ? '?' : q.right}</div></div></div><div class="flex gap-2 sm:gap-4 w-full justify-center"><div class="w-20 h-20 sm:w-28 sm:h-28 bg-pink-100 rounded-2xl border-4 border-pink-300 flex flex-wrap justify-center content-center text-xl sm:text-3xl p-1">${Array(q.left).fill(q.emoji).join('')}</div><div class="w-20 h-20 sm:w-28 sm:h-28 bg-sky-100 rounded-2xl border-4 border-sky-300 flex flex-wrap justify-center content-center text-xl sm:text-3xl p-1">${Array(q.right).fill(q.emoji).join('')}</div></div></div>`;
         renderNumpad(controls);
       } else if (q.type === 'addition') {
         stage.className = 'flex-1 board-3d p-1 sm:p-2 flex flex-col justify-center items-center bg-indigo-50';
         stage.innerHTML = `
           <div class="flex items-center justify-center gap-2 sm:gap-4 w-full px-2">
             <div class="flex flex-col items-center gap-1">
-              <div class="text-4xl sm:text-5xl drop-shadow-md mb-1 animate-float tracking-widest text-center min-h-[48px] sm:min-h-[60px] flex items-end">${q.visualAids ? getFingers(q.n1) : ''}</div>
+              <div class="text-4xl sm:text-5xl drop-shadow-md mb-1 animate-float tracking-widest text-center min-h-[48px] sm:min-h-[60px] flex items-end">${getFingers(q.n1)}</div>
               <div class="w-16 h-20 sm:w-24 sm:h-28 bg-pink-100 border-2 sm:border-4 border-pink-400 rounded-xl sm:rounded-2xl flex items-center justify-center text-4xl sm:text-6xl font-black text-pink-600 shadow-inner">${q.n1}</div>
             </div>
             <div class="text-2xl sm:text-5xl font-black text-slate-400 mt-10">+</div>
             <div class="flex flex-col items-center gap-1">
-              <div class="text-4xl sm:text-5xl drop-shadow-md mb-1 animate-float tracking-widest text-center min-h-[48px] sm:min-h-[60px] flex items-end">${q.visualAids ? getFingers(q.n2) : ''}</div>
+              <div class="text-4xl sm:text-5xl drop-shadow-md mb-1 animate-float tracking-widest text-center min-h-[48px] sm:min-h-[60px] flex items-end">${getFingers(q.n2)}</div>
               <div class="w-16 h-20 sm:w-24 sm:h-28 bg-amber-100 border-2 sm:border-4 border-amber-400 rounded-xl sm:rounded-2xl flex items-center justify-center text-4xl sm:text-6xl font-black text-amber-600 shadow-inner">${q.n2}</div>
             </div>
             <div class="text-2xl sm:text-5xl font-black text-slate-400 mt-10">=</div>
@@ -440,12 +432,12 @@
         stage.innerHTML = `
           <div class="flex items-center justify-center gap-2 sm:gap-4 w-full px-2">
             <div class="flex flex-col items-center gap-1">
-              <div class="text-4xl sm:text-5xl drop-shadow-md mb-1 tracking-widest text-center min-h-[48px] sm:min-h-[60px] flex items-end">${q.visualAids ? getFingers(q.n1) : ''}</div>
+              <div class="text-4xl sm:text-5xl drop-shadow-md mb-1 tracking-widest text-center min-h-[48px] sm:min-h-[60px] flex items-end">${getFingers(q.answer)}<span class="strikethrough-pet ml-2 opacity-60">${getFingers(q.n2)}</span></div>
               <div class="w-16 h-20 sm:w-24 sm:h-28 bg-emerald-100 border-2 sm:border-4 border-emerald-400 rounded-xl sm:rounded-2xl flex items-center justify-center text-4xl sm:text-6xl font-black text-emerald-600 shadow-inner">${q.n1}</div>
             </div>
             <div class="text-2xl sm:text-5xl font-black text-slate-400 mt-10">-</div>
             <div class="flex flex-col items-center gap-1">
-              <div class="text-4xl sm:text-5xl drop-shadow-md mb-1 tracking-widest text-center min-h-[48px] sm:min-h-[60px] flex items-end opacity-60 strikethrough-pet">${q.visualAids ? getFingers(q.n2) : ''}</div>
+              <div class="text-4xl sm:text-5xl drop-shadow-md mb-1 tracking-widest text-center min-h-[48px] sm:min-h-[60px] flex items-end opacity-60 strikethrough-pet">${getFingers(q.n2)}</div>
               <div class="w-16 h-20 sm:w-24 sm:h-28 bg-slate-100 border-2 sm:border-4 border-slate-300 rounded-xl sm:rounded-2xl flex items-center justify-center text-4xl sm:text-6xl font-black text-slate-500 shadow-inner">${q.n2}</div>
             </div>
             <div class="text-2xl sm:text-5xl font-black text-slate-400 mt-10">=</div>
