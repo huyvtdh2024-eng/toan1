@@ -53,7 +53,7 @@
       </div>
       <span class="bg-white/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider mb-2">Toán Học</span>
       <h1 class="text-3xl sm:text-4xl md:text-5xl font-black mb-2 drop-shadow-md">THỊ TRẤN THÚ CƯNG</h1>
-      <p class="text-sm sm:text-base font-bold text-sky-100 mb-8">
+      <p class="text-sm sm:text-base font-bold text-sky-100 mb-8">Đã vá lỗi hiển thị Trạm Hình Khối 3D!</p>
       <button onclick="startAppWithAudio()" class="btn-3d bg-amber-400 border-b-[6px] border-amber-600 text-amber-950 font-black text-xl sm:text-2xl px-8 py-4 rounded-2xl shadow-xl flex items-center gap-2">
         <span>▶️ BẮT ĐẦU CHƠI</span><span>🔊</span>
       </button>
@@ -189,7 +189,7 @@
       <div class="bg-sky-500 text-white px-4 py-3 flex justify-between items-center"><h3 id="modal-station-title" class="font-black text-base sm:text-lg truncate">Trạm</h3><button onclick="document.getElementById('station-modal').classList.add('hidden')" class="font-black px-2">✕</button></div>
       <div class="p-4 flex flex-col gap-3 bg-sky-50">
         <button onclick="startGame(false)" class="btn-3d bg-white border-4 border-emerald-400 border-b-[6px] rounded-2xl p-3 sm:p-4 text-left flex gap-3 sm:gap-4 items-center shadow-sm">
-          <span class="text-3xl sm:text-4xl">🎓</span><div class="min-w-0"><div class="font-black text-emerald-600 text-base sm:text-lg">Học Ôn Tập</div><div class="text-[10px] sm:text-xs text-slate-500 font-bold truncate">Luyện tập không giới hạn</div></div>
+          <span class="text-3xl sm:text-4xl">🎓</span><div class="min-w-0"><div class="font-black text-emerald-600 text-base sm:text-lg">Học Ôn Tập</div><div class="text-[10px] sm:text-xs text-slate-500 font-bold truncate">Hệ thống tự chỉnh độ khó</div></div>
         </button>
         <button onclick="startGame(true)" class="btn-3d bg-white border-4 border-amber-400 border-b-[6px] rounded-2xl p-3 sm:p-4 text-left flex gap-3 sm:gap-4 items-center shadow-sm">
           <span class="text-3xl sm:text-4xl">📝</span><div class="min-w-0"><div class="font-black text-amber-600 text-base sm:text-lg">Thử Tài Lấy Điểm</div><div class="text-[10px] sm:text-xs text-slate-500 font-bold truncate">5 câu lấy Cúp vàng</div></div>
@@ -343,7 +343,6 @@
 
     function generateQuestionData(type) {
       const emoji = EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
-      // KHÓA CỨNG: LUÔN LUÔN HIỂN THỊ HÌNH ẢNH MINH HỌA
       const visualAids = true;
       const maxRange = state.level <= 2 ? 5 : 10;
 
@@ -452,19 +451,19 @@
         stage.className = 'flex-1 board-3d p-2 flex justify-center items-center bg-amber-50';
         stage.innerHTML = `<div class="flex items-center justify-center gap-1 sm:gap-4 w-full"><div class="w-16 h-20 sm:w-24 sm:h-28 bg-pink-100 rounded-2xl border-4 border-pink-400 flex items-center justify-center text-4xl sm:text-6xl font-black text-pink-600">${q.type==='match'?q.p:q.n1}</div><div id="comp-box" class="w-12 h-12 sm:w-16 sm:h-16 bg-white rounded-2xl border-4 border-dashed border-slate-300 flex items-center justify-center text-2xl sm:text-4xl font-black text-slate-300 mx-1">?</div><div class="w-16 h-20 sm:w-24 sm:h-28 bg-sky-100 rounded-2xl border-4 border-sky-400 flex items-center justify-center text-4xl sm:text-6xl font-black text-sky-600">${q.type==='match'?q.f:q.n2}</div></div>`;
         controls.innerHTML = `<div class="flex justify-center gap-3 sm:gap-5"><button onclick="checkAnswer('>')" class="btn-3d w-16 h-12 sm:w-24 sm:h-16 bg-rose-500 text-white font-black text-2xl sm:text-4xl border-b-4 border-rose-700 rounded-xl sm:rounded-2xl">></button><button onclick="checkAnswer('=')" class="btn-3d w-16 h-12 sm:w-24 sm:h-16 bg-emerald-500 text-white font-black text-2xl sm:text-4xl border-b-4 border-emerald-700 rounded-xl sm:rounded-2xl">=</button><button onclick="checkAnswer('<')" class="btn-3d w-16 h-12 sm:w-24 sm:h-16 bg-blue-500 text-white font-black text-2xl sm:text-4xl border-b-4 border-blue-700 rounded-xl sm:rounded-2xl"><</button></div>`;
-      } else if (q.type === 'shape') {
-        const targetShape = SHAPES[Math.floor(Math.random()*SHAPES.length)];
-        return { type, targetShape, answer: targetShape.id, text: `Đây là hình gì?`, voice: `${CHILD_NAME} ơi, đây là hình gì nhỉ?` };
-      } else if (q.type === 'space3d') {
-        const subType = Math.random() < 0.5 ? 'identify' : 'position';
-        if (subType === 'identify') {
-          const isCube = Math.random() < 0.5;
-          return { type, subType, isCube, answer: isCube ? 'Khối lập phương' : 'Khối hộp chữ nhật', text: 'Đây là khối gì?', voice: 'Khối đang xoay này là khối gì thế Gấu?' };
+      } else if (q.type === 'shape' || q.type === 'space3d') {
+        stage.className = 'flex-1 board-3d p-2 flex flex-col justify-center items-center bg-purple-50';
+        if (q.type === 'shape') {
+          stage.innerHTML = `<div class="w-32 h-32 sm:w-48 sm:h-48 mb-6 animate-float">${q.targetShape.svg}</div>`;
+          controls.innerHTML = `<div class="grid grid-cols-2 gap-2 sm:gap-4 w-full max-w-sm mx-auto px-2">${SHAPES.map(s => `<button onclick="checkAnswer('${s.id}')" class="btn-3d bg-white text-slate-700 font-black text-sm sm:text-xl py-3 rounded-xl sm:rounded-2xl border-2 sm:border-4 border-slate-300 border-b-[4px] sm:border-b-[6px] active:bg-slate-50">${s.id}</button>`).join('')}</div>`;
         } else {
-          const items = ['🐶', '🐱', '🐰']; for (let i=2; i>0; i--) { const j = Math.floor(Math.random()*(i+1)); [items[i], items[j]] = [items[j], items[i]]; }
-          const askIdx = Math.floor(Math.random() * 3); const isVertical = Math.random() < 0.5;
-          let posName = isVertical ? (askIdx === 0 ? 'trên cùng' : askIdx === 1 ? 'ở giữa' : 'dưới cùng') : (askIdx === 0 ? 'bên trái' : askIdx === 1 ? 'ở giữa' : 'bên phải');
-          return { type, subType, items, isVertical, answer: items[askIdx], text: `Bạn nào ở ${posName}?`, voice: `Bạn nào đang ở ${posName} thế?` };
+          if (q.subType === 'identify') {
+            stage.innerHTML = `<div class="scene-3d mb-10"><div class="obj-3d ${q.isCube ? 'cube' : 'cuboid'}"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>`;
+            controls.innerHTML = `<div class="grid grid-cols-1 gap-3 w-full max-w-xs mx-auto"><button onclick="checkAnswer('Khối lập phương')" class="btn-3d bg-sky-100 text-sky-800 font-black text-base sm:text-xl py-4 rounded-2xl border-4 border-sky-300 border-b-[6px] shadow-sm">Khối lập phương</button><button onclick="checkAnswer('Khối hộp chữ nhật')" class="btn-3d bg-amber-100 text-amber-800 font-black text-base sm:text-xl py-4 rounded-2xl border-4 border-amber-300 border-b-[6px] shadow-sm">Khối hộp chữ nhật</button></div>`;
+          } else {
+            stage.innerHTML = `<div class="flex ${q.isVertical ? 'flex-col gap-2' : 'flex-row gap-4'} items-center justify-center p-4 bg-white rounded-3xl border-4 border-purple-200 shadow-md">${q.items.map(item => `<div class="w-16 h-16 sm:w-24 sm:h-24 bg-purple-100 rounded-2xl border-2 border-purple-300 flex items-center justify-center text-4xl sm:text-6xl">${item}</div>`).join('')}</div>`;
+            controls.innerHTML = `<div class="grid grid-cols-3 gap-2 sm:gap-4 w-full max-w-sm mx-auto">${q.items.map(item => `<button onclick="checkAnswer('${item}')" class="btn-3d bg-white text-5xl py-3 rounded-2xl border-2 sm:border-4 border-slate-300 border-b-[6px] shadow-sm">${item}</button>`).join('')}</div>`;
+          }
         }
       }
     }
